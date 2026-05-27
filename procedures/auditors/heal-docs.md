@@ -335,7 +335,7 @@ Excludes: `{work-exclude}`, `{report-dir}`, and every entry in the Skip List fro
 Does not produce console output, logs, or side effects outside `{doc-root}`.
 Report tables carry four columns: What | Where | Why | Lens.
 Lens convention: findings from Phases 1–3, 5, 6 (mechanical tree repair) set Lens to `null`.
-Findings from Phase 4 sub-agents set Lens to the lens filename stem (e.g. `session_manager`).
+Findings from Phase 4 sub-agents set Lens to the lens filename stem (e.g. `lens_crafter`).
 `null` means the issue is structural — no lens raised it. A lens name means a specific
 lens's scope or integrity is implicated.
 
