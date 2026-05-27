@@ -11,15 +11,17 @@ Depends on: <list other lenses this one builds on, or "Nothing" for a standalone
 
 ### References
 *Specific named files. Load explicitly by path.*
-| What | Path | Use When ... |
+
+| What | Where | Why |
 |---|---|---|
-| <label> | `_Claude/<root-relative-path>` | |
+| <label> | [<label>](../kcd/<path>) | <when to load> |
 
 ### Domains
 *Topic-area folders. Read-only. Trawlable for inference.*
-| What | Path | Use When ... |
+
+| What | Where | Why |
 |---|---|---|
-| <label> | `_Claude/references/<category>/` | |
+| <label> | [<label>](../references/<category>/) | <when to trawl> |
 
 ---
 
@@ -56,24 +58,27 @@ Depends on: <list other lenses this one builds on, or "Nothing" for a standalone
 
 ### Habits
 *Atomic single-step operations.*
-| What | Path | Use When ... |
+
+| What | Where | Why |
 |---|---|---|
-| append-session-log | `_Claude/kcd/habits/append-session-log.md` | End of every session |
-| add-todo | `_Claude/kcd/habits/add-todo.md` | When a deferred item surfaces |
-| append-completed-entry | `_Claude/kcd/habits/append-completed-entry.md` | When a task is completed |
+| write-approval | [write-approval](../kcd/habits/write-approval.md) | Before any write operation |
+| append-session-log | [append-session-log](../kcd/habits/append-session-log.md) | End of every session |
+| add-todo | [add-todo](../kcd/habits/add-todo.md) | When a deferred item surfaces |
+| append-completed-entry | [append-completed-entry](../kcd/habits/append-completed-entry.md) | When a task is completed |
 
 ### Procedures
 *Multi-step labor pipelines for this lens's domain.*
-| What | Path | Use When ... |
+
+| What | Where | Why |
 |---|---|---|
-| <procedure-name> | `_Claude/kcd/procedures/<procedure-name>.md` | |
+| (none deployed) | — | — |
 
 ### Working Space
 *Output goes here. Inherited from work-routing habit in _base.*
 
-`_Claude/work/<lens_name>/work-ai/` — AI-generated output
-`_Claude/work/<lens_name>/work-human/` — Bryan's working documents
-`_Claude/work/<lens_name>/plans/` — Plans and task tracking
+`_Claude/work/<lens_name>/work-ai/` — AI-generated output  
+`_Claude/work/<lens_name>/work-human/` — user's working documents  
+`_Claude/work/<lens_name>/plans/` — plans and task tracking  
 
 ---
 
