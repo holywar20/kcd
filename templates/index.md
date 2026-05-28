@@ -8,34 +8,34 @@ Starter files for every structured artifact in the framework. Use the most speci
 
 ## Procedures
 
-| What | Where | Use When |
+| What | Where | Why |
 |---|---|---|
-| Investigator template | `kcd/templates/investigator_template.md` | Writing a new Investigator — output baked to `automation/audits/` |
-| Analyst template | `kcd/templates/analyst_template.md` | Writing a new Analyst — output baked to `automation/reports/` |
-| Generator template | `kcd/templates/generator_template.md` | Writing a new Generator — canonical scaffold (declares requirements, references `_generator_base`) plus deployed-copy stub |
-| Procedure template (general) | `kcd/templates/procedure_template.md` | Writing a solo or other procedure not covered by the typed templates |
+| Investigator template | [investigator_template](investigator_template.md) | Writing a new Investigator — output baked to `automation/audits/` |
+| Analyst template | [analyst_template](analyst_template.md) | Writing a new Analyst — output baked to `automation/reports/` |
+| Generator template | [generator_template](generator_template.md) | Writing a new Generator — canonical scaffold (declares requirements, references `_generator_base`) plus deployed-copy stub |
+| Procedure template (general) | [procedure_template](procedure_template.md) | Writing a solo or other procedure not covered by the typed templates |
 
 ## Plans
 
-| What | Where | Use When |
+| What | Where | Why |
 |---|---|---|
-| Plan template | `kcd/templates/plan_template.md` | Starting a new plan — naming convention, lifecycle, phase structure |
+| Plan template | [plan_template](plan_template.md) | Starting a new plan — naming convention, lifecycle, phase structure |
 
 ## Lenses
 
-| What | Where | Use When |
+| What | Where | Why |
 |---|---|---|
-| Lens template | `kcd/templates/lens_template.md` | Creating a new lens — K/C/D skeleton with placeholders |
+| Lens template | [lens_template](lens_template.md) | Creating a new lens — K/C/D skeleton with placeholders |
 
 ## References
 
-| What | Where | Use When |
+| What | Where | Why |
 |---|---|---|
-| Reference template | `kcd/templates/reference_template.md` | Creating a new reference — pointer to a living artifact with location, interface, and status |
+| Reference template | [reference_template](reference_template.md) | Creating a new reference — pointer to a living artifact with location, interface, and status |
 
 ## Indexes & Schema
 
-| What | Where | Use When |
+| What | Where | Why |
 |---|---|---|
-| Index template | `kcd/templates/index_template.md` | Creating a new `index.md` for any folder — standard What/Where/Why table with frontmatter |
-| Frontmatter schema | `kcd/docs/frontmatter_schema.md` | Reference for all valid `session:` and procedure-namespaced frontmatter keys and per-type defaults |
+| Index template | [index_template](index_template.md) | Creating a new `index.md` for any folder — standard What/Where/Why table with frontmatter |
+| Frontmatter schema | [frontmatter_schema](../docs/frontmatter_schema.md) | Reference for all valid `session:` and procedure-namespaced frontmatter keys and per-type defaults |

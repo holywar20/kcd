@@ -81,7 +81,7 @@ Either failure stops the run — no audit, no report, no partial output. A pipel
 When a generator's artifact is a **reference** — a document meant to be loaded by sessions — two rules apply:
 
 - The reference follows the reference template ([`kcd/templates/reference_template.md`](../../templates/reference_template.md)) — front matter included, with `Last Update` set to the run date.
-- The procedure's task list includes wiring it into the Know table of every appropriate lens: a `What | Path | Use When` row pointing to the reference, added if missing or corrected if stale. A reference no lens knows about is dead weight. The deployed copy names which lenses are appropriate (an Input requirement); the canonical declares the wiring step generically.
+- The procedure's task list includes wiring it into the Know table of every appropriate lens: a `What | Where | Why` row pointing to the reference, added if missing or corrected if stale. A reference no lens knows about is dead weight. The deployed copy names which lenses are appropriate (an Input requirement); the canonical declares the wiring step generically.
 
 ---
 
@@ -102,6 +102,6 @@ Reference wiring is also skipped under `--test` — no lens file is modified. A 
 Every generator invokes `run-report` as its final action — automatic, no per-procedure
 declaration required.
 
-| What | Path | When |
+| What | Where | Why |
 |---|---|---|
 | run-report | [run-report](../../habits/run-report.md) | Mandatory — fires after the procedure's final phase |

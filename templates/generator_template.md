@@ -63,7 +63,7 @@ Output: `<the artifact's real home — e.g. references/style_guides/<name>.md>`
 
 ### Phase 3 — Lens Wiring *(reference-producing generators only)*
 
-For each lens in the `reference-lenses` requirement, ensure its Know table has a `What | Path | Use When` row pointing to the reference — add if missing, correct if stale. Skipped under `--test`.
+For each lens in the `reference-lenses` requirement, ensure its Know table has a `What | Where | Why` row pointing to the reference — add if missing, correct if stale. Skipped under `--test`.
 
 ### Phase N — Output Declaration
 

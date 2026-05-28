@@ -38,16 +38,16 @@ Type  : Analyst
 
 ## Know
 
-| What | Path | Load When |
+| What | Where | Why |
 |---|---|---|
-| Global doc | `{global-doc}` | Phase 1 |
-| Lenses index | `{doc-root}/lenses/index.md` | Phase 1 — to enumerate lens files |
-| _base lens | `{doc-root}/lenses/_base.md` | Phase 1 — global Know+Care baseline |
-| Each lens file | `{doc-root}/lenses/{name}.md` | Phase 1 — one at a time |
-| References index | `{doc-root}/references/index.md` | Phase 1 — reference store catalog |
-| KCD framework | `{doc-root}/kcd/kcd_framework.md` | Phase 3 — structural shape reference for lens checks |
-| Lens anatomy | `{doc-root}/kcd/docs/lens_anatomy.md` | Phase 3 — structural check reference |
-| Memory files | `{memory-source}` | Phase 4 — check memory references declared in docs |
+| Global doc | [global-doc]({global-doc}) | Phase 1 |
+| Lenses index | [lenses/index]({doc-root}/lenses/index.md) | Phase 1 — to enumerate lens files |
+| _base lens | [base]({doc-root}/lenses/_base.md) | Phase 1 — global Know+Care baseline |
+| Each lens file | [lenses/{name}]({doc-root}/lenses/{name}.md) | Phase 1 — one at a time |
+| References index | [references/index]({doc-root}/references/index.md) | Phase 1 — reference store catalog |
+| KCD framework | [kcd_framework]({doc-root}/kcd/kcd_framework.md) | Phase 3 — structural shape reference for lens checks |
+| Lens anatomy | [lens_anatomy]({doc-root}/kcd/docs/lens_anatomy.md) | Phase 3 — structural check reference |
+| Memory files | [memory-source]({memory-source}) | Phase 4 — check memory references declared in docs |
 
 ---
 

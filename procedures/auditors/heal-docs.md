@@ -40,13 +40,13 @@ resolution and the fail rule.*
 
 ## Know
 
-| What | Path | Load When |
+| What | Where | Why |
 |---|---|---|
-| Root index | `{doc-root}/index.md` | Phase 1 — before inventory walk |
-| Lens index | `{doc-root}/lenses/index.md` | Phase 4 — before lens review begins |
-| All lens files | `{doc-root}/lenses/` | Phase 4 — one at a time during lens review |
-| Lens anatomy | `{doc-root}/kcd/docs/lens_anatomy.md` | Phase 4 — structural check reference |
-| KCD framework | `{doc-root}/kcd/kcd_framework.md` | Phase 4 — semantic check reference |
+| Root index | [index]({doc-root}/index.md) | Phase 1 — before inventory walk |
+| Lens index | [lenses/index]({doc-root}/lenses/index.md) | Phase 4 — before lens review begins |
+| All lens files | [lenses/]({doc-root}/lenses/) | Phase 4 — one at a time during lens review |
+| Lens anatomy | [lens_anatomy]({doc-root}/kcd/docs/lens_anatomy.md) | Phase 4 — structural check reference |
+| KCD framework | [kcd_framework]({doc-root}/kcd/kcd_framework.md) | Phase 4 — semantic check reference |
 
 ---
 

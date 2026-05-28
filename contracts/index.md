@@ -13,13 +13,15 @@ A contract's `Scope:` frontmatter declares where it is wired:
 
 ## Universal
 
-| Contract | Covers |
-|---|---|
-| [plan](plan.md) | Lifecycle and format for every plan in the project — write, promote, retire |
+| What | Where | Why |
+|---|---|---|
+| Plan | [plan](plan.md) | Lifecycle and format for every plan in the project — write, promote, retire |
 
 ## Lens-Scoped
 
-*None yet.*
+| What | Where | Why |
+|---|---|---|
+| Deploy Lens | [deploy-lens](deploy-lens.md) | `lens:lens_crafter` — copy a lens from `kcd/lenses/` into `_Claude/lenses/` and activate it |
 
 ## Persona
 

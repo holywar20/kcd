@@ -81,7 +81,7 @@ Depends on: {lens_name | "Nothing"}
 
 **Together:** Add a row to the Lens Index table in `CLAUDE.md`:
 
-| Lens | File | Purpose |
+| What | Where | Why |
 |---|---|---|
 | `!{lens_name}` | [{lens_name}](_Claude/lenses/{lens_name}.md) | {one-line purpose from lens Purpose section} |
 

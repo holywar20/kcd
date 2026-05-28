@@ -8,4 +8,4 @@
 
 | What | Where | Why |
 |---|---|---|
-| {label} | `{path}` | {use case} |
+| {label} | [{label}]({path}) | {use case} |

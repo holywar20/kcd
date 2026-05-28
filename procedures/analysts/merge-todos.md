@@ -34,10 +34,10 @@ Type  : Analyst
 
 ## Know
 
-| What | Path | Load When |
+| What | Where | Why |
 |---|---|---|
-| Lenses index | `{lenses-source}/index.md` | Phase 1 — to enumerate active lens files |
-| Each lens file | `{lenses-source}/{name}.md` | Phase 1 — one at a time to extract TODO blocks |
+| Lenses index | [index]({lenses-source}/index.md) | Phase 1 — to enumerate active lens files |
+| Each lens file | [{name}]({lenses-source}/{name}.md) | Phase 1 — one at a time to extract TODO blocks |
 
 ---
 

@@ -20,9 +20,9 @@ Output : _Claude/< automation/audits | automation/reports | automation/reference
 
 *Files this procedure loads before beginning. Keep this list tight — every entry is a token cost paid on every run. Only declare what the procedure genuinely cannot function without.*
 
-| What | Path | Load When |
+| What | Where | Why |
 |---|---|---|
-| <label> | `_Claude/<path>` | <Phase N — before this phase begins> |
+| <label> | [<label>](_Claude/<path>) | <Phase N — before this phase begins> |
 
 *Pattern from heal-docs: indexes and structural references load in Phase 1; lens files load in Phase 4 (the lens-review phase). Load lazily — don't front-load everything.*
 

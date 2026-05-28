@@ -53,6 +53,14 @@ Corollary: portable procedures in `kcd/procedures/` must reference only framewor
 paths and generic placeholders. Any procedure that hardcodes a project path is a project
 procedure, not a framework procedure.
 
+**Lenses are a two-tier exception.** Most lenses are drafted in place at `_Claude/lenses/`
+and never enter `kcd/` — they are project-specific by design. A small minority are
+*deployable templates*: project-agnostic lenses (e.g. `_base`, `lens_crafter`) that live
+at `_Claude/kcd/lenses/{name}.md` with `Status: Disabled` and are copied into
+`_Claude/lenses/` via the deploy-lens contract. The schema is the same; the portability
+constraint is what gates entry to `kcd/lenses/`. A draft with hardcoded project paths or
+domain vocabulary does not belong there. See [lens_anatomy](docs/lens_anatomy.md).
+
 ---
 
 ## Composition rules
