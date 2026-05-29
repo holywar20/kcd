@@ -41,9 +41,9 @@ Type  : Auditor
 
 *Files this procedure loads before beginning. Keep tight — every entry is a token cost on every run.*
 
-| What | Path | Load When |
+| What | Where | Why |
 |---|---|---|
-| <label> | `{doc-root}/<path>` | <Phase N — before this phase begins> |
+| <label> | [<label>]({doc-root}/<path>) | <Phase N — before this phase begins> |
 
 *Load lazily where possible — indexes and small references early; large per-item files inside the phase that needs them.*
 

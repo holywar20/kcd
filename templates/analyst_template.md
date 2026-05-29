@@ -24,10 +24,10 @@ Output: `_Claude/automation/reports/<procedure-name>.md`
 
 *Load source audits first. Load source files only as needed for context — audits are the primary input.*
 
-| What | Path | Load When |
+| What | Where | Why |
 |---|---|---|
-| Source audit(s) | `_Claude/automation/audits/<audit-name>.md` | Phase 1 |
-| <relevant source file(s)> | `<path>` | Phase 2 — for context only |
+| Source audit(s) | [<audit-name>](_Claude/automation/audits/<audit-name>.md) | Phase 1 |
+| <relevant source file(s)> | [<label>](<path>) | Phase 2 — for context only |
 
 ---
 

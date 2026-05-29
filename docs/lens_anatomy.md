@@ -2,7 +2,9 @@
 
 Generic framework meta-knowledge. A lens file has three categories of content, and only three: **Know**, **Care**, **Do**. Anything that doesn't fit one of those three is not part of the lens's anatomy.
 
-**Structural invariant:** a lens is exactly one flat file at `_Claude/lenses/{name}.md`. No containing folder, no collocated subfolders. References live in the categorized `references/` store; working output goes to `work/{name}/`; the completed log lives at `logs/{name}/completed.md`. A lens that needs a folder is a lens carrying something that isn't K/C/D — extract it.
+**Structural invariant:** a lens is exactly one flat markdown file. No containing folder, no collocated subfolders. References live in the categorized `references/` store; working output goes to `work/{name}/`; the completed log lives at `logs/{name}/completed.md`. A lens that needs a folder is a lens carrying something that isn't K/C/D — extract it.
+
+**Lens locations.** Most lenses are **drafted in place** at `_Claude/lenses/{name}.md` — `Status: Active`, project-specific, never round-tripped through `kcd/`. A small set are **deployable**: they live at `_Claude/kcd/lenses/{name}.md` with `Status: Disabled`, must be project-agnostic (no hardcoded paths or domain vocabulary specific to one project), and are copied into `_Claude/lenses/` via the [deploy-lens](../contracts/deploy-lens.md) contract. The schema is identical in both locations — what differs is provenance and portability constraints. If a draft in `kcd/lenses/` carries project-specific content, it does not belong there; move it to `_Claude/lenses/`.
 
 ---
 
@@ -73,12 +75,13 @@ Prune first, then add.
 
 ## Import block conventions
 
-All Know references are listed in 3-column markdown tables: `What | Path | Use When ...`.
+All reference blocks — including folder indexes — use the same markdown table format: **`What | Where | Why`**. `Trigger | Path | When`, `What | Path | Use When`, `Contract | Covers`, and other historical headers are out of spec.
 
-- **References table** — "Use When..." means: load this file when this condition applies.
-- **Domains table** — "Use When..." means: trawl or reference this folder when this scope is relevant.
+A 4th column is permitted when an extra dimension is load-bearing for a specific table — e.g. `What | Where | Why | Lens` for cross-cutting audit tables. The first three columns and their semantics never change; only the trailing column is variable. Use sparingly — if the 4th column isn't carrying real signal, fold it into Why.
 
-Paths are **relative to the lens file** at `_Claude/lenses/{name}.md` — use `../` to reach sibling directories. Path column must use markdown link format `[text](../relative/path)`, not backtick spans. Backtick spans are invisible to the Obsidian graph.
+- **What** — a short label naming the artifact.
+- **Where** — a markdown link to the file or folder. Path is **relative to the lens file** at `_Claude/lenses/{name}.md` — use `../` to reach sibling directories. Backtick spans are invisible to the Obsidian graph; the Where column must use markdown link format `[text](../relative/path)`.
+- **Why** — when to load this reference / what role it plays. For procedure routing tables, the trigger tag goes in the Why column ("on `#<tag>`, …") so the table format stays uniform.
 
 ```
 ## Know
@@ -86,14 +89,16 @@ Paths are **relative to the lens file** at `_Claude/lenses/{name}.md` — use `.
 
 ### References
 *Specific named files. Load explicitly by path.*
-| What | Path | Use When ... |
+
+| What | Where | Why |
 |---|---|---|
 | Framework concepts | [kcd_framework](../kcd/kcd_framework.md) | When designing or reviewing the system |
 | Lens anatomy | [lens_anatomy](../kcd/docs/lens_anatomy.md) | When building or auditing a lens |
 
 ### Domains
 *Topic-area folders. Read-only. Trawlable for inference.*
-| What | Path | Use When ... |
+
+| What | Where | Why |
 |---|---|---|
 | Thinkers | [thinkers/](../references/thinkers/) | When routing a philosophical or rhetorical question |
 
@@ -106,15 +111,17 @@ Paths are **relative to the lens file** at `_Claude/lenses/{name}.md` — use `.
 
 ### Habits
 *Atomic single-step operations.*
-| What | Path | Use When ... |
+
+| What | Where | Why |
 |---|---|---|
 | add-todo | [add-todo](../kcd/habits/add-todo.md) | When a deferred item surfaces |
 
 ### Procedures
-*Multi-step labor pipelines. Use routing-table format — Trigger column holds the #tag.*
-| Trigger | Path | When |
+*Multi-step labor pipelines. The trigger tag goes in the Why column so the table format stays uniform.*
+
+| What | Where | Why |
 |---|---|---|
-| `#<procedure-name>` | [<procedure-name>](../kcd/procedures/<procedure-name>.md) | When this workflow applies |
+| <procedure-name> | [<procedure-name>](../kcd/procedures/<procedure-name>.md) | On `#<procedure-name>`, when this workflow applies |
 ```
 
 Working space is inherited from `_base` via `work-routing`. Output goes to `_Claude/work/{lens_name}/`. No table needed in individual lenses unless overriding the default.

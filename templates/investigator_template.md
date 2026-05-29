@@ -26,9 +26,9 @@ Output: `_Claude/automation/audits/<procedure-name>.md`
 
 *Files this procedure loads before beginning. Keep tight — every entry is a token cost on every run.*
 
-| What | Path | Load When |
+| What | Where | Why |
 |---|---|---|
-| <source to scan> | `<path>` | Phase 1 |
+| <source to scan> | [<label>](<path>) | Phase 1 |
 
 ---
 

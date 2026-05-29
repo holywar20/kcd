@@ -159,6 +159,6 @@ Under `--test`, output is redirected to `_Claude/automation/tests/procedures/{Na
 Every analyst invokes `run-report` as its final action — automatic, no per-procedure
 declaration required.
 
-| What | Path | When |
+| What | Where | Why |
 |---|---|---|
 | run-report | [run-report](../../habits/run-report.md) | Mandatory — fires after the procedure's final phase |

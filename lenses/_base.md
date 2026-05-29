@@ -40,6 +40,8 @@ Base establishes the default operating posture for all sessions in this project.
 
 **kcd is canonical:** The `_Claude/kcd/` directory is the source of truth for all framework artifacts. Do not modify it without explicit instruction.
 
+**Surface data, trust judgment:** When designing habits, contracts, or procedures, prefer surfacing the raw artifact (a log, a state file, a directory listing) over scripting the workflow that consumes it. Agents have judgment — given good data, they handle edge cases without explicit step-by-step instruction. A habit that names "this log records X" and trusts the next agent to read it is more durable than one that lists "tail the log, then for each entry do Y."
+
 **Obsidian conventions:** All markdown must render correctly in Obsidian — blank line before every table, markdown links not backtick spans, no leading underscores in link display text.
 
 ---

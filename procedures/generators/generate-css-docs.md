@@ -77,7 +77,7 @@ Flush-and-fill `reference-target` with the generated reference.
 
 ### Phase 4 — Lens Wiring
 
-For each lens in `reference-lenses`, ensure its Know table (References section) has a row pointing to `reference-target`: `What | Path | Use When`. Add the row if missing; correct the path or Use-When text if stale. Touch nothing else in the lens.
+For each lens in `reference-lenses`, ensure its Know table (References section) has a row pointing to `reference-target`: `What | Where | Why`. Add the row if missing; correct the path or Why text if stale. Touch nothing else in the lens.
 
 *Skipped under `--test`, per `_generator_base` — a test run produces only the test artifact.*
 
