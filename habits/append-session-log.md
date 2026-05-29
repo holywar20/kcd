@@ -6,5 +6,5 @@
 **Format:** `YYYY-MM-DD : !lens : 1-2 sentence description of the action.`
 
 - Newest at the top (prepended). `MM_session_log.md` = `05_session_log.md` for May, etc.
-- `!lens` is the active lens command. For cross-cutting work use `!sessionmanager`, `!infra`, or a descriptive label.
+- `!lens` is the active lens command. For cross-cutting work use `!lens_crafter` or a descriptive label.
 - Past entries are never edited or deleted.

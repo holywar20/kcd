@@ -69,9 +69,9 @@ updated: YYYY-MM-DD
 
 **Trigger:** User explicitly directs that a `work/` plan is ready to become canonical. Sessions do not self-promote.
 
-**Together:** The session runs the quality gate (see Standards below). If the gate passes, move the file from `work/{lens}/plans/YYYY-MM-DD_{description}.md` to `plans/{lens}_{description}.md` (strip date prefix), set `status: Active`, register the plan under the correct lens section of `plans/index.md`, heal all relative path references (the move changes depth), and replace the `work/` file with a one-line redirect stub.
+**Together:** The session runs the quality gate (see Standards below). If the gate passes, move the file from `work/{lens}/plans/YYYY-MM-DD_{description}.md` to `plans/{lens}_{description}.md` (strip date prefix), set `status: Active`, register the plan under the correct lens section of `plans/index.md`, heal all relative path references (the move changes depth), and delete the original `work/` file. Plans are living documents — once promoted, the canonical `plans/` file is authoritative and the `work/` draft has no further role.
 
-**Standard:** The quality gate is hard. A plan that fails any check goes back to the user for revision — not forward to `plans/`. After promotion, the canonical file is authoritative; the `work/` stub exists only to prevent drift. Strip all `work/`-framing language ("this is a draft", "exploratory", "TBD once we decide X") — replace with neutral present-tense statements of scope.
+**Standard:** The quality gate is hard. A plan that fails any check goes back to the user for revision — not forward to `plans/`. After promotion, the canonical file is authoritative. Strip all `work/`-framing language ("this is a draft", "exploratory", "TBD once we decide X") — replace with neutral present-tense statements of scope.
 
 ### Phase 3 — Retire
 
@@ -102,17 +102,18 @@ updated: YYYY-MM-DD
 4. Every action item has a number-letter ID and a checkbox.
 5. Phases logically sequenced — each phase's output is the input for the next.
 
-**Retirement hard gates** (each blocks archive until cleared):
-1. **Unchecked checkboxes** — confirm per item: resolved, deferred, or out of scope.
-2. **Debug artifacts in any "Files Affected" file** — `dd(`, `dump(`, `var_dump(`, `print_r(`, bare `die(`/`exit(`, `console.log(`, `console.error(`, `console.warn(`, `debugger`, commented-out blocks of >2 lines, `TODO`/`FIXME`/`HACK` inline comments. Confirm intentional or remove.
-3. **Stale lens TODOs** completed during the plan but never marked done — sweep into Completed.
+**Retirement gates:**
+
+1. **Unchecked checkboxes** — *hard, blocks archive.* Confirm per item: resolved, deferred, or out of scope.
+2. **Debug artifacts in files touched this session** — *advisory; surface and narrate, do not block on quantity.* Grep the session's diff (not the full "Files Affected" list — that history may span many sessions and is not the retire session's responsibility) for: `dd(`, `dump(`, `var_dump(`, `print_r(`, bare `die(`/`exit(`, `console.log(`, `console.error(`, `console.warn(`, `debugger`, commented-out blocks of >2 lines, `TODO`/`FIXME`/`HACK` inline comments. Use judgment: **operational logging** (boot banners, structured `console.warn`/`error` in handlers, labeled error reporting) is not a debug artifact and is not a finding. Only genuine leftovers — ad-hoc prints, forgotten `debugger`, stale `TODO` comments — get surfaced in the retirement narrative.
+3. **Stale lens TODOs** — *hard, blocks archive.* Tasks completed during the plan but never checked off — sweep into Completed before archive.
 
 ---
 
 ## Edge Cases
 
 - **Multi-lens plan:** `lens: cross` in frontmatter. Surfaces in every relevant lens's Active Plans, registered once in `plans/index.md`.
-- **Abandoned `work/` plan:** No promotion path; delete the file or leave with `status: Superseded` and a Notes entry explaining why. Stubs only exist for plans that were promoted.
+- **Abandoned `work/` plan:** No promotion path; delete the file or leave with `status: Superseded` and a Notes entry explaining why.
 - **Scope creep mid-execution:** Stop, surface to user. Either revise the plan in place (update What/Where/Why and re-confirm) or split off a new plan. Do not silently extend.
 - **Plan superseded by another:** Old plan gets `status: Superseded`, new plan's Notes references the predecessor. Both archive to `plans_complete/` at retirement.
 - **Pre-convention dated names** in `plans/` — retain original filename; retroactive renaming is a manual cleanup task, not a contract requirement.

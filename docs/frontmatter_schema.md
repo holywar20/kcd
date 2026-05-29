@@ -1,7 +1,7 @@
 ---
 session:
   edit_mode: section-replace
-  owner_lens: sessionmanager
+  owner_lens: lens_crafter
 heal-docs:
   ground_truth: intent
   trigger: new procedure types added, key values change
@@ -56,15 +56,15 @@ Tells the heal-docs procedure what this document is checked against and what to 
 
 | Document type | edit_mode | owner_lens | ground_truth | action |
 |---|---|---|---|---|
-| lens | `section-replace` | `sessionmanager` | `intent` | `flag-for-review` |
-| plan | `task-checklist` | `sessionmanager` | `plan-lifecycle` | `flag-for-review` |
-| reference | `full-rewrite` | `sessionmanager` | `codebase` | `flag-for-review` |
+| lens | `section-replace` | `lens_crafter` | `intent` | `flag-for-review` |
+| plan | `task-checklist` | `lens_crafter` | `plan-lifecycle` | `flag-for-review` |
+| reference | `full-rewrite` | `lens_crafter` | `codebase` | `flag-for-review` |
 | procedure | `phase-sequence` | `automation` | `codebase` | `auto-repair` |
 | investigator | `phase-sequence` | `automation` | `codebase` | `auto-repair` |
 | analyst | `phase-sequence` | `automation` | `codebase` | `auto-repair` |
 | generator | `phase-sequence` | `automation` | `codebase` | `auto-repair` |
 | log | `append-only` | *(any)* | `none` | `flag-for-review` |
-| index | `section-replace` | `sessionmanager` | `codebase` | `auto-repair` |
+| index | `section-replace` | `lens_crafter` | `codebase` | `auto-repair` |
 
 ---
 
@@ -76,12 +76,12 @@ Tells the heal-docs procedure what this document is checked against and what to 
 ---
 type: plan
 status: Active
-lens: sessionmanager
+lens: lens_crafter
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 session:
   edit_mode: task-checklist
-  owner_lens: sessionmanager
+  owner_lens: lens_crafter
 heal-docs:
   ground_truth: plan-lifecycle
   trigger: phases completed, plan status changes
