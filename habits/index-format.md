@@ -23,6 +23,8 @@ An "index" is any file whose primary purpose is navigation — pointing readers 
 
 Each row is exactly one navigable destination.
 
+A **4th column** is permitted only when an extra dimension is load-bearing for a specific index — e.g. `What | Where | Why | Command` for the lens roster, where the routing tag is itself navigational. The first three columns and their semantics never change; only a trailing column may be added. Use sparingly (this mirrors the same exception in `kcd/docs/lens_anatomy.md`).
+
 Multi-section indexes use a `## Heading` between tables. The heading names the group; the table holds the rows. Group by audience or status (e.g. `## Cross-lens` / `## dd` / `## Complete` / `## Superseded` in the plans index), not by alphabet.
 
 **Format:**

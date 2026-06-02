@@ -25,6 +25,16 @@ Type  : Auditor
 
 ---
 
+## Flags
+
+*Optional. Flags modify a run's behavior or scope. Each flag is `--`-prefixed, globally unique across the entire document base, and registered in the master procedure index (Flag Registry). A flag may be omitted; no flag = default (full) behavior. An unknown flag fails the run. This slot may be empty. Auditors have no universal inherited flag — declare your own here.*
+
+| Flag | Effect |
+|---|---|
+| `--<flag>` | <what it changes — a scoped subset of the run, a mode, or a concern it raises> |
+
+---
+
 ## Requirements
 
 *Declared generically; solved in the deployed copy. See `_auditor_base` for pre-flight resolution and the fail rule.*

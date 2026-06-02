@@ -1,10 +1,12 @@
 # Agent Types
 
-Three agent types exist in KCD. Every procedure that runs an agent must declare which type it is. The type determines model, context depth, and output destination.
+Three agent types exist in KCD. Every procedure that *runs an agent* must declare which type it is. The type determines model, context depth, and output destination.
 
 - **Investigators** — audit a domain and create bulk data.
 - **Analysts** — generate formalized reports for consumption by developers or management.
 - **Generators** — build references, tests, and other supporting artifacts.
+
+*Not every procedure runs an agent. **Utility** procedures (e.g. `#help`) are a separate, non-agent category: they run inline in the active session, read existing KCD structure, and print a readout — no spawn, no artifact, no file. They are not an agent type and do not appear below. See [_utility_base](../procedures/utility/_utility_base.md).*
 
 ---
 

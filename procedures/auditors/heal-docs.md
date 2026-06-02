@@ -35,6 +35,7 @@ resolution and the fail rule.*
 | `report-dir` | Input | Directory where Decisions, Repairs, and Run reports are written. |
 | `work-exclude` | Input | Subtree excluded from all phases — the fluid/scratchpad area. |
 | `log-max-age` | Input | Maximum age in days for log entries. Entries older than this are pruned during Log Pruning phase. |
+| `flag-registry` | Input | The master procedure index file holding the global Flag Registry — the authoritative list of every registered `--`-flag and its owner. |
 
 ---
 
@@ -47,6 +48,7 @@ resolution and the fail rule.*
 | All lens files | [lenses/]({doc-root}/lenses/) | Phase 4 — one at a time during lens review |
 | Lens anatomy | [lens_anatomy]({doc-root}/kcd/docs/lens_anatomy.md) | Phase 4 — structural check reference |
 | KCD framework | [kcd_framework]({doc-root}/kcd/kcd_framework.md) | Phase 4 — semantic check reference |
+| Flag registry | [flag registry]({flag-registry}) | Phase 6 — before the flag conformance scan |
 
 ---
 
@@ -67,6 +69,7 @@ CSS-cascade model: identity by location, not by self-description.
 - One canonical path per reference — does not create duplicates
 - Chart is the single source of routing truth — no per-file frontmatter overrides
 - Skip List is the single source of file exemptions — no per-file overrides
+- Flags are globally unique and registered — a flag declared twice, or declared but unregistered, surfaces to Decisions; never auto-edited
 
 **Will not touch:**
 - Prose, arguments, or Care block content inside lens files
@@ -215,7 +218,18 @@ Build two manifests:
 - **File manifest:** every .md file in `{doc-root}`, with canonical path. Files matching the Skip List or any chart `excluded` row are omitted from the manifest.
 - **Reference manifest:** every path string in markdown links `[text](path)` or in table cells that resolve to a file path — collected across all files in the file manifest.
 
-Normalize all paths against their source file location before comparison.
+**Path normalization.** Normalize every reference before comparison, per the project's link
+convention (declared in `_base` — see *Link paths*):
+- A **bare** path (no `./`, `../`, or leading `/`) is **vault-root-relative** — resolve it from
+  the project root (the parent of `{doc-root}`), *not* against the source file. This is the
+  standard link form.
+- A path beginning with `/` is a **legacy/erroneous** root form — resolve it from the project
+  root for verification, but flag it for repair: the leading slash must be stripped (Obsidian
+  has no vault-root slash syntax and treats such links as broken).
+- A `./` or `../` path resolves against the source file's location.
+- Root-relative links may resolve **outside `{doc-root}`** (e.g. into a sibling code tree). Such
+  targets are verified against the real filesystem; they are never auto-repaired by stem-matching
+  against the file manifest, which contains only `.md` files inside `{doc-root}`.
 
 ### Phase 2 — Link Resolution
 
@@ -291,7 +305,21 @@ For each chain:
 6. **Preserve differing values.** Same field, different values across layers → no action (intentional override).
 7. **Malformed frontmatter.** A file with unparseable YAML frontmatter → log to Decisions (`frontmatter unparseable: {path}`), skip the file for this phase. Do not attempt repair.
 
-### Phase 6 — Log Pruning
+### Phase 6 — Flag Registry Conformance
+
+Scope: every `## Flags` section across the file manifest, plus the `flag-registry`.
+
+`_*_base.md` files are **excluded** from the duplicate scan — a base declares *inherited* flags (e.g. `--test`), registered once and shared by every procedure of its type. The scan reads only `| --flag |` **table rows** in non-base files; inherited-flag mentions in prose are not declarations.
+
+1. Collect every flag declared in a non-base `## Flags` table row, with its owning file. Placeholder rows (`--<flag>`, `--<area>`) are ignored.
+2. Collect every flag listed in the `flag-registry`.
+3. Apply, all to Decisions (heal-docs never auto-edits a flag):
+   - A flag string declared in two or more files → `flag --{x} declared by {fileA} and {fileB} — globally ambiguous`.
+   - A declared flag absent from the registry → `flag --{x} ({file}) not registered in flag registry`.
+   - A registry flag with no declaring artifact, and not a base/universal flag → `registered flag --{x} has no declaring artifact — stale`.
+4. An empty `Flags` slot produces no finding — flags may be empty.
+
+### Phase 7 — Log Pruning
 
 Scope: every file matching chart row 13 (`logs/**/*.md`).
 
@@ -306,7 +334,7 @@ If a log file is non-empty but has zero parseable entries → log to Decisions: 
 
 If a log file is empty or has zero pruneable entries, skip silently.
 
-### Phase 7 — Report Generation (flush and fill)
+### Phase 8 — Report Generation (flush and fill)
 
 Destroy and recreate both report files.
 
@@ -322,23 +350,23 @@ Header: run timestamp · files scanned · total repairs made
 | What | Where | Why | Lens |
 |---|---|---|---|
 
-### Phase 8 — Output Declaration
+### Phase 9 — Output Declaration
 
 This procedure produces:
 - `{report-dir}/KCD Framework Decisions.md`
 - `{report-dir}/KCD Framework Repairs.md`
 
-Modifies: .md files in `{doc-root}` in-place — broken link repairs (Phase 2), index stub additions (Phase 3), frontmatter field cascades (Phase 5), pruned log entries (Phase 6).
+Modifies: .md files in `{doc-root}` in-place — broken link repairs (Phase 2), index stub additions (Phase 3), frontmatter field cascades (Phase 5), pruned log entries (Phase 7). Phase 6 (flag conformance) writes nothing — findings only.
 
 Excludes: `{work-exclude}`, `{report-dir}`, and every entry in the Skip List from all phases.
 
 Does not produce console output, logs, or side effects outside `{doc-root}`.
 Report tables carry four columns: What | Where | Why | Lens.
-Lens convention: findings from Phases 1–3, 5, 6 (mechanical tree repair) set Lens to `null`.
+Lens convention: findings from Phases 1–3, 5, 6, 7 (mechanical tree repair and registry/log conformance) set Lens to `null`.
 Findings from Phase 4 sub-agents set Lens to the lens filename stem (e.g. `lens_crafter`).
 `null` means the issue is structural — no lens raised it. A lens name means a specific
 lens's scope or integrity is implicated.
 
-After Phase 8, the `run-report` habit fires automatically (declared at `_auditor_base`).
+After Phase 9, the `run-report` habit fires automatically (declared at `_auditor_base`).
 Downstream consumers read the report files. This procedure does not communicate
 results any other way.

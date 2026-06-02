@@ -44,6 +44,21 @@ Base establishes the default operating posture for all sessions in this project.
 
 **Obsidian conventions:** All markdown must render correctly in Obsidian — blank line before every table, markdown links not backtick spans, no leading underscores in link display text.
 
+**Link paths:** Cross-document links use vault-root-relative paths — written from the
+project root with **no leading slash** (e.g. `_Claude/lenses/backend.md`, never
+`/_Claude/lenses/backend.md`). Prefer this over `../` chains: it is readable and stable
+regardless of how deeply the source file is nested. This single form satisfies every reader
+at once — the project root, the Obsidian vault root, and the agent's working directory are all
+the same path:
+- **Obsidian** resolves it from the vault root. Requires *Settings → Files & Links → New link
+  format → Absolute path in vault*; vault-root resolution then takes precedence over
+  document-relative.
+- **Claude Code** renders it as a clickable link relative to the working directory.
+- **A naive agent** resolves it correctly, since cwd is the project root.
+
+A leading `/` is **not** valid: Obsidian has no vault-root slash syntax and treats such links
+as broken. Never use OS-absolute paths.
+
 ---
 
 ## Do

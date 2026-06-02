@@ -53,6 +53,15 @@ Depends on: <list other lenses this one builds on, or "Nothing" for a standalone
 
 ---
 
+## Flags
+*Optional. Flags modify how the lens behaves when invoked. Each flag is `--`-prefixed, globally unique across the entire document base, and registered in the master procedure index (Flag Registry). A lens flag is a declarative invocation mode (e.g. `!<lens_name> --debug`) that unlocks or alters behavior. Flags declared in `_base` apply to every lens. This slot may be empty.*
+
+| Flag | Effect |
+|---|---|
+| `--<flag>` | <what it changes> |
+
+---
+
 ## Do
 *Execution layer. How this lens operates and where its work goes.*
 

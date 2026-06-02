@@ -12,7 +12,17 @@ Output : _Claude/< automation/audits | automation/reports | automation/reference
 
 *Type reference: [agent_types](../docs/agent_types.md) — Investigator uses haiku, Analyst and Generator use sonnet, override when justified.*
 *Mode: Agent-native runs standalone. Lens-spawned inherits a parent lens's context. Interactive requires Bryan in the loop at decision points.*
-*Add scope limits, flags, or thresholds here rather than burying them in Do phases.*
+*Add scope limits or thresholds here rather than burying them in Do phases. Declare flags in the Flags section below.*
+
+---
+
+## Flags
+
+*Optional. Flags modify a run's behavior or scope. Each flag is `--`-prefixed, globally unique across the entire document base, and registered in the master procedure index (Flag Registry). A flag may be omitted; no flag = default behavior. An unknown flag fails the run. This slot may be empty. `--test` is inherited from the procedure's type base where applicable.*
+
+| Flag | Effect |
+|---|---|
+| `--<flag>` | <what it changes — a scoped subset of the run, a mode, or a concern it raises> |
 
 ---
 

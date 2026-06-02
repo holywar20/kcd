@@ -2,6 +2,8 @@
 
 Generic framework meta-knowledge. A lens file has three categories of content, and only three: **Know**, **Care**, **Do**. Anything that doesn't fit one of those three is not part of the lens's anatomy.
 
+> **One table format, everywhere.** Every reference/import block in a lens — `Know.References`, `Know.Domains`, `Do.Habits`, `Do.Procedures`, `Do.Contracts`, and folder indexes — uses one header and only one: **`What | Where | Why`**. There are no per-section variants. This is the single most-violated convention in the tree; see [*Import block conventions*](#import-block-conventions) below for column semantics and the one permitted exception.
+
 **Structural invariant:** a lens is exactly one flat markdown file. No containing folder, no collocated subfolders. References live in the categorized `references/` store; working output goes to `work/{name}/`; the completed log lives at `logs/{name}/completed.md`. A lens that needs a folder is a lens carrying something that isn't K/C/D — extract it.
 
 **Lens locations.** Most lenses are **drafted in place** at `_Claude/lenses/{name}.md` — `Status: Active`, project-specific, never round-tripped through `kcd/`. A small set are **deployable**: they live at `_Claude/kcd/lenses/{name}.md` with `Status: Disabled`, must be project-agnostic (no hardcoded paths or domain vocabulary specific to one project), and are copied into `_Claude/lenses/` via the [deploy-lens](../contracts/deploy-lens.md) contract. The schema is identical in both locations — what differs is provenance and portability constraints. If a draft in `kcd/lenses/` carries project-specific content, it does not belong there; move it to `_Claude/lenses/`.
@@ -75,7 +77,9 @@ Prune first, then add.
 
 ## Import block conventions
 
-All reference blocks — including folder indexes — use the same markdown table format: **`What | Where | Why`**. `Trigger | Path | When`, `What | Path | Use When`, `Contract | Covers`, and other historical headers are out of spec.
+**Mandatory, no exceptions.** Every reference/import block — any table whose rows point at an artifact (a file, folder, habit, procedure, contract, or index) — uses one header: **`What | Where | Why`**. This holds across `Know.References`, `Know.Domains`, `Do.Habits`, `Do.Procedures`, `Do.Contracts`, and folder indexes alike. There are no per-section header variants.
+
+Every other header is out of spec and must be normalized on sight: `Trigger | Path | When`, `Trigger | Where | When`, `What | Path | Use When`, `Contract | Covers`, and any other historical variant. (Content tables that do *not* point at artifacts — e.g. a `Layer | Purpose` table explaining the anatomy, or a migration-mapping table — are not import blocks and keep their own descriptive headers.)
 
 A 4th column is permitted when an extra dimension is load-bearing for a specific table — e.g. `What | Where | Why | Lens` for cross-cutting audit tables. The first three columns and their semantics never change; only the trailing column is variable. Use sparingly — if the 4th column isn't carrying real signal, fold it into Why.
 

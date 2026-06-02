@@ -26,6 +26,16 @@ Output: `<the artifact's real home — e.g. references/style_guides/<name>.md>`
 
 ---
 
+## Flags
+
+*Optional. Flags modify a run's behavior or scope. Each flag is `--`-prefixed, globally unique across the entire document base, and registered in the master procedure index (Flag Registry). A flag may be omitted; no flag = default (full) behavior. An unknown flag fails the run. This slot may be empty. `--test` is inherited from `_generator_base` — do not redeclare it.*
+
+| Flag | Effect |
+|---|---|
+| `--<flag>` | <what it changes — a scoped subset of the run, a mode, or a concern it raises> |
+
+---
+
 ## Requirements
 
 *Declared generically; solved in the deployed copy. See `_generator_base` for pre-flight resolution and the fail rule.*
@@ -77,29 +87,48 @@ This procedure produces no other output.
 
 ## Deployed Copy
 
-*The deployed copy is thin. Create it at `procedures/generators/<name>.md` — same relative path as the canonical. It references this canonical and solves every declared requirement.*
+*The deployed copy is **fat** — a self-contained, runnable inlined copy of the canonical. Create it at `procedures/generators/<name>.md` (same relative path as the canonical). It carries the canonical's `Role`/`Base` frontmatter plus a `kcd:` pointer back, inlines the Parameters / Flags / Care / Do blocks (substituting requirement variables for concrete values), and solves every declared requirement. Opening it requires no cross-file assembly — "the thing is the thing."*
 
 ````markdown
 ---
 Status: Active
-Canonical: kcd/procedures/generators/<name>.md
+Role: Generator
+Base: _generator_base
+kcd:
+  canonical: kcd/procedures/generators/<name>.md
 ---
 
 # <name> — Procedure (deployed)
 
-*Deployed copy. All logic lives in the canonical: [<name> (canonical)](../../kcd/procedures/generators/<name>.md). This file solves the canonical's requirements for <project>.*
+*Fully inlined deployed copy for <project>. Traces to the canonical [<name> (canonical)](/_Claude/kcd/procedures/generators/<name>.md) for provenance; requirements below are solved with project-specific values. This file is self-contained and runnable on its own.*
+
+Base rules: [_generator_base](/_Claude/kcd/procedures/generators/_generator_base.md).
 
 ---
+
+## Parameters
+
+<inlined from canonical>
+
+## Flags
+
+<inlined from canonical, with concrete flags substituted for placeholders>
 
 ## Requirements — solved
 
-| Name | Kind | Solution |
-|---|---|---|
-| `<requirement-name>` | Tooling \| Input | `<concrete project path or value>` |
+| Name | Kind | Description | Solution |
+|---|---|---|---|
+| `<requirement-name>` | Tooling \| Input | <description from canonical> | `<concrete project path or value>` |
 
----
+## Care
 
-## Notes
+<inlined from canonical>
+
+## Do
+
+<inlined from canonical, with requirement variables substituted>
+
+## Project Notes
 
 - <project-specific quirk, if any>
 ````

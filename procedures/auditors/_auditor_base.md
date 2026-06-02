@@ -95,6 +95,18 @@ for a human decision, not an automated fix.
 
 ---
 
+## Flags
+
+Flags modify a run's behavior or scope. Every flag is `--`-prefixed, **globally unique** across the entire document base, and **registered** in the project's master procedure index (its Flag Registry). A flag may be omitted on invocation; absent any flag, the auditor runs its default (full) behavior. An unknown flag fails the run:
+
+```
+FAILED — unknown flag: {flag}
+```
+
+An auditor declares its own flags in its canonical `## Flags` slot; each must be registered. Duplicate or unregistered flags are caught by `#heal-docs`. There is no universal auditor flag at this layer.
+
+---
+
 ## Habits
 
 Every auditor invokes `run-report` as its final action — automatic, no per-procedure

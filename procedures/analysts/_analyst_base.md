@@ -144,13 +144,17 @@ If a class of finding is consistently missing from the audit, the fix is to exte
 
 ---
 
-## Test Mode
+## Flags
 
-Every analyst supports the `--test` flag.
+Flags modify a run's behavior or scope. Every flag is `--`-prefixed, **globally unique** across the entire document base, and **registered** in the project's master procedure index (its Flag Registry). A flag may be omitted on invocation; absent any flag, the procedure runs its default (full) behavior. An unknown flag fails the run:
 
-Under `--test`, output is redirected to `_Claude/automation/tests/procedures/{Name}.md` — the procedure's normal report file is never touched. Every phase runs identically; only the destination changes. The procedure creates `automation/tests/procedures/` if absent. Flush-and-fill.
+```
+FAILED — unknown flag: {flag}
+```
 
-`--test` exists to exercise a procedure unattended and inspect its interpretation without producing real product.
+An analyst declares its own flags in its canonical `## Flags` slot; each must be registered. Duplicate or unregistered flags are caught by `#heal-docs`. Flags defined in this base are **inherited** by every analyst and registered once — a procedure does not redeclare them.
+
+**`--test`** — the universal analyst flag, defined here and inherited by every analyst. Under `--test`, output is redirected to `_Claude/automation/tests/procedures/{Name}.md` — the procedure's normal report file is never touched. Every phase runs identically; only the destination changes. The procedure creates `automation/tests/procedures/` if absent. Flush-and-fill.
 
 ---
 

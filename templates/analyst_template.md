@@ -20,6 +20,16 @@ Output: `_Claude/automation/reports/<procedure-name>.md`
 
 ---
 
+## Flags
+
+*Optional. Flags modify a run's behavior or scope. Each flag is `--`-prefixed, globally unique across the entire document base, and registered in the master procedure index (Flag Registry). A flag may be omitted; no flag = default (full) behavior. An unknown flag fails the run. This slot may be empty. `--test` is inherited from `_analyst_base` — do not redeclare it.*
+
+| Flag | Effect |
+|---|---|
+| `--<flag>` | <what it changes — a scoped subset of the run, a mode, or a concern it raises> |
+
+---
+
 ## Know
 
 *Load source audits first. Load source files only as needed for context — audits are the primary input.*
