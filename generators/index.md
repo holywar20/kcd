@@ -25,4 +25,3 @@ choice is open they flag and stop.
 | generate-postman | [generate-postman](_Claude/kcd/generators/generate-postman/generate-postman.md) | Generate Postman collections, one per discovered controller |
 | merge-todos | [merge-todos](_Claude/kcd/generators/merge-todos/merge-todos.md) | Aggregate per-lens todos into a single digest |
 | apply-repairs | [apply-repairs](_Claude/kcd/generators/apply-repairs/apply-repairs.md) | Apply a repair manifest in-place (the `repair-docs` apply stage) |
-| index-codebase | [index-codebase](_Claude/kcd/generators/index-codebase/index-codebase.md) | **DRAFT** — glob-scoped navigation index over a codebase (output format pending) |
