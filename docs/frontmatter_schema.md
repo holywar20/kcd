@@ -1,96 +1,164 @@
 ---
-session:
-  edit_mode: section-replace
-  owner_lens: lens_crafter
-heal-docs:
-  ground_truth: intent
-  trigger: new procedure types added, key values change
-  action: flag-for-review
+type: doc
+status: active
 ---
 
 # Frontmatter Schema
 
-Canonical definition of all structured frontmatter blocks used across the `_Claude/` document tree. Every template includes these blocks pre-populated. Every document inherits them from its template.
+Canonical definition of the frontmatter every artifact in the `_Claude/` tree carries.
+
+## Core principles
+
+1. **No universal schema — the type's template is its schema.** A lens looks nothing like a
+   plan; that is correct, not drift. Each type's template defines its field set.
+2. **Two fields are universal:** `type` (self-describing, and a drift guard — a `type`↔location
+   mismatch is a signal) and `status`. Plus the optional `kcd:` escape hatch.
+3. **`kcd:` — the one shared escape hatch.** Optional, on any file, opaque to cascade. Holds
+   layer-specific keys (a deployed copy's `canonical:` pointer) and one-off deviations. Because
+   anything unusual goes here, the per-type schemas stay tight.
+4. **snake_case, lowercase keys.** Everywhere.
+5. **On-disk ≠ dispatched.** When context is *compiled* into a bundle, frontmatter and section
+   scaffolding are **stripped** and Know/Care/Do are **merged into one prompt block**.
+   Frontmatter is authoring/tooling metadata — its byte cost is paid only when an agent reads
+   the raw file, never in the dispatched prompt.
+
+**Retired:** the `session:` block and the per-file `heal-docs:` block — unimplemented; the
+deployed-structure chart encodes their intent by location.
 
 ---
 
-## Two namespaces
-
-### `session:` — universal
-
-Present on every document. Tells any session agent how to work with this document type.
-
-| Key | Valid values | Meaning |
-|---|---|---|
-| `edit_mode` | `append-only` | Never overwrite existing content — logs, completed entries |
-| | `section-replace` | Replace a named section; leave others intact — lenses, KCD docs, indexes |
-| | `full-rewrite` | Regenerate the whole document from source — references |
-| | `task-checklist` | Check off tasks, update Current State — plans |
-| | `phase-sequence` | Add, modify, or reorder phases — procedures |
-| `owner_lens` | lens tag | Which lens is responsible for maintaining this document type |
-
-### Procedure-namespaced blocks (e.g., `heal-docs:`)
-
-The key is the exact procedure name. Each procedure reads its own block and ignores all others. A document can carry multiple procedure blocks without collision — they never interfere.
-
----
-
-## `heal-docs:` block
-
-Tells the heal-docs procedure what this document is checked against and what to do when drift is detected.
-
-| Key | Valid values | Meaning |
-|---|---|---|
-| `ground_truth` | `codebase` | Verify paths, file existence, referenced artifacts |
-| | `intent` | Human-authored Care/vision — healer flags, never rewrites |
-| | `plan-lifecycle` | Status field checked against plans index |
-| | `none` | Append-only records — healer uses action to decide |
-| `trigger` | free text | What changes should prompt a review of this document |
-| `action` | `auto-repair` | heal-docs may fix broken paths and links in-place |
-| | `flag-for-review` | heal-docs surfaces to Decisions; human repairs |
-| | `skip` | heal-docs ignores this document type entirely |
-
----
-
-## Per-type defaults
-
-| Document type | edit_mode | owner_lens | ground_truth | action |
-|---|---|---|---|---|
-| lens | `section-replace` | `lens_crafter` | `intent` | `flag-for-review` |
-| plan | `task-checklist` | `lens_crafter` | `plan-lifecycle` | `flag-for-review` |
-| reference | `full-rewrite` | `lens_crafter` | `codebase` | `flag-for-review` |
-| procedure | `phase-sequence` | `automation` | `codebase` | `auto-repair` |
-| investigator | `phase-sequence` | `automation` | `codebase` | `auto-repair` |
-| analyst | `phase-sequence` | `automation` | `codebase` | `auto-repair` |
-| generator | `phase-sequence` | `automation` | `codebase` | `auto-repair` |
-| log | `append-only` | *(any)* | `none` | `flag-for-review` |
-| index | `section-replace` | `lens_crafter` | `codebase` | `auto-repair` |
-
----
-
-## Placement rule
-
-`session:` always appears first in the frontmatter block. Procedure-namespaced keys follow. Existing keys (type, status, lens, etc.) are preserved — the new blocks are additions, not replacements.
+## Universal fields
 
 ```yaml
----
-type: plan
-status: Active
-lens: lens_crafter
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
-session:
-  edit_mode: task-checklist
-  owner_lens: lens_crafter
-heal-docs:
-  ground_truth: plan-lifecycle
-  trigger: phases completed, plan status changes
-  action: flag-for-review
----
+type: <lens|contract|plan|reference|generator|analyst|utility|pipeline|index|doc|habit|template>
+status: active        # active | disabled
 ```
 
+### Status conventions
+
+- **`disabled` in canonical `kcd/` = a deployable seed** — inert until deployed; the deploy
+  script flips the deployed copy to `active`. Applies to deployable lenses, bases, habits, and
+  canonical generators/analysts. (`disabled` ⇒ lenses skip it **and** the compiler excludes it.)
+- **`active` = a live artifact in place** — framework meta-docs and indexes read directly from
+  `kcd/` (never deployed-and-flipped), and any deployed copy.
+- **`template` leaves `status` blank** — a scaffold is never composed (see *Template* below).
+
 ---
 
-## Extensibility
+## Per-type shapes
 
-Adding a new procedure namespace requires no changes to existing documents. The procedure declares its own key, reads it where present, and ignores files that lack it. Templates should be updated to include new procedure blocks when a procedure is promoted to regular use.
+### Lens — `_Claude/lenses/{name}/{name}.md`
+```yaml
+type: lens
+status: active            # active | disabled (no authoring-stage enum)
+command: "!{name}"
+todo_path:                # populated at deploy
+completed_path:           # populated at deploy
+```
+- No `depends_on` — stacking is a runtime human choice.
+- TODO/Completed live at the referenced paths, not in the body.
+- `_lens_base` is special: `type: lens`, **no `command`** (auto-loaded); its Know points at the
+  project session log so every lens inherits where session history lives.
+
+### Contract — `kcd/contracts/{name}.md`
+```yaml
+type: contract
+status: active
+scope: universal          # universal | lens:{name}
+```
+
+### Plan — `plans/{name}.md` (and `work/{lens}/plans/…`)
+```yaml
+type: plan
+status: draft             # draft | active | paused | complete | retired
+lens: {name|cross}
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+```
+
+### Reference — `references/{category}/{name}.md` *(only here — no travel)*
+```yaml
+type: reference
+status: active
+name: kebab-slug
+description: "one line: what it points to and why it matters"
+updated: YYYY-MM-DD
+```
+
+### Generator — canonical `kcd/generators/{name}/{name}.md`
+```yaml
+type: generator
+status: active
+model: claude-sonnet-4-6  # default; downgrade to haiku only for genuinely trivial mechanical work
+base: _generator_base
+```
+Deployed copy:
+```yaml
+type: generator
+status: active
+model: claude-sonnet-4-6
+kcd:
+  canonical: _Claude/kcd/generators/{name}/{name}.md
+```
+
+### Analyst — canonical `kcd/analysts/{name}/{name}.md`
+```yaml
+type: analyst
+status: active
+model: claude-sonnet-4-6
+lens: {name}              # the lens it composes with — lets it run cold
+base: _analyst_base
+```
+
+### Pipeline — canonical `kcd/pipelines/{name}/{name}.md`
+```yaml
+type: pipeline
+status: active
+base: _pipeline_base
+```
+- **No `model:`** — a pipeline is declarative wiring (it orchestrates analysts/generators/other
+  pipelines); the stages carry their own models. Verb-first name from the vocabulary. Deployed
+  copy adds a `kcd:` canonical pointer.
+
+### Utility — registered tool *(service; deferred)*
+```yaml
+type: utility
+status: active            # doubles as the security enable / revoke
+# remaining shape TBD with the utility service + security design
+```
+
+### Index — `**/index.md`
+```yaml
+type: index
+status: active
+updated: YYYY-MM-DD
+```
+
+### Doc / Habit — `kcd/docs/*`, `kcd/habits/*`
+```yaml
+type: doc                 # or: habit
+status: active            # docs are active in place; habits ship disabled (deployable seed)
+```
+
+### Template — `kcd/templates/_{type}_template.md`
+```yaml
+type: template
+status:                   # blank — a scaffold is never composed
+```
+- A template is copy-pasta, blown away once an artifact is authored from it — `type` is loosened
+  to a name convention (the file is a *template of a lens*, not a lens). Its body shows the
+  target artifact's frontmatter as a fill-in instruction; the authoring agent writes the real
+  `type`/`status` onto the artifact it creates. This is why a `type: template` file legitimately
+  lives in `templates/` (the type↔location guard is satisfied).
+
+---
+
+## Cross-cutting rules
+
+- **Model convention:** default `claude-sonnet-4-6` (the reliable workhorse); downgrade to
+  `claude-haiku-4-5` only for genuinely trivial, fully-mechanical work. Declared per procedure
+  in `model:`.
+- **Disabled = ignored twice:** behavioral (lenses skip) + mechanical (the compiler excludes).
+- **Aggressive over passive:** AI generates volume; default to retiring AI-authored artifacts.
+  `paused` / explicit human action is the opt-out.
+- **`base:` kept** on generator/analyst frontmatter as an explicit chain link.

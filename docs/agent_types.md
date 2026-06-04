@@ -1,66 +1,107 @@
+---
+type: doc
+status: active
+---
+
 # Agent Types
 
-Three agent types exist in KCD. Every procedure that *runs an agent* must declare which type it is. The type determines model, context depth, and output destination.
+The operational registry for the KCD agent model — model, context depth, output, and boundary
+per type. The conceptual treatment (why the split exists, the forcing function) lives in
+[kcd_framework](_Claude/kcd/kcd_framework.md) → *The agent model*; this doc is the practical
+"what each type is."
 
-- **Investigators** — audit a domain and create bulk data.
-- **Analysts** — generate formalized reports for consumption by developers or management.
-- **Generators** — build references, tests, and other supporting artifacts.
-
-*Not every procedure runs an agent. **Utility** procedures (e.g. `#help`) are a separate, non-agent category: they run inline in the active session, read existing KCD structure, and print a readout — no spawn, no artifact, no file. They are not an agent type and do not appear below. See [_utility_base](../procedures/utility/_utility_base.md).*
-
----
-
-## Investigator
-
-- **Purpose:** Audit a domain and produce bulk data — findings about a specific class of problem. An Investigator asks "is this present?" — it does not explain, rank, or recommend.
-- **Model convention:** Fast/cheap model (e.g. `claude-haiku-4-5`) — high volume, low cost.
-- **Context depth:** Deep domain expertise (knows the problem class cold). Minimal codebase context — does not need to understand business logic.
-- **Output destination:** The automation audit folder — `_Claude/automation/audits/<procedure-name>.md`. Flush-and-fill on each run.
-- **Default output format:**
-
-  | File | Location | Type | Finding | Severity |
-  |---|---|---|---|---|
-  | `path/to/file` | `method():line` | category | one-sentence description | Critical / High / Medium / Low / Info |
-
-  Procedures may override the format by declaring a replacement table in their Do section. Extend by adding columns after Severity; the first five columns should remain stable.
-
-**Boundary:** An Investigator ends where judgment begins. If the output requires knowing which findings matter, that is Analyst work.
+There is **one axis: judgment vs. mechanical.** It yields **two AI agents** — Generator and
+Analyst — standing on **one tool tier**, Utility. The tiers compose; they are not symmetric.
 
 ---
 
-## Analyst
+## Generator *(agent · mechanical · no lens)*
 
-- **Purpose:** Read audits and source, and generate formalized reports for consumption by developers or management — ranked findings, fix prompts, status summaries. An Analyst asks "what does this mean and what should we do?" — it interprets, prioritizes, and recommends.
-- **Model convention:** Full reasoning model (e.g. `claude-sonnet-4-6`) — contextual judgment, full codebase reads.
-- **Context depth:** Full — reads source files, consumes audit output, applies lens context.
-- **Output destination:** The automation report folder — `_Claude/automation/reports/<procedure-name>.md`. Flush-and-fill on each run.
-- **Do section:** Must define report structure and fix prompt format.
-
-**Boundary:** An Analyst ends where production begins. It reports; it does not build the artifact. Building is Generator work.
-
----
-
-## Generator
-
-- **Purpose:** Build references, tests, and other supporting artifacts. A Generator asks "what should this artifact look like?" — it produces the artifact and writes it to its real home in the project. Building useful artifacts and placing them where they belong is the generator's purpose.
-- **Model convention:** Full reasoning model (e.g. `claude-sonnet-4-6`) — artifact quality requires judgment.
-- **Context depth:** Task-dependent. Must load the lens(es) relevant to the artifact's domain.
-- **Output destination:** Wherever the artifact belongs — a reference into `references/`, a test into the test tree, and so on. Declared per procedure; there is no single output folder. Generators write to canonical project locations — that is their function, not a violation.
-- **Reference wiring:** When a generator builds a *reference* — a document meant to be loaded by sessions — its task list includes wiring that reference into the Know table of every appropriate lens. A reference no lens knows about is dead weight.
-- **Do section:** Must declare the output path and format.
-
-**Boundary:** A Generator builds — it does not hunt for problems (Investigator) or rank findings (Analyst).
+- **Purpose:** Build and modify artifacts to a spec. A generator asks *"apply this manifest"* —
+  it does not decide *whether* or *what*; it executes. Mechanical, **manifest-driven**.
+- **The invariant:** a generator **executes a spec; it does not improvise.** Broad write
+  authority is only safe because the work is mechanically specified. Where a choice is genuinely
+  open it does not decide — it flags and stops, or notes inline.
+- **Model:** default `claude-sonnet-4-6`; **downgrade to `claude-haiku-4-5` only for genuinely
+  trivial, fully-mechanical work** (e.g. extract-and-count).
+- **Context depth:** task-dependent — loads exactly what its declared requirements name. **No
+  lens.**
+- **Output:** the artifact's real home — a reference into `references/`, a test into the test
+  tree, etc. Declared per generator; no single folder. Raw/diagnostic/staging output and
+  `--test` runs go to `_Claude/audits/`. Flush-and-fill.
+- **Write authority:** broad — but spec-bound. **Boundary:** a generator builds; it does not
+  exercise judgment about what to build. That is an analyst's job.
 
 ---
 
-## Composing types in a pipeline
+## Analyst *(agent · judgment · carries a lens)*
 
-A procedure may chain types:
+- **Purpose:** Read broadly, interpret, rank, and surface opportunities. An analyst asks *"what
+  does this mean and what should we do?"* When it finds work that can be made mechanical, it
+  **composes a manifest and hands it to a generator** — it does not do the mechanical work
+  itself.
+- **Model:** `claude-sonnet-4-6` — judgment is the point.
+- **Lens:** every analyst declares a `lens:` it composes with. The lens gives it judgment and
+  personality, and is what lets it run **cold / unsupervised** (a sub-agent is just a lens run
+  without a human in the loop).
+- **Context depth:** full — reads **anywhere** (source, references, generator `audits/`).
+- **Output:** **report-only** — to `_Claude/reports/` and nowhere else (typically one report, a
+  small number when the work splits cleanly). Flush-and-fill. The report's actionable core is
+  the **manifest**: a self-contained spec a generator (or human) can execute without further
+  judgment.
+- **Write authority:** narrow — report-only; cannot modify source or any canonical path.
+  **Boundary:** an analyst decides and specifies; it does not build. Building is generator work.
+
+---
+
+## Utility *(tool tier · not AI)*
+
+The project's **shared tool-surface** — a service that registers many deterministic scripts,
+runnable by both a user and an in-session agent (e.g. `help`). Unlike the agent families, a
+utility has **no base/template/instance pattern** — it is one service, not a family.
+
+**Deferred** pending Starmind architecture (signaling + security model still open). See
+[kcd_framework](_Claude/kcd/kcd_framework.md) → *The agent model* / *Still evolving*. Utilities
+are not an agent type and carry no model/lens.
+
+---
+
+## Not an agent type: the Pipeline
+
+A **pipeline** *orchestrates* agents (analysts, generators, other pipelines) into an automated
+run — it is not itself an agent and carries no model or lens. It is a separate primitive; see
+[kcd_framework](_Claude/kcd/kcd_framework.md) → *Pipelines*. Listed here only to mark the
+boundary: agents do the work, a pipeline sequences them.
+
+---
+
+## The blast-radius invariant
+
+The agent **with** judgment and a lens (Analyst) has the **narrowest** write authority —
+report-only, can't wreck the tree. The agent **with** broad write authority (Generator) has
+**no** judgment — predictable, spec-driven. **High autonomy ⇒ narrow write; broad write ⇒ low
+autonomy.** An explicit rule, not an accident.
+
+## Why the split — the constraint is the point
+
+The Analyst→Generator handoff is a **forcing function**, not just division of labor. Requiring
+an analyst to emit a manifest a generator can execute **without further judgment** forces it to
+resolve every consequence in advance. The bet: constrained output is more reliable and
+repeatable than free output. Build strategy: make generators boringly reliable, then tune the
+analyst hard against the hardest problems.
+
+---
+
+## Pipelines
+
+Types chain through clean handoffs, with a human gate where judgment commits to action:
 
 ```
-Investigator → automation/audits/  →  Analyst → automation/reports/  →  (human reviews)  →  Generator → artifact's home
+Analyst  →  reports/ (manifest)  →  (human gate)  →  Generator  →  artifact's home
 ```
 
-Each stage is a clean handoff. Investigators do not call Analysts inline; Analysts do not build artifacts. The human is the gate between reports and generators.
-
-Lens-stacking applies at each stage — the same procedure can run under different lenses to tune what is surfaced (Investigator), how it is interpreted (Analyst), or what is generated (Generator).
+The canonical case is **decide-then-repair**: an analyst surfaces a repair manifest, a human
+approves, a generator applies it. Judgment and the mechanical write stay in separate agents.
+Generators feed analysts too (raw data in `audits/` → interpretation); the two tiers cycle.
+Lens-stacking applies at each stage — the same step can run under different lenses to tune what
+is surfaced or how it is interpreted.

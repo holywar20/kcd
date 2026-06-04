@@ -1,28 +1,27 @@
-# Contracts — Index
-
-*Behavioral and lifecycle agreements for session work. A contract describes how a human-in-session and Claude collaborate on a recurring kind of work — plan authoring, debug runs, reference writing, and so on.*
-
-Contracts differ from procedures: procedures are agent-run unattended; contracts are session-collaborative. They differ from habits: habits are atomic single-step reflexes; contracts are multi-phase lifecycles.
-
-A contract's `Scope:` frontmatter declares where it is wired:
-- `universal` — referenced from `_base`; loaded every session.
-- `lens:{name}` — referenced from a single lens's Know block.
-- `persona:{name}` — referenced from a persona-style lens as a behavioral overlay.
-
 ---
+type: index
+status: active
+updated: 2026-06-04
+---
+
+# Index — kcd/contracts
+
+Human-in-the-loop session lifecycles. A contract describes how a human-in-session and Claude
+collaborate on a recurring kind of work — plan authoring, lens deployment, and so on. Contracts
+differ from pipelines (automated, no human gate) and from habits (atomic single-step reflexes):
+a contract is a multi-phase lifecycle *with* a human in the loop.
+
+A contract's `scope:` declares where it is wired: `universal` (referenced from `_lens_base`,
+loaded every session) or `lens:{name}` (referenced from a single lens's Know block).
 
 ## Universal
 
 | What | Where | Why |
 |---|---|---|
-| Plan | [plan](plan.md) | Lifecycle and format for every plan in the project — write, promote, retire |
+| Plan | [plan](_Claude/kcd/contracts/plan.md) | Lifecycle and format for every plan — write, promote, retire |
 
-## Lens-Scoped
+## Lens-scoped
 
 | What | Where | Why |
 |---|---|---|
-| Deploy Lens | [deploy-lens](deploy-lens.md) | `lens:lens_crafter` — copy a lens from `kcd/lenses/` into `_Claude/lenses/` and activate it |
-
-## Persona
-
-*None yet.*
+| Deploy lens | [deploy-lens](_Claude/kcd/contracts/deploy-lens.md) | `lens:lens_crafter` — copy a lens from `kcd/lenses/` into `_Claude/lenses/` and activate it |

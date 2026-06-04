@@ -1,41 +1,39 @@
-# Index — kcd/templates
-
-*Last updated: 2026-05-21.*
-
-Starter files for every structured artifact in the framework. Use the most specific template available — typed procedure templates are preferred over the general procedure template.
-
+---
+type: index
+status: active
+updated: 2026-06-04
 ---
 
-## Procedures
+# Index — kcd/templates
+
+Scaffolds for authoring each artifact type. Copy the matching template, fill every placeholder,
+and write the real `type`/`status` onto the artifact. Use the most specific template available.
+
+## Agents & orchestration
 
 | What | Where | Why |
 |---|---|---|
-| Investigator template | [investigator_template](investigator_template.md) | Writing a new Investigator — output baked to `automation/audits/` |
-| Analyst template | [analyst_template](analyst_template.md) | Writing a new Analyst — output baked to `automation/reports/` |
-| Generator template | [generator_template](generator_template.md) | Writing a new Generator — canonical scaffold (declares requirements, references `_generator_base`) plus deployed-copy stub |
-| Procedure template (general) | [procedure_template](procedure_template.md) | Writing a solo or other procedure not covered by the typed templates |
+| analyst template | [analyst template](_Claude/kcd/templates/_analyst_template.md) | Authoring a new analyst — judgment agent that emits manifests + reports |
+| generator template | [generator template](_Claude/kcd/templates/_generator_template.md) | Authoring a new generator — mechanical agent that executes a manifest |
+| pipeline template | [pipeline template](_Claude/kcd/templates/_pipeline_template.md) | Authoring a new pipeline — a declarative recipe orchestrating agents |
 
-## Plans
-
-| What | Where | Why |
-|---|---|---|
-| Plan template | [plan_template](plan_template.md) | Starting a new plan — naming convention, lifecycle, phase structure |
-
-## Lenses
+## Lenses & habits
 
 | What | Where | Why |
 |---|---|---|
-| Lens template | [lens_template](lens_template.md) | Creating a new lens — K/C/D skeleton with placeholders |
+| lens template | [lens template](_Claude/kcd/templates/_lens_template.md) | Creating a new lens — Know/Care/Do skeleton with placeholders |
+| habit template | [habit template](_Claude/kcd/templates/_habit_template.md) | Authoring a new habit — atomic When/Action reflex (or a don't-style constraint) |
 
-## References
-
-| What | Where | Why |
-|---|---|---|
-| Reference template | [reference_template](reference_template.md) | Creating a new reference — pointer to a living artifact with location, interface, and status |
-
-## Indexes & Schema
+## Plans & contracts
 
 | What | Where | Why |
 |---|---|---|
-| Index template | [index_template](index_template.md) | Creating a new `index.md` for any folder — standard What/Where/Why table with frontmatter |
-| Frontmatter schema | [frontmatter_schema](../docs/frontmatter_schema.md) | Reference for all valid `session:` and procedure-namespaced frontmatter keys and per-type defaults |
+| plan template | [plan template](_Claude/kcd/templates/_plan_template.md) | Starting a new plan — naming, lifecycle, phase structure |
+| contract template | [contract template](_Claude/kcd/templates/_contract_template.md) | Writing a new contract — a human-in-the-loop session lifecycle |
+
+## Indexes & references
+
+| What | Where | Why |
+|---|---|---|
+| index template | [index template](_Claude/kcd/templates/_index_template.md) | Creating a new `index.md` for any folder — the What/Where/Why table with frontmatter |
+| reference template | [reference template](_Claude/kcd/templates/_reference_template.md) | Creating a new reference — a pointer to a living artifact with location, interface, and status |
