@@ -9,7 +9,7 @@ base: _generator_base
 
 *Generic across any KCD-structured documentation tree. The **mechanical-apply** half of doc
 healing: it consumes a repair manifest produced by
-[audit-structure](_Claude/kcd/analysts/audit-structure/audit-structure.md) and applies each row
+[audit-structure](_Claude/kcd/analyzers/audit-structure/audit-structure.md) and applies each row
 **in-place** — link rewrites, index stubs, frontmatter cascades, log prunes. It decides nothing;
 every row is pre-resolved. The deployed copy solves the requirements below with project values.*
 
@@ -17,12 +17,12 @@ Base rules: [_generator_base](_Claude/kcd/generators/_generator_base.md) — com
 requirement resolution, fail behavior, output conventions, modifiers.
 
 *This is the **apply** stage of the `repair-docs` pipeline: `audit-structure → apply-repairs`.
-Its input is the analyst's repair manifest; the human-facing decisions report is the analyst's
+Its input is the analyzer's repair manifest; the human-facing decisions report is the analyzer's
 output, never touched here. Textbook generator — executes a spec, exercises no judgment.*
 
 **The manifest is the contract.** apply-repairs reads the manifest in the format defined by
 audit-structure (`## Repair Manifest Format`): one table, columns `# | action | target |
-locator | from | to | note`, six actions. Every row is, by the analyst's construction, a
+locator | from | to | note`, six actions. Every row is, by the analyzer's construction, a
 deployed-zone fix with an obvious resolution — so applying it requires no choice. Where a row
 *cannot* be applied cleanly, apply-repairs **does not guess** — it skips the row and logs it (the
 generator invariant: broad write ⇒ low autonomy).
@@ -49,7 +49,7 @@ resolution and the fail rule.*
 | `repair-manifest` | Input | The repair manifest file produced by `audit-structure` (`_Claude/reports/audit-structure-manifest.md`). The spec this generator executes. |
 | `doc-root` | Input | Root of the documentation tree. Bounds write authority — apply-repairs never edits a path outside `{doc-root}`, and never under `{doc-root}/kcd/` (canonical is read-only). |
 
-*No `log-max-age` requirement: a `prune-log` row carries its cutoff date in `from` (the analyst
+*No `log-max-age` requirement: a `prune-log` row carries its cutoff date in `from` (the analyzer
 computed it). The generator removes by the given cutoff — no age judgment of its own.*
 
 ---
@@ -103,7 +103,7 @@ editing.
 
 Read `repair-manifest` and parse its repair table. If the file is absent or carries an empty
 table, there is nothing to apply: skip to Phase 3 and write an empty run log (an empty manifest
-is **not** a failure — the pipeline skips this stage when the analyst slates no repairs).
+is **not** a failure — the pipeline skips this stage when the analyzer slates no repairs).
 
 For each row, validate before queuing it:
 - `action` is one of the six known verbs (`rewrite-link`, `index-add`, `index-remove`,

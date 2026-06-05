@@ -7,7 +7,7 @@ updated: 2026-06-04
 # Index — kcd/utilities
 
 The registered **tool tier** — a single shared API surface (same mental bucket as MCP tools)
-the human runs from a terminal, an agent calls in-session, and an analyst hands a generator.
+the human runs from a terminal, an agent calls in-session, and an analyzer hands a generator.
 Unlike the agent families, utilities have **no base/template/instance pattern**: the tier is one
 service that registers many tools, not a family with a shared base.
 

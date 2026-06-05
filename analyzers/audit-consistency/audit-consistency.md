@@ -1,22 +1,22 @@
 ---
-type: analyst
+type: analyzer
 status: disabled
 model: claude-sonnet-4-6
 lens: lens_crafter
-base: _analyst_base
+base: _analyzer_base
 ---
 
-# audit-consistency — Analyst (canonical)
+# audit-consistency — Analyzer (canonical)
 
 *Generic across any KCD-structured documentation tree. Interpretive — surfaces redundancy,
 conflicts, stale todos, broken references, and orphans as a human-decision feed; it does not
 auto-repair. The deployed copy solves the requirements below with project-specific values.*
 
-Base rules: [_analyst_base](_Claude/kcd/analysts/_analyst_base.md) — role, requirement
+Base rules: [_analyzer_base](_Claude/kcd/analyzers/_analyzer_base.md) — role, requirement
 resolution, output conventions, modifiers.
 
 *This is the **judgment half** of doc maintenance. Actionable findings (a broken reference, a
-clear redundancy) carry a **manifest** per `_analyst_base` — a separate repair generator (or a
+clear redundancy) carry a **manifest** per `_analyzer_base` — a separate repair generator (or a
 human) executes them, gated by review. The mechanical repair is never done here.*
 
 ---
@@ -31,7 +31,7 @@ Output: `_Claude/reports/audit-consistency.md`
 
 ## Requirements
 
-*Declared generically here; solved in the deployed copy. See `_analyst_base` for pre-flight
+*Declared generically here; solved in the deployed copy. See `_analyzer_base` for pre-flight
 resolution and the fail rule.*
 
 | Name | Kind | Description |
@@ -80,7 +80,7 @@ resolution and the fail rule.*
 
 ## Do
 
-*Pre-flight runs first, per `_analyst_base` — deployment check, then requirement resolution.*
+*Pre-flight runs first, per `_analyzer_base` — deployment check, then requirement resolution.*
 
 ### Phase 1 — Document Load
 

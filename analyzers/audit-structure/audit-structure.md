@@ -1,12 +1,12 @@
 ---
-type: analyst
+type: analyzer
 status: disabled
 model: claude-sonnet-4-6
 lens: lens_crafter
-base: _analyst_base
+base: _analyzer_base
 ---
 
-# audit-structure — Analyst (canonical)
+# audit-structure — Analyzer (canonical)
 
 *Generic across any KCD-structured documentation tree. The **mechanical-detection** half of
 doc healing: it walks the tree, finds structural drift (broken links, index gaps, frontmatter
@@ -15,7 +15,7 @@ a **repair manifest** (unambiguous mechanical fixes a generator executes) and a 
 report** (anything a human must resolve). It applies nothing — detection only. The deployed copy
 solves the requirements below with project values.*
 
-Base rules: [_analyst_base](_Claude/kcd/analysts/_analyst_base.md) — role, requirement
+Base rules: [_analyzer_base](_Claude/kcd/analyzers/_analyzer_base.md) — role, requirement
 resolution, output conventions, modifiers.
 
 *This is the **detect** stage of the `repair-docs` pipeline: `audit-structure → apply-repairs`.
@@ -25,7 +25,7 @@ human-facing output. The mechanical write is never done here — that is `apply-
 **Split by mechanism, not topic.** audit-structure is **purely mechanical detection**. Semantic
 and interpretive checks — redundancy, cross-lens conflict, scope drift, the "what reference is
 this lens missing" brainstorm — are **not** done here; they belong to
-[audit-consistency](_Claude/kcd/analysts/audit-consistency/audit-consistency.md). The split line
+[audit-consistency](_Claude/kcd/analyzers/audit-consistency/audit-consistency.md). The split line
 is *is the fix mechanical*, not *what topic does it concern*.
 
 ---
@@ -42,7 +42,7 @@ Outputs:
 
 ## Requirements
 
-*Declared generically here; solved in the deployed copy. See `_analyst_base` for pre-flight
+*Declared generically here; solved in the deployed copy. See `_analyzer_base` for pre-flight
 resolution and the fail rule.*
 
 | Name | Kind | Description |
@@ -58,7 +58,7 @@ resolution and the fail rule.*
 
 | What | Where | Why |
 |---|---|---|
-| Routing chart | [routing-chart](_Claude/kcd/analysts/audit-structure/context/routing-chart.md) | The classification policy — zones + finding-resolution. Loaded first; governs every routing call below. |
+| Routing chart | [routing-chart](_Claude/kcd/analyzers/audit-structure/context/routing-chart.md) | The classification policy — zones + finding-resolution. Loaded first; governs every routing call below. |
 | Frontmatter schema | [frontmatter_schema](_Claude/kcd/docs/frontmatter_schema.md) | Phase 5 — template-is-schema; defines the cascade check and the `kcd:` exemption. |
 | Root index | [index]({doc-root}/index.md) | Phase 1 — entry point for the inventory walk. |
 | Lens index | [lenses/index]({doc-root}/lenses/index.md) | Phase 4 — enumerate lens files. |
@@ -118,7 +118,7 @@ Requirements block; no section repeats that prefix.
 
 ## Repair Manifest Format
 
-The analyst↔generator contract. `apply-repairs` reads `_Claude/reports/audit-structure-manifest.md`
+The analyzer↔generator contract. `apply-repairs` reads `_Claude/reports/audit-structure-manifest.md`
 and executes each row **without judgment** — so every row must be complete and unambiguous. One
 uniform table; the six **actions** interpret the columns slightly differently.
 
@@ -158,7 +158,7 @@ those are the only findings that reach the manifest. Everything else is a decisi
 
 ## Do
 
-*Pre-flight runs first, per `_analyst_base` — deployment check, then requirement resolution.
+*Pre-flight runs first, per `_analyzer_base` — deployment check, then requirement resolution.
 Load the routing-chart before Phase 1; it governs every routing call.*
 
 ### Phase 1 — Inventory & Zone Classification
@@ -307,7 +307,7 @@ skipped when the manifest is empty).
 ## Referred to audit-consistency
 
 [Semantic findings noticed in passing — redundancy, scope drift, cross-lens conflict — that this
-analyst does not own. Pointer only; audit-consistency is the authority.]
+analyzer does not own. Pointer only; audit-consistency is the authority.]
 ```
 
 ### Phase 9 — Output Declaration
@@ -317,4 +317,4 @@ Produces `_Claude/reports/audit-structure.md` and `_Claude/reports/audit-structu
 described in the manifest, never made. Excludes `{work-exclude}`, `reports/`, and `audits/` from
 all phases. No console output, logs, or side effects outside the two report paths.
 
-After Phase 9, the `run-report` habit fires automatically (declared at `_analyst_base`).
+After Phase 9, the `run-report` habit fires automatically (declared at `_analyzer_base`).

@@ -1,6 +1,6 @@
 ---
 type: habit
-status: disabled
+status: active
 ---
 
 # Habit — append-completed-entry

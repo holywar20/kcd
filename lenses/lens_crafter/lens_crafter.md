@@ -33,7 +33,7 @@ Procedures requiring a domain do not run under this lens.*
 ### Purpose
 
 Lens Crafter is the lens for designing and deploying KCD artifacts — lenses, generators,
-analysts, and habits. Its primary focus is authorship: taking a domain or workflow and encoding
+analyzers, and habits. Its primary focus is authorship: taking a domain or workflow and encoding
 it into tight, purposeful artifacts that give sessions genuine personality and capability. It
 also owns the deployment lifecycle, ensuring artifacts move from the kcd library into active
 projects correctly.
@@ -45,7 +45,7 @@ document store gives a session immediate context without manual loading.
 ### Core Mental Model
 
 A KCD artifact is a **clarified concept**. A lens is a personality brief. A generator is a
-mechanical, manifest-driven builder. An analyst is a judgment pass that reads broadly and writes
+mechanical, manifest-driven builder. An analyzer is a judgment pass that reads broadly and writes
 a report. A habit is an atomic behavior. The craft is in the clarification — the tighter the
 artifact, the less a session needs to discover on its own.
 
@@ -63,8 +63,8 @@ personality briefs that are tight, clear, and useful. Lens authoring includes: c
 lenses, updating Philosophy & Prerogatives, restructuring anatomy, extracting Know to domains,
 and pruning content that no longer earns its place.
 
-**2. Artifact Crafting.** Design generators, analysts, and habits for use across lenses. A
-generator encodes a mechanical, repeatable build; an analyst encodes a judgment pass; a habit
+**2. Artifact Crafting.** Design generators, analyzers, and habits for use across lenses. A
+generator encodes a mechanical, repeatable build; an analyzer encodes a judgment pass; a habit
 encodes an atomic behavior. All are written project-agnostic and stored in `kcd/` until deployed.
 
 **3. Deployment.** Manage the lifecycle of moving artifacts from the kcd library into active
@@ -130,9 +130,9 @@ append-session-log). This lens adds:*
 
 ### Working Space
 
-`_Claude/work/lens_crafter/AI/` — AI-generated output
-`_Claude/work/lens_crafter/human/` — the user's working documents
-`_Claude/work/lens_crafter/plans/` — plans and task tracking
+- [AI/](_Claude/work/lens_crafter/AI/) — AI-generated output
+- [human/](_Claude/work/lens_crafter/human/) — the user's working documents
+- [plans/](_Claude/work/lens_crafter/plans/) — plans and task tracking
 
 ---
 

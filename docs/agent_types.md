@@ -11,7 +11,7 @@ per type. The conceptual treatment (why the split exists, the forcing function) 
 "what each type is."
 
 There is **one axis: judgment vs. mechanical.** It yields **two AI agents** — Generator and
-Analyst — standing on **one tool tier**, Utility. The tiers compose; they are not symmetric.
+Analyzer — standing on **one tool tier**, Utility. The tiers compose; they are not symmetric.
 
 ---
 
@@ -30,18 +30,18 @@ Analyst — standing on **one tool tier**, Utility. The tiers compose; they are 
   tree, etc. Declared per generator; no single folder. Raw/diagnostic/staging output and
   `--test` runs go to `_Claude/audits/`. Flush-and-fill.
 - **Write authority:** broad — but spec-bound. **Boundary:** a generator builds; it does not
-  exercise judgment about what to build. That is an analyst's job.
+  exercise judgment about what to build. That is an analyzer's job.
 
 ---
 
-## Analyst *(agent · judgment · carries a lens)*
+## Analyzer *(agent · judgment · carries a lens)*
 
-- **Purpose:** Read broadly, interpret, rank, and surface opportunities. An analyst asks *"what
+- **Purpose:** Read broadly, interpret, rank, and surface opportunities. An analyzer asks *"what
   does this mean and what should we do?"* When it finds work that can be made mechanical, it
   **composes a manifest and hands it to a generator** — it does not do the mechanical work
   itself.
 - **Model:** `claude-sonnet-4-6` — judgment is the point.
-- **Lens:** every analyst declares a `lens:` it composes with. The lens gives it judgment and
+- **Lens:** every analyzer declares a `lens:` it composes with. The lens gives it judgment and
   personality, and is what lets it run **cold / unsupervised** (a sub-agent is just a lens run
   without a human in the loop).
 - **Context depth:** full — reads **anywhere** (source, references, generator `audits/`).
@@ -50,7 +50,7 @@ Analyst — standing on **one tool tier**, Utility. The tiers compose; they are 
   the **manifest**: a self-contained spec a generator (or human) can execute without further
   judgment.
 - **Write authority:** narrow — report-only; cannot modify source or any canonical path.
-  **Boundary:** an analyst decides and specifies; it does not build. Building is generator work.
+  **Boundary:** an analyzer decides and specifies; it does not build. Building is generator work.
 
 ---
 
@@ -68,7 +68,7 @@ are not an agent type and carry no model/lens.
 
 ## Not an agent type: the Pipeline
 
-A **pipeline** *orchestrates* agents (analysts, generators, other pipelines) into an automated
+A **pipeline** *orchestrates* agents (analyzers, generators, other pipelines) into an automated
 run — it is not itself an agent and carries no model or lens. It is a separate primitive; see
 [kcd_framework](_Claude/kcd/kcd_framework.md) → *Pipelines*. Listed here only to mark the
 boundary: agents do the work, a pipeline sequences them.
@@ -77,18 +77,18 @@ boundary: agents do the work, a pipeline sequences them.
 
 ## The blast-radius invariant
 
-The agent **with** judgment and a lens (Analyst) has the **narrowest** write authority —
+The agent **with** judgment and a lens (Analyzer) has the **narrowest** write authority —
 report-only, can't wreck the tree. The agent **with** broad write authority (Generator) has
 **no** judgment — predictable, spec-driven. **High autonomy ⇒ narrow write; broad write ⇒ low
 autonomy.** An explicit rule, not an accident.
 
 ## Why the split — the constraint is the point
 
-The Analyst→Generator handoff is a **forcing function**, not just division of labor. Requiring
-an analyst to emit a manifest a generator can execute **without further judgment** forces it to
+The Analyzer→Generator handoff is a **forcing function**, not just division of labor. Requiring
+an analyzer to emit a manifest a generator can execute **without further judgment** forces it to
 resolve every consequence in advance. The bet: constrained output is more reliable and
 repeatable than free output. Build strategy: make generators boringly reliable, then tune the
-analyst hard against the hardest problems.
+analyzer hard against the hardest problems.
 
 ---
 
@@ -97,11 +97,11 @@ analyst hard against the hardest problems.
 Types chain through clean handoffs, with a human gate where judgment commits to action:
 
 ```
-Analyst  →  reports/ (manifest)  →  (human gate)  →  Generator  →  artifact's home
+Analyzer  →  reports/ (manifest)  →  (human gate)  →  Generator  →  artifact's home
 ```
 
-The canonical case is **decide-then-repair**: an analyst surfaces a repair manifest, a human
+The canonical case is **decide-then-repair**: an analyzer surfaces a repair manifest, a human
 approves, a generator applies it. Judgment and the mechanical write stay in separate agents.
-Generators feed analysts too (raw data in `audits/` → interpretation); the two tiers cycle.
+Generators feed analyzers too (raw data in `audits/` → interpretation); the two tiers cycle.
 Lens-stacking applies at each stage — the same step can run under different lenses to tune what
 is surfaced or how it is interpreted.

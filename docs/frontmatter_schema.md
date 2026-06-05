@@ -30,7 +30,7 @@ deployed-structure chart encodes their intent by location.
 ## Universal fields
 
 ```yaml
-type: <lens|contract|plan|reference|generator|analyst|utility|pipeline|index|doc|habit|template>
+type: <lens|contract|plan|reference|generator|analyzer|utility|pipeline|index|doc|habit|template>
 status: active        # active | disabled
 ```
 
@@ -38,7 +38,7 @@ status: active        # active | disabled
 
 - **`disabled` in canonical `kcd/` = a deployable seed** — inert until deployed; the deploy
   script flips the deployed copy to `active`. Applies to deployable lenses, bases, habits, and
-  canonical generators/analysts. (`disabled` ⇒ lenses skip it **and** the compiler excludes it.)
+  canonical generators/analyzers. (`disabled` ⇒ lenses skip it **and** the compiler excludes it.)
 - **`active` = a live artifact in place** — framework meta-docs and indexes read directly from
   `kcd/` (never deployed-and-flipped), and any deployed copy.
 - **`template` leaves `status` blank** — a scaffold is never composed (see *Template* below).
@@ -101,13 +101,13 @@ kcd:
   canonical: _Claude/kcd/generators/{name}/{name}.md
 ```
 
-### Analyst — canonical `kcd/analysts/{name}/{name}.md`
+### Analyzer — canonical `kcd/analyzers/{name}/{name}.md`
 ```yaml
-type: analyst
+type: analyzer
 status: active
 model: claude-sonnet-4-6
 lens: {name}              # the lens it composes with — lets it run cold
-base: _analyst_base
+base: _analyzer_base
 ```
 
 ### Pipeline — canonical `kcd/pipelines/{name}/{name}.md`
@@ -116,7 +116,7 @@ type: pipeline
 status: active
 base: _pipeline_base
 ```
-- **No `model:`** — a pipeline is declarative wiring (it orchestrates analysts/generators/other
+- **No `model:`** — a pipeline is declarative wiring (it orchestrates analyzers/generators/other
   pipelines); the stages carry their own models. Verb-first name from the vocabulary. Deployed
   copy adds a `kcd:` canonical pointer.
 
@@ -161,4 +161,4 @@ status:                   # blank — a scaffold is never composed
 - **Disabled = ignored twice:** behavioral (lenses skip) + mechanical (the compiler excludes).
 - **Aggressive over passive:** AI generates volume; default to retiring AI-authored artifacts.
   `paused` / explicit human action is the opt-out.
-- **`base:` kept** on generator/analyst frontmatter as an explicit chain link.
+- **`base:` kept** on generator/analyzer frontmatter as an explicit chain link.

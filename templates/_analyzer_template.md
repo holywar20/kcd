@@ -1,23 +1,23 @@
 ---
 type: template
-status:   # the authored analyst gets: active | disabled
+status:   # the authored analyzer gets: active | disabled
 ---
 
-# {name} — Analyst (template)
+# {name} — Analyzer (template)
 
-*Scaffold for authoring a canonical analyst. Copy to `_Claude/kcd/analysts/{name}/{name}.md`
-(an analyst is a folder: the `.md` trunk plus a `context/` subfolder). Holds all generic
+*Scaffold for authoring a canonical analyzer. Copy to `_Claude/kcd/analyzers/{name}/{name}.md`
+(an analyzer is a folder: the `.md` trunk plus a `context/` subfolder). Holds all generic
 interpretation logic; **declares — never solves — its requirements**, and names no
 project-specific path or value. Fill every placeholder and delete these scaffold notes.*
 
-> **Frontmatter for the authored analyst** (replaces this template's frontmatter):
-> - `type: analyst`
+> **Frontmatter for the authored analyzer** (replaces this template's frontmatter):
+> - `type: analyzer`
 > - `status:` — `active` or `disabled`
 > - `model: claude-sonnet-4-6` — judgment is the point; downgrade only with a justifying comment
-> - `lens: {lens}` — the lens this analyst composes with (gives it judgment; lets it run cold)
-> - `base: _analyst_base`
+> - `lens: {lens}` — the lens this analyzer composes with (gives it judgment; lets it run cold)
+> - `base: _analyzer_base`
 
-Base rules: [_analyst_base](_Claude/kcd/analysts/_analyst_base.md) — role, composition model,
+Base rules: [_analyzer_base](_Claude/kcd/analyzers/_analyzer_base.md) — role, composition model,
 requirement resolution, output conventions, modifiers.
 
 ---
@@ -27,7 +27,7 @@ requirement resolution, output conventions, modifiers.
 Output: `_Claude/reports/{name}.md`  *(primary report; additional reports, if any, also under `reports/`)*
 
 *`name` is the folder/file name, `#{name}` the task tag; `model` and `lens` live in frontmatter.
-An analyst's write authority is **report-only** — it writes reports (typically one; a small
+An analyzer's write authority is **report-only** — it writes reports (typically one; a small
 number is fine), never source or canonical paths.*
 
 ---
@@ -36,7 +36,7 @@ number is fine), never source or canonical paths.*
 
 *Optional. Each modifier is `--`-prefixed, globally unique across the document base, and
 registered in the Modifier Registry (a block in `CLAUDE.md` — a temporary home). `--test` is
-inherited from `_analyst_base` — do not redeclare it. This slot may be empty.*
+inherited from `_analyzer_base` — do not redeclare it. This slot may be empty.*
 
 | Modifier | Effect |
 |---|---|
@@ -46,8 +46,8 @@ inherited from `_analyst_base` — do not redeclare it. This slot may be empty.*
 
 ## Know
 
-*An analyst reads **anywhere** — source, references, and generator output (`audits/`). Declare
-the inputs this analyst reads; audits are one input among many, not a precondition.*
+*An analyzer reads **anywhere** — source, references, and generator output (`audits/`). Declare
+the inputs this analyzer reads; audits are one input among many, not a precondition.*
 
 | What | Where | Why |
 |---|---|---|
@@ -71,7 +71,7 @@ the inputs this analyst reads; audits are one input among many, not a preconditi
 
 ## Do
 
-*Pre-flight (deployment + requirement resolution) runs first, per `_analyst_base`.*
+*Pre-flight (deployment + requirement resolution) runs first, per `_analyzer_base`.*
 
 ### Phase 1 — Read
 
@@ -110,4 +110,4 @@ Write `_Claude/reports/{name}.md` — flush-and-fill.
 {self-contained, paste-ready spec a generator or human runs without further judgment}
 ```
 
-This analyst produces no other output.
+This analyzer produces no other output.

@@ -25,7 +25,7 @@ travels only with one lens lives in that lens's own `context/` (`lenses/{name}/c
 the shared store — keep the library shared and findable, keep one-lens material local.
 
 `kcd/` is the single source for everything that is *not* a reference: framework meta-docs,
-templates, habits, generators, analysts. If a document explains how the document system works, it
+templates, habits, generators, analyzers. If a document explains how the document system works, it
 belongs in `kcd/`. If it states a fact about the project, it belongs in a `references/` category.
 
 ---

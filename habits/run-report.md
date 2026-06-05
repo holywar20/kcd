@@ -5,7 +5,7 @@ status: disabled
 
 # Habit — run-report
 
-*Invoked at the end of every automated generator or analyst run. Writes a per-phase
+*Invoked at the end of every automated generator or analyzer run. Writes a per-phase
 self-assessment chart so unusual runs can be spotted at a glance, and so the agent gets a forced
 reflection pass on its own work before exit.*
 
@@ -14,7 +14,7 @@ reflection pass on its own work before exit.*
 ## When
 
 After the procedure's final phase (i.e. after Output Declaration if it has one). Runs
-unconditionally — every generator and analyst declared by an `_*_base` emits a run report.
+unconditionally — every generator and analyzer declared by an `_*_base` emits a run report.
 
 ## Output
 

@@ -7,7 +7,7 @@ base: _pipeline_base
 # repair-docs — Pipeline (canonical)
 
 *Generic across any KCD-structured documentation tree. The automated drift-healing recipe:
-[audit-structure](_Claude/kcd/analysts/audit-structure/audit-structure.md) **detects** drift and
+[audit-structure](_Claude/kcd/analyzers/audit-structure/audit-structure.md) **detects** drift and
 emits a repair manifest + a decisions report, then
 [apply-repairs](_Claude/kcd/generators/apply-repairs/apply-repairs.md) **applies** the manifest
 in-place. Fully automated — no human gate. The decisions report is the pipeline's human-facing
@@ -17,7 +17,7 @@ Base rules: [_pipeline_base](_Claude/kcd/pipelines/_pipeline_base.md) — compos
 rules, pre-flight, output & failure, modifiers.
 
 *This is the recombined `heal-docs`: the old monolithic auditor, split along the
-judgment/mechanical line (C5) and rewired as a pipeline. The analyst decides what to fix; the
+judgment/mechanical line (C5) and rewired as a pipeline. The analyzer decides what to fix; the
 generator fixes it; this recipe sequences them. Judgment and the mechanical write stay in
 separate agents — the forcing function the two-agent model runs on.*
 
@@ -48,7 +48,7 @@ at least one repair row. No human-gate stage — the decisions report is an outp
 
 | # | Stage | Invokes | Type | Input | Output | Run if |
 |---|---|---|---|---|---|---|
-| 1 | detect | `audit-structure` | analyst | the doc tree at `{doc-root}` | `reports/audit-structure.md` (decisions) **+** `reports/audit-structure-manifest.md` (repair manifest) | always |
+| 1 | detect | `audit-structure` | analyzer | the doc tree at `{doc-root}` | `reports/audit-structure.md` (decisions) **+** `reports/audit-structure-manifest.md` (repair manifest) | always |
 | 2 | apply | `apply-repairs` | generator | stage 1's manifest (`reports/audit-structure-manifest.md`) | in-place edits to the deployed tree **+** `audits/apply-repairs.md` (run log) | manifest non-empty |
 
 **Wiring notes:**

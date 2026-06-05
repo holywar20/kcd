@@ -15,7 +15,7 @@ block, normally via `_lens_base`.
 > - `status: disabled` — habits ship disabled in canonical `kcd/`; the deploy flips the copy to `active`
 
 *Keep it atomic. If it needs phases, a human gate, or judgment, it is not a habit — it is a
-contract, a pipeline, or an analyst.*
+contract, a pipeline, or an analyzer.*
 
 ---
 

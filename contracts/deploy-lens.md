@@ -35,15 +35,14 @@ sourced from `_Claude/kcd/lenses/{name}/{name}.md`.
 type: lens
 status: active
 command: "!{name}"
-todo_path: {populated at deploy}
-completed_path: {populated at deploy}
+todo_path: _Claude/logs/{name}/todo/todo.md
+completed_path: _Claude/logs/{name}/completed/completed.md
 ---
 ```
 
-**Rendering conventions (Obsidian):**
-- All paths use markdown link format `[label](_Claude/relative/path)` — vault-root-relative, no leading slash, never backtick spans
-- A blank line must precede every table
-- No leading underscores in link display text
+**Rendering conventions:** Per [_lens_base](_Claude/kcd/lenses/_lens_base.md) — paths are links;
+backticks-around-paths reserved for pattern paths, fenced code, and quoted speech; blank line
+before every table.
 
 ---
 
@@ -55,11 +54,15 @@ completed_path: {populated at deploy}
 
 **Together:** Check whether `_Claude/lenses/_lens_base.md` exists. If it does, proceed to Phase 1.
 If not, deploy `_Claude/kcd/lenses/_lens_base.md` first — copy it to `_Claude/lenses/_lens_base.md`,
-set `status: active`. Base has no CLAUDE.md registration and no path rewriting — it carries no
-Know References pointing outside `kcd/`. Once base is deployed, proceed to Phase 1.
+set `status: active`. Base has no CLAUDE.md registration and no path rewriting on its own body —
+its links stay pointing at `_Claude/kcd/...` because base is the canonical floor and is the one
+exception to the deployed-points-at-deployed rule. Base **still deploys its descendant habits and
+contracts** per Phase 2.5 (write-approval, work-routing, append-session-log, plan). Once base is
+deployed, proceed to Phase 1.
 
 **Standard:** `_Claude/lenses/_lens_base.md` exists and is `status: active` before any other lens
-is deployed. Base is deployed once and never redeployed unless explicitly requested.
+is deployed. Base's descendant habits and contracts exist at their deployed locations. Base is
+deployed once and never redeployed unless explicitly requested.
 
 ### Phase 1 — Verify Source
 
@@ -82,7 +85,27 @@ to deploy.
 `status: active` in the deployed copy. The kcd source retains `status: disabled` — never modify
 the kcd original.
 
+Populate `todo_path` and `completed_path` in the deployed frontmatter per the artifact format
+(`_Claude/logs/{name}/todo/todo.md` and `_Claude/logs/{name}/completed/completed.md`). Create the
+empty directories `_Claude/logs/{name}/todo/` and `_Claude/logs/{name}/completed/` and seed the
+two files with frontmatter only (`type: log`, `status: active`). Folder-plus-file is the v1
+shape; breakout to many files is a forward path, not a v1 concern.
+
 **Standard:** The deployed folder exists at `_Claude/lenses/{name}/`. The kcd source is unchanged.
+The two log files exist and carry valid frontmatter.
+
+### Phase 2.5 — Deploy Descendant Habits & Contracts
+
+**Trigger:** Phase 2 complete.
+
+**Together:** Read the deployed lens's `Do > Habits` and `Do > Contracts` tables. For each row
+pointing into `_Claude/kcd/habits/` or `_Claude/kcd/contracts/`, copy the source file to its
+deployed location (`_Claude/habits/{name}.md`, `_Claude/contracts/{name}.md`). Set `status: active`
+in each deployed copy. If a deployed copy already exists, skip with a one-line surface to the
+user; never overwrite silently.
+
+**Standard:** Every habit and contract the lens depends on exists at its deployed location with
+`status: active`. The kcd sources remain `disabled` and unchanged.
 
 ### Phase 3 — Rewrite Paths
 
@@ -101,25 +124,43 @@ surfaced to the user — do not deploy a lens pointing at missing files without 
 
 **Trigger:** Paths verified.
 
-**Together:** Add a row to the Lens Index table in `CLAUDE.md`:
+**Together:** Two writes.
+
+**4a — Lens index.** Append the lens row to `_Claude/lenses/index.md`. If the file does not
+exist, create it from [_index_template](_Claude/kcd/templates/_index_template.md) with a
+`Deployable lenses` section (mirroring the shape of
+[kcd/lenses/index](_Claude/kcd/lenses/index.md)), then append. This write is **not approval-gated**
+— the index is a structural projection over the deployed roster.
+
+Row shape:
+
+| What | Where | Why | Command |
+|---|---|---|---|
+| {name} | [{name}](_Claude/lenses/{name}/{name}.md) | {one-line purpose from the lens Purpose section} | `!{name}` |
+
+**4b — CLAUDE.md.** Append the lens row to the Lens Index table in `CLAUDE.md`:
 
 | What | Where | Why |
 |---|---|---|
 | `!{name}` | [{name}](_Claude/lenses/{name}/{name}.md) | {one-line purpose from the lens Purpose section} |
 
-`CLAUDE.md` is approval-gated — this write requires explicit user approval per the
-write-approval habit before executing.
+If `CLAUDE.md` does not exist, create it with at minimum a one-line project header and the Lens
+Index table (header + this one row). `CLAUDE.md` is **approval-gated** — per the
+[write-approval](_Claude/kcd/habits/write-approval.md) habit, lens_crafter drafts the change to
+`_Claude/work/lens_crafter/plans/` first and presents the draft for explicit approval before
+applying.
 
-**Standard:** The lens appears in the CLAUDE.md index. The one-line purpose is drawn directly
-from the lens's Purpose section — not paraphrased.
+**Standard:** The lens appears in both indexes. Both one-line purposes are drawn directly from
+the lens's Purpose section — not paraphrased.
 
 ### Phase 5 — Verify
 
 **Trigger:** Registration complete.
 
-**Together:** Do a final read of the deployed lens. Confirm: `status: active`, all tables have
-blank lines before them, no backtick path spans, no unescaped underscores in link display text,
-Working Space paths reference `_Claude/work/{name}/`.
+**Together:** Do a final read of the deployed lens. Confirm: `status: active`, link convention
+followed per [_lens_base](_Claude/kcd/lenses/_lens_base.md) (paths are links; backticks only for
+pattern/code/quoted-speech), all tables have blank lines before them, Working Space paths
+reference `_Claude/work/{name}/`.
 
 **Standard:** The lens is ready to load. Announce the command (`!{name}`) and the working space
 location to the user.
@@ -139,5 +180,5 @@ location to the user.
 ## Edge Cases
 
 - **Lens already deployed** (`status: active` at `_Claude/lenses/`): Surface to user — confirm whether to overwrite or skip.
-- **Referenced file doesn't exist** (e.g. `index.md` not yet created): Flag the broken link; deploy the lens anyway with a todo noting the gap.
+- **Referenced file doesn't exist** (e.g. a doc or template the lens points into `kcd/`): Flag the broken link; deploy the lens anyway with a todo noting the gap. Habits and contracts referenced by the lens are co-deployed per Phase 2.5 and should not normally appear in this case.
 - **kcd source has hardcoded paths from another project:** Surface during Phase 1 anatomy check; fix paths before proceeding.

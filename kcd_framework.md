@@ -58,7 +58,7 @@ file** (typically generated or output). The tree falls into **three layers**:
 
 ### 1. Agent layer — the things that compose
 
-`lenses/` · `analysts/` · `generators/` · `habits/` · `pipelines/`, each a **direct child of
+`lenses/` · `analyzers/` · `generators/` · `habits/` · `pipelines/`, each a **direct child of
 `_Claude/`**. There is no `procedures/` wrapper: the family folder is the only level of nesting,
 because a wrapper buys nothing and makes the tree more semantically dense than it needs to be.
 Reducing primitives is a goal, not an accident. Each family folder holds its base, its template,
@@ -66,7 +66,7 @@ and its instances.
 
 **An instance is a folder, not a file.** A lens is `lenses/{lensname}/` containing
 `{lensname}.md` (the K/C/D body) and a `context/` subfolder. Same shape for
-`analysts/{analystname}/` and `generators/{generatorname}/`. This is the on-disk form of the
+`analyzers/{analyzername}/` and `generators/{generatorname}/`. This is the on-disk form of the
 trunk-and-branches model: the `.md` file is the trunk, `context/` holds the branches.
 
 `context/` is a **local store for context specific to that instance.** It lets the lens body
@@ -90,7 +90,7 @@ material is only ever relevant to that lens keeps it in its own `context/`, not 
 
 `work/{lensname}/` (per-lens working area: `AI/`, `human/`, `plans/`) · `logs/`
 (`session.md` + per-lens `completed/`, `todo/`, `agent-status/`) · `references/` ·
-`reports/` (analyst output) · `audits/` (generator raw output) · `contracts/` · `plans/`.
+`reports/` (analyzer output) · `audits/` (generator raw output) · `contracts/` · `plans/`.
 The retired `automation/` wrapper is gone — `reports/` and `audits/` are top-level.
 
 **Folders exist even when empty.** The structure itself is the contract, so a deploy lays
@@ -105,12 +105,13 @@ material.
 There is one axis that matters: **judgment vs. mechanical.** Three roles fall out of it,
 **not symmetric** — two are AI agents, one is the tool layer beneath them.
 
+
 - **Generator** *(agent · mechanical · no lens).* Deterministic, **manifest-driven**. Builds
   and modifies artifacts flush-and-fill; broad write authority. Runs on a cheap model or
   shells out to a registered utility (automate the automators). A generator **executes a
   spec, it does not improvise** — broad write is only safe because it is mechanically
   specified.
-- **Analyst** *(agent · insight · carries a lens).* Reads **anywhere**, writes **one place**
+- **Analyzer** *(agent · insight · carries a lens).* Reads **anywhere**, writes **one place**
   (its report). Moves across the codebase, surfaces opportunities — including *"this could be
   made mechanical"* → hands a manifest to a generator. Full reasoning model.
 - **Utility** *(tool tier · not AI).* The project's **shared tool-surface** — a service that
@@ -123,32 +124,32 @@ There is one axis that matters: **judgment vs. mechanical.** Three roles fall ou
   Generators invoke utilities as their internal black-box scripts.
 
 **The tiers compose.** Utilities are the deterministic substrate; the two agent types stand
-on top and call into them. Analysts feed generators (insight → mechanizable spec); generators
-feed analysts (raw data → interpretation).
+on top and call into them. Analyzers feed generators (insight → mechanizable spec); generators
+feed analyzers (raw data → interpretation).
 
-**The blast-radius invariant.** The agent *with* judgment and a lens (Analyst) has the
+**The blast-radius invariant.** The agent *with* judgment and a lens (Analyzer) has the
 *narrowest* write authority — report-only, can't wreck the tree. The agent *with* broad write
 authority (Generator) has *no* judgment — it's predictable and spec-driven. **High autonomy ⇒
 narrow write; broad write ⇒ low autonomy.** An explicit rule, not an accident.
 
-**Why the split — the constraint is the point.** The Analyst→Generator handoff is not merely
-division of labor; it is a **forcing function.** An Analyst reasons freely, but it is then
+**Why the split — the constraint is the point.** The Analyzer→Generator handoff is not merely
+division of labor; it is a **forcing function.** An Analyzer reasons freely, but it is then
 *required* to compose its conclusion as a manifest a Generator can execute **without further
 instruction.** That requirement forces it to think every consequence through in advance —
 "produce something executable without judgment" pushes the reasoning to completeness. The bet:
 **constrained output is more reliable and repeatable than free output** — a painter cannot
 paint without constraints. Architecturally this is a **meta-loop wrapped around the agent's
-ordinary thinking loop**, and it is potentially iterable (analyst → generator → analyst …).
+ordinary thinking loop**, and it is potentially iterable (analyzer → generator → analyzer …).
 The build strategy follows directly: make the Generators boringly reliable, then tune the
-Analyst hard against the hardest problems.
+Analyzer hard against the hardest problems.
 
 **Classification default: Generator.** When a unit of work is borderline, narrow its scope
-until it's genuinely mechanical rather than promoting it to Analyst. Analyst is reserved for
+until it's genuinely mechanical rather than promoting it to Analyzer. Analyzer is reserved for
 work that genuinely cannot be made mechanical.
 
 **A sub-agent is just a lens, run unsupervised.** Dispatching a sub-agent is not a new
 primitive — it is composing a lens around a task and running it without a human in the loop.
-A generator is the common case: dispatched by an analyst or lens-equipped session carrying a
+A generator is the common case: dispatched by an analyzer or lens-equipped session carrying a
 manifest. The composing-side rule ("delegations to a generator are manifests, not briefs")
 lives in `_base` so every session inherits it.
 
@@ -193,7 +194,7 @@ overrides — not just run-behavior toggles. That richer form is not a v1 concer
 
 ## Pipelines
 
-A **pipeline** is a declarative recipe that orchestrates agents — analysts, generators, and
+A **pipeline** is a declarative recipe that orchestrates agents — analyzers, generators, and
 **other pipelines** — into an ordered, **fully automated** run. It is the framework's composing
 primitive; it lives at `pipelines/{name}/`.
 
@@ -202,7 +203,7 @@ is explicitly **automated — no human gate.** Where a pipeline must surface som
 it does so as an **output** (e.g. a decisions report) read out-of-band, never as a blocking
 stage. **Pipes include pipes:** a stage may invoke another pipeline.
 
-The canonical case is **decide-then-repair**: an analyst (`audit-structure`) detects drift and
+The canonical case is **decide-then-repair**: an analyzer (`audit-structure`) detects drift and
 emits a repair manifest plus a decisions report; a generator (`apply-repairs`) applies the
 manifest. Judgment and the mechanical write stay in separate agents; the human reads the
 decisions report asynchronously. A pipeline carries **no `model:`** — it is wiring, and a
@@ -220,7 +221,7 @@ Named so the rest of the system can refer to them.
   schema-conformant authoring surface that code reads, writes, and round-trips.
 - **Shared tool bucket.** The Utility tier is a *single* registered API surface shared by the
   human and the AI: the same script the engineer runs from a terminal is the one an agent
-  calls in-session is the one an analyst hands a generator. Registered once, one
+  calls in-session is the one an analyzer hands a generator. Registered once, one
   approve/revoke gate.
 - **Compilation strips scaffolding.** On-disk ≠ dispatched. When context is compiled into a
   bundle, frontmatter and section scaffolding are stripped and Know/Care/Do merge into one
@@ -273,7 +274,7 @@ Named so the rest of the system can refer to them.
 ## Portability boundary
 
 `kcd/` is the portable, project-agnostic layer: framework meta-docs, templates, bases,
-habits, and the generator/analyst definitions that apply to any KCD-equipped project without
+habits, and the generator/analyzer definitions that apply to any KCD-equipped project without
 modification.
 
 **Rule:** if writing or editing a `kcd/` file requires knowing anything about a specific
@@ -312,9 +313,9 @@ Locked enough to build on, not yet finalized:
   for both a user and an in-session agent), and the **security model** — the `draft/`→`deployed/`
   gate + `registry.md` is the structural half; the content-addressed allowlist (hash,
   invalidate-on-change, re-approval) and per-utility capability scope are still being designed.
-- **Procedure as a named primitive — downregulated.** A generator or analyst is conceptually a
+- **Procedure as a named primitive — downregulated.** A generator or analyzer is conceptually a
   "slim skill" (a Do plus task-specific Know). But with only two agent types, a separate
-  "procedure" primitive adds little and risks distracting from the generator–analyst model.
+  "procedure" primitive adds little and risks distracting from the generator–analyzer model.
   Low priority; may be dropped from the final product entirely.
 - **Value attribution.** How much of the observed lift is KCD-specific vs. "any structured
   context vs. none"? Measure before productizing.

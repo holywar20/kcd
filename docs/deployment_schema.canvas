@@ -293,7 +293,7 @@
 		{
 			"id":"92fb993c621545cb",
 			"type":"text",
-			"text":"{analystname}",
+			"text":"{analyzername}",
 			"styleAttributes":{},
 			"x":-1060,
 			"y":-160,
@@ -315,7 +315,7 @@
 		{
 			"id":"9e68ec01d92402ed",
 			"type":"text",
-			"text":"{analystname}.md",
+			"text":"{analyzername}.md",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-1620,
 			"y":-90,
@@ -337,7 +337,7 @@
 		{
 			"id":"0c62fa8cb40a4cf6",
 			"type":"text",
-			"text":"analysts",
+			"text":"analyzers",
 			"styleAttributes":{
 				"shape":null
 			},
@@ -504,7 +504,7 @@
 		{
 			"id":"07f290ec969cbdb0",
 			"type":"text",
-			"text":"_analyst_base.md",
+			"text":"_analyzer_base.md",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-730,
 			"y":30,
@@ -515,7 +515,7 @@
 		{
 			"id":"f2f7e380e602eb4f",
 			"type":"text",
-			"text":"_analyst_template.md",
+			"text":"_analyzer_template.md",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-710,
 			"y":-40,

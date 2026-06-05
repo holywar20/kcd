@@ -14,7 +14,7 @@ deployment activates the deployed copy.*
 
 ## What a pipeline is
 
-A pipeline is a **declarative recipe** that orchestrates other agents — analysts, generators, and
+A pipeline is a **declarative recipe** that orchestrates other agents — analyzers, generators, and
 **other pipelines** — into an ordered, **fully automated** run. It is the only primitive that
 *composes* other agents.
 
@@ -58,11 +58,11 @@ task tag is `#{name}`.
 ## Stages
 
 The body of a pipeline is its **Stages** table — an ordered list. Each stage invokes one agent
-(analyst or generator) or another pipeline, and declares how it wires in:
+(analyzer or generator) or another pipeline, and declares how it wires in:
 
 | # | Stage | Invokes | Type | Input | Output | Run if |
 |---|---|---|---|---|---|---|
-| 1 | {label} | `{name}` | analyst \| generator \| pipeline | {source / a prior stage's output} | {where it writes} | {condition — default: always} |
+| 1 | {label} | `{name}` | analyzer \| generator \| pipeline | {source / a prior stage's output} | {where it writes} | {condition — default: always} |
 
 Rules:
 - **Order is execution order.** Stage N+1 may consume stage N's output — name it in `Input`.
@@ -112,5 +112,5 @@ Any failure stops the run before stage 1.
 ## Modifiers
 
 A pipeline may declare `--`-prefixed modifiers (registered in the Modifier Registry, per
-`_generator_base`/`_analyst_base` conventions) that pass through to its stages or gate them.
+`_generator_base`/`_analyzer_base` conventions) that pass through to its stages or gate them.
 `--test` propagates to every stage that defines it. This slot may be empty.

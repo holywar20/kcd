@@ -21,7 +21,7 @@ deploys by copy; agents reference their deployed copies, never this tree.
 | What | Where | Why |
 |---|---|---|
 | Lenses | [lenses](_Claude/kcd/lenses/index.md) | Know+Care personalities — the base every lens inherits plus deployable seed lenses |
-| Analysts | [analysts](_Claude/kcd/analysts/index.md) | Judgment agents — read broadly, interpret, emit manifests + reports |
+| Analyzers | [analyzers](_Claude/kcd/analyzers/index.md) | Judgment agents — read broadly, interpret, emit manifests + reports |
 | Generators | [generators](_Claude/kcd/generators/index.md) | Mechanical agents — execute a manifest with broad write, no judgment |
 | Pipelines | [pipelines](_Claude/kcd/pipelines/index.md) | Declarative recipes orchestrating agents, fully automated (no human gate) |
 | Utilities | [utilities](_Claude/kcd/utilities/index.md) | The registered tool tier — shared scripts the human runs and agents call; gated `draft/`→`deployed/` (deferred) |

@@ -5,7 +5,7 @@ status:   # the authored pipeline gets: active | disabled
 
 # {name} — Pipeline (template)
 
-*Scaffold for authoring a canonical pipeline — a declarative recipe that orchestrates analysts,
+*Scaffold for authoring a canonical pipeline — a declarative recipe that orchestrates analyzers,
 generators, and other pipelines, fully automated (no human gate). Copy to
 `_Claude/kcd/pipelines/{name}/{name}.md` (a pipeline is a folder: the `.md` plus a `context/`).
 Name is verb-first from the vocabulary (`generate`/`audit`/`apply`/`merge`/…). Fill every
@@ -35,14 +35,14 @@ generically; solved in the deployed copy.*
 
 ## Stages
 
-*Ordered execution. Each stage invokes one analyst, generator, or pipeline. Stage N+1 may consume
+*Ordered execution. Each stage invokes one analyzer, generator, or pipeline. Stage N+1 may consume
 stage N's output (name it in `Input`). `Run if` gates a stage on a prior output (default:
 always). No human-gate stage — reports a stage emits are outputs, not gates.*
 
 | # | Stage | Invokes | Type | Input | Output | Run if |
 |---|---|---|---|---|---|---|
-| 1 | {label} | `{name}` | analyst \| generator \| pipeline | {source} | {where it writes} | always |
-| 2 | {label} | `{name}` | analyst \| generator \| pipeline | {stage 1 output} | {where it writes} | {condition} |
+| 1 | {label} | `{name}` | analyzer \| generator \| pipeline | {source} | {where it writes} | always |
+| 2 | {label} | `{name}` | analyzer \| generator \| pipeline | {stage 1 output} | {where it writes} | {condition} |
 
 ---
 

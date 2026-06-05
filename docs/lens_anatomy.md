@@ -85,7 +85,7 @@ Three layers.
 | **Contracts** | Behavioral agreements this lens follows. Referenced from `_Claude/kcd/contracts/`. |
 | **Working Space** | Where this lens drops output. Inherited from the `work-routing` habit in `_lens_base`. All work goes to `_Claude/work/{name}/` (`AI/`, `human/`, `plans/`). Never promoted without the user's explicit direction. |
 
-A lens does **not** carry a list of generators or analysts — those are invoked by their `#tag`
+A lens does **not** carry a list of generators or analyzers — those are invoked by their `#tag`
 and registered centrally, not enumerated per lens. The `work-routing` habit is inherited from
 `_lens_base` and applies automatically; lenses do not redeclare it unless they need a
 domain-specific override.

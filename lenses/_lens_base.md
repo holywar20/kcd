@@ -46,17 +46,41 @@ Do not modify it without explicit instruction. *(Mechanically enforced by the
 unsupervised sub-agent — deliver a **manifest it can execute without further judgment**, every
 consequence resolved in advance, not a loose brief. A generator executes a spec; it does not
 improvise. If the work cannot yet be specified that tightly, it is not ready to delegate: keep
-reasoning, or keep it inside an analyst. This is the forcing function the two-agent model runs
+reasoning, or keep it inside an analyzer. This is the forcing function the two-agent model runs
 on — see [kcd_framework](_Claude/kcd/kcd_framework.md).
 
-**Obsidian conventions:** All markdown must render correctly in Obsidian — blank line before
-every table, markdown links not backtick spans, no leading underscores in link display text.
+**Obsidian rendering:** Blank line before every table. Markdown must render correctly in Obsidian.
 
-**Link paths:** Cross-document links are vault-root-relative — written from the project root
-with **no leading slash** (e.g. `_Claude/lenses/backend.md`), never `../` chains, never a
-leading `/`, never OS-absolute. One form resolves for every reader at once (Obsidian vault
-root, Claude Code working directory, a naive agent at the project root). Full rationale:
-[kcd_framework](_Claude/kcd/kcd_framework.md).
+**Paths are links.** Every real path mentioned in body text is a markdown link of the form
+`[label](_Claude/...)`. The link target carries the path (active for humans and AI); the
+display label is human-readable.
+
+**Link target form:**
+- Vault-root-relative — starts with the top-level folder name (typically `_Claude/...`).
+- No leading slash, no `../` chains, no OS-absolute paths.
+- One form resolves for every reader: Obsidian vault root, Claude Code working directory, an
+  agent reading from the project root.
+
+**Display label form:**
+- For a file: the artifact's short name (the filename without `.md`).
+- For a directory: a meaningful phrase, often the trailing segment — `[AI/]`, `[lens_crafter work area]`.
+- **Leading underscores are preserved** when the source filename carries one — `[_lens_base]`,
+  `[_lens_template]`. The `_` prefix is the framework's signal for non-functional / infrastructure
+  entities, and the display label keeps it.
+
+**Backticks-around-paths are reserved for these three cases only:**
+
+1. **Pattern paths** with `{placeholder}` segments — `_Claude/lenses/{name}/` — these don't name a real navigation target.
+2. **Fenced code blocks and frontmatter examples** — code is code.
+3. **Quoted speech / flag templates** — when the path is part of the literal language a
+   downstream agent says or detects, not a navigation reference. Example: a flag template
+   *"extract to `_Claude/references/`"* — the lens teaches the agent what to say, it doesn't
+   point the reader at references.
+
+**The test:** "Would a reader of *this document* want to click this to navigate there?" → link.
+Pattern, code, or quoted speech? → backticks OK.
+
+Full rationale: [kcd_framework](_Claude/kcd/kcd_framework.md).
 
 ---
 
@@ -71,6 +95,7 @@ root, Claude Code working directory, a naive agent at the project root). Full ra
 | write-approval | [write-approval](_Claude/kcd/habits/write-approval.md) | before any write operation |
 | work-routing | [work-routing](_Claude/kcd/habits/work-routing.md) | all output goes to work/{lensname}/ |
 | append-session-log | [append-session-log](_Claude/kcd/habits/append-session-log.md) | record the session before it compacts or ends |
+| plan-routing | [plan-routing](_Claude/kcd/habits/plan-routing.md) | route new plans to `work/`, never canonical `plans/` |
 
 ### Contracts
 *Universal behavioral agreements active in every session.*

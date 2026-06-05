@@ -6,7 +6,7 @@ updated: 2026-06-04
 
 # Index — kcd/pipelines
 
-Declarative recipes that orchestrate agents (analysts, generators, and other pipelines) into
+Declarative recipes that orchestrate agents (analyzers, generators, and other pipelines) into
 fully automated runs. No human gate — a process needing a human is a contract. Flat folder.
 
 ## Base

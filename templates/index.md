@@ -13,7 +13,7 @@ and write the real `type`/`status` onto the artifact. Use the most specific temp
 
 | What | Where | Why |
 |---|---|---|
-| analyst template | [analyst template](_Claude/kcd/templates/_analyst_template.md) | Authoring a new analyst — judgment agent that emits manifests + reports |
+| analyzer template | [analyzer template](_Claude/kcd/templates/_analyzer_template.md) | Authoring a new analyzer — judgment agent that emits manifests + reports |
 | generator template | [generator template](_Claude/kcd/templates/_generator_template.md) | Authoring a new generator — mechanical agent that executes a manifest |
 | pipeline template | [pipeline template](_Claude/kcd/templates/_pipeline_template.md) | Authoring a new pipeline — a declarative recipe orchestrating agents |
 

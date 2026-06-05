@@ -23,7 +23,7 @@ applies it flush-and-fill.
 A generator carries **no lens and no judgment.** Where a choice is genuinely open it does not
 decide — it flags (per its `Care` block) or stops. This is the blast-radius invariant in
 force: **broad write ⇒ low autonomy.** An agent that needs to reason about consequences is an
-analyst's job, not a generator's.
+analyzer's job, not a generator's.
 
 *Model convention: generators default to `claude-sonnet-4-6` (declared per instance in
 `model:`) — the reliable workhorse. Downgrade to haiku only for genuinely trivial, fully
