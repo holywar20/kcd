@@ -81,8 +81,8 @@ Three layers.
 
 | Layer | Purpose |
 |---|---|
-| **Habits** | Atomic single-step behaviors. Referenced from `_Claude/kcd/habits/`. `_lens_base` supplies the universal ones (write-approval, work-routing, append-session-log); a lens lists only what it adds. |
-| **Contracts** | Behavioral agreements this lens follows. Referenced from `_Claude/kcd/contracts/`. |
+| **Habits** | Atomic single-step behaviors. Source lives in `_Claude/kcd/habits/`; the Where column in a deployed lens links to the deployed copy at `_Claude/habits/`. `_lens_base` supplies the universal ones (write-approval, work-routing, append-session-log); a lens lists only what it adds. `_lens_base` is the one exception — its links stay at `_Claude/kcd/` because it is the canonical floor. |
+| **Contracts** | Behavioral agreements this lens follows. Source lives in `_Claude/kcd/contracts/`; the Where column in a deployed lens links to the deployed copy at `_Claude/contracts/`. |
 | **Working Space** | Where this lens drops output. Inherited from the `work-routing` habit in `_lens_base`. All work goes to `_Claude/work/{name}/` (`AI/`, `human/`, `plans/`). Never promoted without the user's explicit direction. |
 
 A lens does **not** carry a list of generators or analyzers — those are invoked by their `#tag`

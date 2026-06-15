@@ -14,12 +14,12 @@ completed_path:
 ### References
 *Specific named files. Load explicitly by path.*
 
-| What | Where | Why |
-|---|---|---|
-| Framework concepts | [kcd_framework](_Claude/kcd/kcd_framework.md) | always — the primitives, composition rules, and conventions this lens enforces |
-| Lens anatomy | [lens_anatomy](_Claude/kcd/docs/lens_anatomy.md) | when reading, auditing, or authoring a lens — the K/C/D contract to check against |
-| Lens index | [index](_Claude/lenses/index.md) | when navigating or auditing the lens roster |
-| Lens template | [_lens_template](_Claude/kcd/templates/_lens_template.md) | when authoring or restructuring a lens |
+| What               | Where                                                     | Why                                                                               |
+| ------------------ | --------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Framework concepts | [kcd_framework](_Claude/kcd/kcd_framework.md)             | always — the primitives, composition rules, and conventions this lens enforces    |
+| Lens anatomy       | [lens_anatomy](_Claude/kcd/docs/lens_anatomy.md)          | when reading, auditing, or authoring a lens — the K/C/D contract to check against |
+| Lens index         | [index](_Claude/lenses/index.md)                          | when navigating or auditing the lens roster                                       |
+| Lens template      | [_lens_template](_Claude/kcd/templates/_lens_template.md) | when authoring or restructuring a lens                                            |
 
 ### Domains
 *No domains — lens_crafter operates on the KCD system itself (References), not a code project.
@@ -116,10 +116,10 @@ step-by-step instruction.
 *`_lens_base` already supplies the universal habits (write-approval, work-routing,
 append-session-log). This lens adds:*
 
-| What | Where | Why |
-|---|---|---|
-| add-todo | [add-todo](_Claude/kcd/habits/add-todo.md) | when a deferred item surfaces |
-| append-completed-entry | [append-completed-entry](_Claude/kcd/habits/append-completed-entry.md) | when a task is completed |
+| What                   | Where                                                                  | Why                           |
+| ---------------------- | ---------------------------------------------------------------------- | ----------------------------- |
+| add-todo               | [add-todo](_Claude/kcd/habits/add-todo.md)                             | when a deferred item surfaces |
+| append-completed-entry | [append-completed-entry](_Claude/kcd/habits/append-completed-entry.md) | when a task is completed      |
 
 ### Contracts
 *Behavioral agreements this lens follows.*

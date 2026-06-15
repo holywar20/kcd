@@ -25,3 +25,4 @@ choice is open they flag and stop.
 | generate-postman | [generate-postman](_Claude/kcd/generators/generate-postman/generate-postman.md) | Generate Postman collections, one per discovered controller |
 | merge-todos | [merge-todos](_Claude/kcd/generators/merge-todos/merge-todos.md) | Aggregate per-lens todos into a single digest |
 | apply-repairs | [apply-repairs](_Claude/kcd/generators/apply-repairs/apply-repairs.md) | Apply a repair manifest in-place (the `repair-docs` apply stage) |
+| generate-vocabulary-dataset | [generate-vocabulary-dataset](_Claude/kcd/generators/generate-vocabulary-dataset/generate-vocabulary-dataset.md) | Teacher-executed: emit vocabulary/idiom fine-tuning data grounded in an idiom corpus |

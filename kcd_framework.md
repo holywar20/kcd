@@ -183,8 +183,14 @@ overrides — not just run-behavior toggles. That richer form is not a v1 concer
 
 ## Composition
 
-- **Lens stacking** — multiple lenses applied at once. Reserved for human-driven sessions
-  where the human resolves conflicts in real time. Best practice, not enforced.
+- **Lens stacking** — multiple lenses applied at once. Command order is declaration order:
+  `!render !mcp` means render is **primary** and overrules on conflict; mcp is secondary and
+  contributes its Know and Care to the composite. Reserved for human-driven sessions — the
+  human is the conflict resolver in real time. A pairwise lens-conflict resolution agent
+  (auditing lenses for contradictions, overlap, and loops) is a pending tool; until it exists,
+  stacking is a human-supervised operation. A natural example: `!render` as primary for
+  domain work that touches the UI — the stacked session holds rendering conventions and
+  domain data contract simultaneously rather than context-switching.
 - **Lens swapping** — sequential single-lens passes. Default for automated agents. Each pass
   is monomorphic: one lens, one Do, dump, next. Debuggable like a Unix pipe.
 - **Pipelines** — orchestrated relays of agents (A then B then C). A first-class primitive —
