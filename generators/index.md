@@ -26,3 +26,4 @@ choice is open they flag and stop.
 | merge-todos | [merge-todos](_Claude/kcd/generators/merge-todos/merge-todos.md) | Aggregate per-lens todos into a single digest |
 | apply-repairs | [apply-repairs](_Claude/kcd/generators/apply-repairs/apply-repairs.md) | Apply a repair manifest in-place (the `repair-docs` apply stage) |
 | generate-vocabulary-dataset | [generate-vocabulary-dataset](_Claude/kcd/generators/generate-vocabulary-dataset/generate-vocabulary-dataset.md) | Teacher-executed: emit vocabulary/idiom fine-tuning data grounded in an idiom corpus |
+| apply-canonical-sync | [apply-canonical-sync](_Claude/kcd/generators/apply-canonical-sync/apply-canonical-sync.md) | Apply a canonical sync manifest — push text changes from canonical parents into deployed copies |
