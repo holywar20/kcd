@@ -1,14 +1,15 @@
 ---
 type: analyzer
-status: disabled
+status: composed
 ---
 
 # _analyzer_base
 
 *Base for all Analyzer procedures. Every canonical analyzer references this file the way a lens
 references [`_lens_base`](_Claude/kcd/lenses/_lens_base.md). It carries the rules shared by all
-analyzers so individual procedures never repeat them. Ships `disabled` here in `kcd/analyzers/`;
-deployment activates the deployed copy.*
+analyzers so individual procedures never repeat them. Carries `status: composed` — it is live in
+place and read directly from `kcd/analyzers/`; it is never deployed and never run standalone (it is
+composed into every canonical analyzer).*
 
 ---
 

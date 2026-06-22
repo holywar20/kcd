@@ -96,6 +96,7 @@ Full rationale: [kcd_framework](_Claude/kcd/kcd_framework.md).
 | work-routing | [work-routing](_Claude/kcd/habits/work-routing.md) | all output goes to work/{lensname}/ |
 | append-session-log | [append-session-log](_Claude/kcd/habits/append-session-log.md) | record the session before it compacts or ends |
 | plan-routing | [plan-routing](_Claude/kcd/habits/plan-routing.md) | route new plans to `work/`, never canonical `plans/` |
+| no-subagents | [no-subagents](_Claude/kcd/habits/no-subagents.md) | do the task in-session; spawn a subagent only when the user asks |
 
 ### Contracts
 *Universal behavioral agreements active in every session.*

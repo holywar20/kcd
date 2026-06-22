@@ -37,11 +37,26 @@ status: active        # active | disabled
 ### Status conventions
 
 - **`disabled` in canonical `kcd/` = a deployable seed** — inert until deployed; the deploy
-  script flips the deployed copy to `active`. Applies to deployable lenses, bases, habits, and
-  canonical generators/analyzers. (`disabled` ⇒ lenses skip it **and** the compiler excludes it.)
+  script flips the deployed copy to `active`. Applies to deployable lenses (including `_lens_base`),
+  habits, and canonical generators/analyzers — the artifacts that are **copied** into the deployed
+  tree. The type-bases are **not** in this list (they are never copied — see `composed` below).
+  (`disabled` ⇒ lenses skip it **and** the compiler excludes it.)
 - **`active` = a live artifact in place** — framework meta-docs and indexes read directly from
   `kcd/` (never deployed-and-flipped), and any deployed copy.
+- **`composed` = a live-in-place artifact that is never run standalone** — the type-bases
+  (`_generator_base`, `_analyzer_base`, `_pipeline_base`). They are **not** deployable seeds: they
+  are never copied, they are referenced in place by deployed generators/analyzers/pipelines as
+  base-rule authorities. `composed` says both things the two existing values could not say at once:
+  *live* (so following a link to it is correct — it is **not** `disabled`/ignore), yet *not a
+  standalone agent* (so the compiler excludes it from loading, exactly as it excludes `disabled`).
+  The split exists because `disabled` was overloaded — a link-follower read it as "ignore," while
+  the compiler needed it as "don't load." `composed` carries the second meaning without the first.
 - **`template` leaves `status` blank** — a scaffold is never composed (see *Template* below).
+
+> **Compiler note (forward-looking):** no compiler reads `status` yet; artifact loading is still
+> human/agent-driven over markdown. When the compiler is built, it excludes **both** `disabled` and
+> `composed` from standalone loading; the distinction between them is for the human/agent reader
+> following a link, where `composed` means "live, read me" and `disabled` means "use the deployed twin."
 
 ---
 
@@ -119,6 +134,16 @@ base: _pipeline_base
 - **No `model:`** — a pipeline is declarative wiring (it orchestrates analyzers/generators/other
   pipelines); the stages carry their own models. Verb-first name from the vocabulary. Deployed
   copy adds a `kcd:` canonical pointer.
+
+### Type-base — `kcd/{generators,analyzers,pipelines}/_{type}_base.md`
+```yaml
+type: generator           # or: analyzer | pipeline — matches the family it bases
+status: composed          # live in place, composed into siblings, never run standalone
+```
+- A type-base is **never deployed** — canonical generators/analyzers/pipelines reference it in place
+  the way a lens references `_lens_base`. It is the one artifact family that carries `composed`.
+- Distinct from `_lens_base`, which **is** deployed (a deployable seed: `disabled` in `kcd/`, flipped
+  to `active` in the deployed copy).
 
 ### Utility — registered tool *(service; deferred)*
 ```yaml

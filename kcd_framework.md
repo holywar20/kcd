@@ -234,7 +234,11 @@ Named so the rest of the system can refer to them.
   prompt block. Frontmatter is authoring/tooling metadata — its byte cost is paid only when an
   agent reads the raw file, never in the dispatched prompt.
 - **Disabled = ignored twice.** A `status: disabled` artifact is skipped behaviorally (lenses
-  skip it) *and* mechanically (the compiler excludes it). Defense in depth.
+  skip it) *and* mechanically (the compiler excludes it). Defense in depth. `composed` shares the
+  *mechanical* half (the compiler excludes it from standalone loading too) but **not** the
+  behavioral half: a `composed` artifact is live and meant to be read in place — it is the
+  status the type-bases carry (`_generator_base`, etc.), composed into siblings, never run alone.
+  The split keeps a link-follower from mistaking a live base for an ignored seed.
 - **Aggressive over passive.** AI generates volume; default to retiring AI-authored artifacts
   rather than accumulating them. Explicit human action is the opt-out.
 - **Links are wires.** AI systems and humans are connected through conceptual wires, and in a
@@ -248,7 +252,7 @@ Named so the rest of the system can refer to them.
 
 - **Frontmatter** — no universal schema; **each type's template is its schema.** Two fields
   are universal: `type` (self-describing + a drift guard — a `type`↔location mismatch is a
-  signal) and `status` (`active | disabled`). An optional `kcd:` block is the one shared
+  signal) and `status` (`active | disabled | composed`). An optional `kcd:` block is the one shared
   escape hatch for layer-specific keys and deviations. snake_case, lowercase keys. Full model:
   [frontmatter_schema](_Claude/kcd/docs/frontmatter_schema.md).
 - **Links** — bare vault-root-relative, no leading slash, no `../`. The same string resolves

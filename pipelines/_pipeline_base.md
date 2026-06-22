@@ -1,14 +1,15 @@
 ---
 type: pipeline
-status: disabled
+status: composed
 ---
 
 # _pipeline_base
 
 *Base for all Pipelines. A pipeline references this file the way a generator references
 [`_generator_base`](_Claude/kcd/generators/_generator_base.md). It carries the rules shared by
-all pipelines so individual recipes never repeat them. Ships `disabled` here in `kcd/pipelines/`;
-deployment activates the deployed copy.*
+all pipelines so individual recipes never repeat them. Carries `status: composed` — it is live in
+place and read directly from `kcd/pipelines/`; it is never deployed and never run standalone (it is
+composed into every canonical pipeline).*
 
 ---
 

@@ -1,14 +1,15 @@
 ---
 type: generator
-status: disabled
+status: composed
 ---
 
 # _generator_base
 
 *Base for all Generator procedures. Every canonical generator references this file the way a
 lens references [`_lens_base`](_Claude/kcd/lenses/_lens_base.md). It carries the rules shared
-by all generators so individual procedures never repeat them. Ships `disabled` here in
-`kcd/generators/`; deployment activates the deployed copy.*
+by all generators so individual procedures never repeat them. Carries `status: composed` — it is
+live in place and read directly from `kcd/generators/`; it is never deployed and never run
+standalone (it is composed into every canonical generator).*
 
 ---
 
