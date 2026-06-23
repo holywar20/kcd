@@ -13,7 +13,7 @@ conflicts, stale todos, broken references, and orphans as a human-decision feed;
 auto-repair. The deployed copy solves the requirements below with project-specific values.*
 
 Base rules: [_analyzer_base](_Claude/kcd/analyzers/_analyzer_base.md) — role, requirement
-resolution, output conventions, modifiers.
+resolution, output conventions.
 
 *This is the **judgment half** of doc maintenance. Actionable findings (a broken reference, a
 clear redundancy) carry a **manifest** per `_analyzer_base` — a separate repair generator (or a

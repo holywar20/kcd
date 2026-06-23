@@ -15,7 +15,7 @@ where output goes. The canonical defines the strategy shapes and execution model
 copy solves all project-specific values.*
 
 Base rules: [_generator_base](_Claude/kcd/generators/_generator_base.md) — composition model,
-requirement resolution, fail behavior, output conventions, modifiers.
+requirement resolution, fail behavior, output conventions.
 
 ---
 
@@ -27,16 +27,6 @@ Model : claude-sonnet-4-6 — interpretive; this generator infers purpose and wr
 Output: declared per strategy in the output-contract; all paths relative to `reference-root`
 
 ---
-
-## Modifiers
-
-*Per `_generator_base`: `--`-prefixed, globally unique, registered. `--test` is inherited.*
-
-| Modifier | Effect |
-|---|---|
-| `--{strategy-name}` | Run only the named strategy. Must match a strategy name in the contract. |
-
-Unknown modifier fails per `_generator_base`.
 
 ---
 

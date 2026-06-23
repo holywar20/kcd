@@ -127,31 +127,6 @@ two rules apply:
 
 ---
 
-## Modifiers
-
-A **modifier** is a declarative, `--`-prefixed invocation mode that mutates a run's behavior or
-scope. Every modifier is **globally unique** across the entire document base and **registered**
-in the **Modifier Registry** (currently a `What | Where | Why` block in `CLAUDE.md` — a
-temporary home). A modifier may be omitted; absent any, the generator runs its default (full)
-behavior. An unknown modifier fails the run:
-
-```
-FAILED — unknown modifier: {modifier}
-```
-
-A generator declares its own modifiers in its canonical `## Modifiers` slot; each must be
-registered. Duplicate or unregistered modifiers are a drift signal, caught on the next
-structural audit. Modifiers defined in this base are **inherited** by every generator and
-registered once — a generator does not redeclare them.
-
-**`--test`** — the universal generator modifier, defined here and inherited by every generator.
-Under `--test`, output is redirected to `_Claude/audits/{name}.md` — the generator's normal
-`Output` file is never touched. Every phase runs identically; only the destination changes.
-The run creates `_Claude/audits/` if absent. Flush-and-fill. Reference wiring is also skipped
-under `--test` — a test run produces only the test artifact.
-
----
-
 ## Habits
 
 Every generator invokes `run-report` as its final action — automatic, no per-generator

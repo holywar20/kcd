@@ -18,7 +18,7 @@ project-specific path or value. Fill every placeholder and delete these scaffold
 > - `base: _analyzer_base`
 
 Base rules: [_analyzer_base](_Claude/kcd/analyzers/_analyzer_base.md) — role, composition model,
-requirement resolution, output conventions, modifiers.
+requirement resolution, output conventions.
 
 ---
 
@@ -29,18 +29,6 @@ Output: `_Claude/reports/{name}.md`  *(primary report; additional reports, if an
 *`name` is the folder/file name, `#{name}` the task tag; `model` and `lens` live in frontmatter.
 An analyzer's write authority is **report-only** — it writes reports (typically one; a small
 number is fine), never source or canonical paths.*
-
----
-
-## Modifiers
-
-*Optional. Each modifier is `--`-prefixed, globally unique across the document base, and
-registered in the Modifier Registry (a block in `CLAUDE.md` — a temporary home). `--test` is
-inherited from `_analyzer_base` — do not redeclare it. This slot may be empty.*
-
-| Modifier | Effect |
-|---|---|
-| `--{modifier}` | {what it changes} |
 
 ---
 

@@ -27,14 +27,6 @@ is solved in the deployed copy.*
 
 ---
 
-## Modifiers
-
-*Only the inherited `--test` (redirects output to `_Claude/audits/{name}.md`, skips lens wiring).
-No generator-specific modifiers — a future `--signals` mode (add a per-node "stores read" column)
-would be registered here when built.*
-
----
-
 ## Requirements
 
 *Declared generically; solved in the deployed copy.*

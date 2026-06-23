@@ -13,7 +13,7 @@ changed. The deployed copy is the target; the manifest is the input; the generat
 nothing. Ships `disabled` here in `kcd/generators/`; deployment activates the deployed copy.*
 
 Base rules: [_generator_base](_Claude/kcd/generators/_generator_base.md) — composition model,
-requirement resolution, fail behavior, output conventions, modifiers.
+requirement resolution, fail behavior, output conventions.
 
 ---
 
@@ -23,14 +23,6 @@ Output: in-place edits to the deployed artifacts named in the manifest + a run l
 `_Claude/audits/apply-canonical-sync.md`.
 
 *`name` / `#{name}` derive from the filename; `model` and `base` live in frontmatter.*
-
----
-
-## Modifiers
-
-| Modifier | Effect |
-|---|---|
-| `--test` | Inherited from `_generator_base`. Dry-run: compute every edit, mutate nothing. Run log written to `_Claude/audits/apply-canonical-sync.md` with `[DRY RUN]` prefix on every row. |
 
 ---
 

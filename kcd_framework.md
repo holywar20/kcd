@@ -166,21 +166,6 @@ a session turn — the on-disk structure is irrelevant to the dispatched output.
 
 ---
 
-## Modifiers
-
-A **modifier** is a declarative, `--`-prefixed **invocation mode** that mutates a lens or agent
-for one run — `--test` (redirect output), `--debug`, a build-vs-debug mode switch. Modifiers
-are globally unique across the document base and registered in the **Modifier Registry**
-(currently a block in `CLAUDE.md` — a temporary home); an unknown one fails the run. A modifier
-declared on `_base` applies to every lens.
-
-*The term was "flag," retired as overloaded.* Where a habit is a behavior fragment that is
-always on, a modifier is an **override toggled at invocation**. Forward-looking: modifiers are
-heading toward **slottable mutations on a lens** — mode switches, personality overrides, rule
-overrides — not just run-behavior toggles. That richer form is not a v1 concern.
-
----
-
 ## Composition
 
 - **Lens stacking** — multiple lenses applied at once. Command order is declaration order:

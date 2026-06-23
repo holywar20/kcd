@@ -11,7 +11,7 @@ base: _generator_base
 requirements below with project-specific values. Interpretive doc generator — sonnet, not haiku.*
 
 Base rules: [_generator_base](_Claude/kcd/generators/_generator_base.md) — composition model,
-requirement resolution, fail behavior, output conventions, reference wiring, modifiers.
+requirement resolution, fail behavior, output conventions, reference wiring.
 
 ---
 

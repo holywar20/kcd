@@ -14,7 +14,7 @@ in-place. Fully automated — no human gate. The decisions report is the pipelin
 output, read out-of-band. The deployed copy solves the requirements below with project values.*
 
 Base rules: [_pipeline_base](_Claude/kcd/pipelines/_pipeline_base.md) — composition model, stage
-rules, pre-flight, output & failure, modifiers.
+rules, pre-flight, output & failure.
 
 *This is the recombined `heal-docs`: the old monolithic auditor, split along the
 judgment/mechanical line (C5) and rewired as a pipeline. The analyzer decides what to fix; the
@@ -33,8 +33,6 @@ generically here; solved in the deployed copy. See `_pipeline_base` for pre-flig
 | `doc-root` | Input | Root of the documentation tree. Shared by both stages (audit-structure reads it; apply-repairs is bounded by it). |
 | `work-exclude` | Input | Project scratch subtree excluded from the audit (audit-structure's `excluded` zone member). |
 | `log-max-age` | Input | Maximum age in days for a log entry (audit-structure computes the prune cutoff from it). |
-| `modifier-registry` | Input | The global Modifier Registry file (audit-structure's modifier-conformance scan). |
-
 *The **repair manifest** is **not** a requirement — it is stage 1's output, wired into stage 2
 internally (see Stages). Each stage resolves its own requirements against the deployed copies of
 `audit-structure` / `apply-repairs`; this pipeline declares only what neither stage produces.*
@@ -61,20 +59,12 @@ at least one repair row. No human-gate stage — the decisions report is an outp
 
 ---
 
-## Modifiers
-
-| Modifier | Effect |
-|---|---|
-| `--test` | Propagates to both stages (per `_pipeline_base`). Stage 1 redirects its output to `audits/audit-structure.md`; stage 2 runs as a **dry-run** (computes every edit, mutates nothing). The result is a full end-to-end preview — what would be repaired — touching no source file. The natural pre-flight before a live repair run. |
-
----
-
 ## Output
 
 *A pipeline writes only its run summary; the substantive outputs are the stages' own.*
 
 - **Decisions report** (human-facing): `_Claude/reports/audit-structure.md` — the items a human
-  must resolve (ambiguous links, canonical-zone health, lens gaps, frontmatter/modifier decisions).
+  must resolve (ambiguous links, canonical-zone health, lens gaps, frontmatter decisions).
 - **Repair manifest:** `_Claude/reports/audit-structure-manifest.md` — stage 1 → stage 2.
 - **Applied repairs:** in-place edits to the deployed tree, logged at `_Claude/audits/apply-repairs.md`.
 - **Run summary:** `_Claude/audits/repair-docs-run.md` — which stages ran, each outcome (including

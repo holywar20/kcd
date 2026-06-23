@@ -29,7 +29,7 @@ base: _generator_base
 > still a spec the executor follows — just a richer one.
 
 Base rules: [_generator_base](_Claude/kcd/generators/_generator_base.md) — composition model,
-requirement resolution, fail behavior, output conventions, modifiers.
+requirement resolution, fail behavior, output conventions.
 
 ---
 
@@ -41,16 +41,6 @@ Model : `remote.gemma31` — the **teacher** executes this; see the Execution no
 Output: the JSONL dataset + `.meta.json` sidecar at the deployed `output-path`
 
 ---
-
-## Modifiers
-
-*Per `_generator_base`: `--`-prefixed, globally unique, registered. `--test` is inherited.*
-
-| Modifier | Effect |
-|---|---|
-| `--shape={shape}` | Generate only the named example family (`qa` \| `rewrite` \| `author` \| `critique`). Default: all four, to the counts in `idiom-source`. |
-
-Under inherited `--test`, emit a small sample (a few lines per shape) to `_Claude/audits/generate-vocabulary-dataset.jsonl` and skip the real `output-path` — a cheap dry run to eyeball quality before a full batch. Unknown modifier fails per `_generator_base`.
 
 ---
 

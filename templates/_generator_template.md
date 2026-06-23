@@ -18,7 +18,7 @@ notes.*
 > - `base: _generator_base`
 
 Base rules: [_generator_base](_Claude/kcd/generators/_generator_base.md) — composition model,
-requirement resolution, fail behavior, output conventions, modifiers.
+requirement resolution, fail behavior, output conventions.
 
 ---
 
@@ -29,19 +29,6 @@ Output: `{the artifact's real home — e.g. references/style_guides/{name}.md}`
 *`name` is the folder/file name, `#{name}` the task tag, `model` lives in frontmatter — none are
 retyped here. `Output` is the artifact's destination; if it is project-specific, declare it as
 an Input requirement and solve it in the deployed copy.*
-
----
-
-## Modifiers
-
-*Optional. Each modifier is `--`-prefixed, globally unique across the document base, and
-registered in the Modifier Registry (a block in `CLAUDE.md` — a temporary home). A modifier may
-be omitted; no modifier = default (full) behavior. An unknown modifier fails the run. `--test`
-is inherited from `_generator_base` — do not redeclare it. This slot may be empty.*
-
-| Modifier | Effect |
-|---|---|
-| `--{modifier}` | {what it changes — a scoped subset of the run, or a mode} |
 
 ---
 
@@ -85,8 +72,7 @@ requirements are solved and reachable.*
 ### Phase 3 — Lens Wiring *(reference-producing generators only)*
 
 For each lens in the `reference-lenses` requirement, ensure its Know table has a
-`What | Where | Why` row pointing to the reference — add if missing, correct if stale. Skipped
-under `--test`.
+`What | Where | Why` row pointing to the reference — add if missing, correct if stale.
 
 ### Phase N — Output Declaration
 

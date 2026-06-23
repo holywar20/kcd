@@ -18,7 +18,7 @@ placeholder and delete these scaffold notes.*
 > *(No `model:` — a pipeline is wiring, not reasoning; its stages carry their own models.)*
 
 Base rules: [_pipeline_base](_Claude/kcd/pipelines/_pipeline_base.md) — composition model, stage
-rules, pre-flight, output & failure, modifiers.
+rules, pre-flight, output & failure.
 
 ---
 
@@ -43,17 +43,6 @@ always). No human-gate stage — reports a stage emits are outputs, not gates.*
 |---|---|---|---|---|---|---|
 | 1 | {label} | `{name}` | analyzer \| generator \| pipeline | {source} | {where it writes} | always |
 | 2 | {label} | `{name}` | analyzer \| generator \| pipeline | {stage 1 output} | {where it writes} | {condition} |
-
----
-
-## Modifiers
-
-*Optional. `--`-prefixed, globally unique, registered in the Modifier Registry. Pass through to
-stages or gate them. `--test` propagates to every stage that defines it. This slot may be empty.*
-
-| Modifier | Effect |
-|---|---|
-| `--{modifier}` | {what it changes} |
 
 ---
 

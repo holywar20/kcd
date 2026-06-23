@@ -10,13 +10,13 @@ base: _analyzer_base
 
 *Generic across any KCD-structured documentation tree. The **mechanical-detection** half of
 doc healing: it walks the tree, finds structural drift (broken links, index gaps, frontmatter
-cascade gaps, stale log entries, modifier-registry conflicts), and **splits every finding** into
+cascade gaps, and stale log entries), and **splits every finding** into
 a **repair manifest** (unambiguous mechanical fixes a generator executes) and a **decisions
 report** (anything a human must resolve). It applies nothing — detection only. The deployed copy
 solves the requirements below with project values.*
 
 Base rules: [_analyzer_base](_Claude/kcd/analyzers/_analyzer_base.md) — role, requirement
-resolution, output conventions, modifiers.
+resolution, output conventions.
 
 *This is the **detect** stage of the `repair-docs` pipeline: `audit-structure → apply-repairs`.
 The repair manifest is the generator's input; the decisions report is the pipeline's
@@ -50,8 +50,6 @@ resolution and the fail rule.*
 | `doc-root` | Input | Root directory of the KCD documentation tree. In-tree paths resolve from here (see *Path Convention*). |
 | `work-exclude` | Input | Project scratch subtree excluded from every phase (the `excluded` zone's project-specific member; `reports/` and `audits/` are excluded by the chart). |
 | `log-max-age` | Input | Maximum age in days for a log entry. Older entries are slated for pruning (the manifest carries the cutoff; `apply-repairs` removes them). |
-| `modifier-registry` | Input | The file holding the global Modifier Registry — the authoritative list of every registered `--`-modifier and its owner (currently `CLAUDE.md`). |
-
 ---
 
 ## Know
@@ -63,8 +61,6 @@ resolution and the fail rule.*
 | Root index | [index]({doc-root}/index.md) | Phase 1 — entry point for the inventory walk. |
 | Lens index | [lenses/index]({doc-root}/lenses/index.md) | Phase 4 — enumerate lens files. |
 | Lens anatomy | [lens_anatomy](_Claude/kcd/docs/lens_anatomy.md) | Phase 4 — the structural blocks a lens must carry. |
-| Modifier registry | [modifier registry]({modifier-registry}) | Phase 6 — before the modifier conformance scan. |
-
 ---
 
 ## Care
@@ -101,8 +97,6 @@ the fix is obvious enough to apply. Files never declare their own classification
 - A lens missing a standard block (Know, Care, or Do) — no mechanical synthesis exists.
 - A frontmatter field present on an instance but **absent from its type's template** — promote
   to the template or move to `kcd:` (a human call).
-- A modifier conflict (declared twice, declared-but-unregistered, registered-but-orphaned) —
-  modifiers are never auto-edited.
 - Malformed frontmatter — file skipped for the cascade phase, logged for human attention.
 - A log file with no parseable entries — pruning skipped, format flagged.
 
@@ -111,7 +105,7 @@ the fix is obvious enough to apply. Files never declare their own classification
 ## Path Convention
 
 Every path is relative to `{doc-root}` unless it begins with another requirement variable
-(`{work-exclude}`, `{modifier-registry}`). The deployed copy solves `{doc-root}` once in its
+(`{work-exclude}`). The deployed copy solves `{doc-root}` once in its
 Requirements block; no section repeats that prefix.
 
 ---
@@ -227,22 +221,7 @@ frontmatter against its type's template:
 
 Canonical-zone cascade gaps go to **decisions**, not the manifest.
 
-### Phase 6 — Modifier Registry Conformance
-
-Scope: every `## Modifiers` table across the file manifest, plus the `modifier-registry`.
-`_*_base.md` files are **excluded** from the duplicate scan — a base declares *inherited*
-modifiers (e.g. `--test`), registered once and shared. Read only `| --modifier |` table rows in
-non-base files; prose mentions are not declarations. Placeholder rows (`--<modifier>`) are ignored.
-
-All findings → **decisions** (modifiers are never auto-edited):
-- A modifier declared in two or more files → `--{x} declared by {fileA} and {fileB} — globally ambiguous`.
-- A declared modifier absent from the registry → `--{x} ({file}) not registered`.
-- A registry modifier with no declaring artifact (and not a base/universal modifier) →
-  `registered --{x} has no declaring artifact — stale`.
-
-An empty `Modifiers` slot produces no finding.
-
-### Phase 7 — Log Age Check
+### Phase 6 — Log Age Check
 
 Scope: every log file under `{doc-root}/logs/` in the file manifest.
 - Parse single-line date-stamped entries (`- [YYYY-MM-DD] ...`); compute each entry's age.
@@ -254,7 +233,7 @@ Scope: every log file under `{doc-root}/logs/` in the file manifest.
   format consolidation lands.
 - An empty log, or one with no over-age entries → no finding.
 
-### Phase 8 — Emit Outputs (flush and fill)
+### Phase 7 — Emit Outputs (flush and fill)
 
 Destroy and recreate both files.
 
@@ -294,12 +273,7 @@ skipped when the manifest is empty).
 | File | Field / issue | Recommendation |
 |---|---|---|
 
-## 5. Modifier Registry Conflicts
-
-| Modifier | Where | Issue |
-|---|---|---|
-
-## 6. Log Format
+## 5. Log Format
 
 | File | Issue |
 |---|---|
@@ -310,11 +284,11 @@ skipped when the manifest is empty).
 analyzer does not own. Pointer only; audit-consistency is the authority.]
 ```
 
-### Phase 9 — Output Declaration
+### Phase 8 — Output Declaration
 
 Produces `_Claude/reports/audit-structure.md` and `_Claude/reports/audit-structure-manifest.md`
 (both flush-and-fill). **Modifies nothing** — every source file is read-only; repairs are
 described in the manifest, never made. Excludes `{work-exclude}`, `reports/`, and `audits/` from
 all phases. No console output, logs, or side effects outside the two report paths.
 
-After Phase 9, the `run-report` habit fires automatically (declared at `_analyzer_base`).
+After Phase 8, the `run-report` habit fires automatically (declared at `_analyzer_base`).

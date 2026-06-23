@@ -146,30 +146,6 @@ justifying comment in the canonical frontmatter.
 
 ---
 
-## Modifiers
-
-A **modifier** is a declarative, `--`-prefixed invocation mode that mutates a run's behavior or
-scope. Every modifier is **globally unique** across the entire document base and **registered**
-in the **Modifier Registry** (currently a `What | Where | Why` block in `CLAUDE.md` — a
-temporary home). A modifier may be omitted; absent any, the analyzer runs its default (full)
-behavior. An unknown modifier fails the run:
-
-```
-FAILED — unknown modifier: {modifier}
-```
-
-An analyzer declares its own modifiers in its canonical `## Modifiers` slot; each must be
-registered. Duplicate or unregistered modifiers are a drift signal, caught on the next
-structural audit. Modifiers defined in this base are **inherited** by every analyzer and
-registered once.
-
-**`--test`** — the universal analyzer modifier, defined here and inherited by every analyzer. Under
-`--test`, output is redirected to `_Claude/audits/{name}.md` — the analyzer's normal report is
-never touched. Every phase runs identically; only the destination changes. The run creates
-`_Claude/audits/` if absent. Flush-and-fill.
-
----
-
 ## Habits
 
 Every analyzer invokes `run-report` as its final action — automatic, no per-analyzer declaration

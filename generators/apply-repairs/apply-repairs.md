@@ -14,7 +14,7 @@ healing: it consumes a repair manifest produced by
 every row is pre-resolved. The deployed copy solves the requirements below with project values.*
 
 Base rules: [_generator_base](_Claude/kcd/generators/_generator_base.md) — composition model,
-requirement resolution, fail behavior, output conventions, modifiers.
+requirement resolution, fail behavior, output conventions.
 
 *This is the **apply** stage of the `repair-docs` pipeline: `audit-structure → apply-repairs`.
 Its input is the analyzer's repair manifest; the human-facing decisions report is the analyzer's

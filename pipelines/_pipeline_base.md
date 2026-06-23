@@ -108,10 +108,3 @@ Any failure stops the run before stage 1.
 - **Failure halts the pipeline** at the failing stage. Completed stages' outputs persist; the run
   summary records the stop point. No partial-stage rollback.
 
----
-
-## Modifiers
-
-A pipeline may declare `--`-prefixed modifiers (registered in the Modifier Registry, per
-`_generator_base`/`_analyzer_base` conventions) that pass through to its stages or gate them.
-`--test` propagates to every stage that defines it. This slot may be empty.

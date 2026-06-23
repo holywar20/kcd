@@ -12,7 +12,7 @@ counts verbatim, no interpretation — so this is the textbook haiku case. The d
 solves the requirements below with project-specific values.*
 
 Base rules: [_generator_base](_Claude/kcd/generators/_generator_base.md) — composition model,
-requirement resolution, fail behavior, output conventions, modifiers.
+requirement resolution, fail behavior, output conventions.
 
 ---
 

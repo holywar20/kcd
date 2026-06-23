@@ -66,19 +66,6 @@ travels only with this lens lives in its own `context/`, not the shared `referen
 
 ---
 
-## Modifiers
-*Optional. Each modifier is `--`-prefixed, globally unique across the entire document base, and
-registered in the Modifier Registry (currently a block in `CLAUDE.md` — a temporary home). A
-lens modifier is a declarative invocation mode (e.g. `!{name} --debug`) that mutates the lens
-for one run — a mode switch, an override. Modifiers declared in `_base` apply to every lens and
-are not redeclared here. This slot may be empty.*
-
-| Modifier | Effect |
-|---|---|
-| `--{modifier}` | {what it changes} |
-
----
-
 ## Do
 *Execution layer. How this lens operates and where its work goes.*
 
