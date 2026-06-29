@@ -25,3 +25,4 @@ loaded every session) or `lens:{name}` (referenced from a single lens's Know blo
 | What | Where | Why |
 |---|---|---|
 | Deploy lens | [deploy-lens](_Claude/kcd/contracts/deploy-lens.md) | `lens:lens_crafter` — copy a lens from `kcd/lenses/` into `_Claude/lenses/` and activate it |
+| Easy test | [easy-test-contract](_Claude/kcd/contracts/easy-test-contract.md) | `workflow:easy-test` — grade the easy-test SVG (three known shapes) PASS/FAIL; harness fixture |

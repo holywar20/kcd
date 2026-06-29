@@ -24,11 +24,17 @@ requirement resolution, fail behavior, output conventions.
 
 ## Parameters
 
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `{param-name}` | text \| number \| toggle \| select \| url \| path | {default} | {what it tunes} |
+
 Output: `{the artifact's real home — e.g. references/style_guides/{name}.md}`
 
-*`name` is the folder/file name, `#{name}` the task tag, `model` lives in frontmatter — none are
-retyped here. `Output` is the artifact's destination; if it is project-specific, declare it as
-an Input requirement and solve it in the deployed copy.*
+*Each parameter is a **name / type / default** triple — the typed-field vocabulary the app's setting
+fields use (see [_generator_base](_Claude/kcd/generators/_generator_base.md) → Parameters). `name`
+is the folder/file name, `#{name}` the task tag, `model` lives in frontmatter — none are retyped
+here. `Output` is the artifact's destination; if it is project-specific, declare it as an Input
+requirement and solve it in the deployed copy.*
 
 ---
 

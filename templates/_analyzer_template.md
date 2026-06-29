@@ -24,11 +24,17 @@ requirement resolution, output conventions.
 
 ## Parameters
 
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `{param-name}` | text \| number \| toggle \| select \| url \| path | {default} | {what it tunes} |
+
 Output: `_Claude/reports/{name}.md`  *(primary report; additional reports, if any, also under `reports/`)*
 
-*`name` is the folder/file name, `#{name}` the task tag; `model` and `lens` live in frontmatter.
-An analyzer's write authority is **report-only** — it writes reports (typically one; a small
-number is fine), never source or canonical paths.*
+*Each parameter is a **name / type / default** triple — the typed-field vocabulary the app's setting
+fields use (see [_analyzer_base](_Claude/kcd/analyzers/_analyzer_base.md) → Parameters). `name` is the
+folder/file name, `#{name}` the task tag; `model` and `lens` live in frontmatter. An analyzer's write
+authority is **report-only** — it writes reports (typically one; a small number is fine), never
+source or canonical paths.*
 
 ---
 

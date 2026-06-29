@@ -65,6 +65,30 @@ invents a name. Where a string needs the generator's identity, it uses `{name}` 
 
 ---
 
+## Parameters
+
+A generator declares its **parameters** — the typed, user-set variables that tune a run, distinct
+from `Requirements` (which name external tooling and project inputs). Each parameter is a triple:
+
+- **Name** — a variable name (lowercase, the identifier the run reads).
+- **Type** — one of the typed-field kinds: `text` · `number` · `toggle` · `select` · `url` · `path`.
+- **Default** — the value used when the user sets nothing.
+
+Declared as a table in the canonical instance (see the template). Prose / Markdown for now; this
+migrates to a declarative HTML field set, so a deployed parameter becomes type-checked and
+verifiable at author time (the same typed-field vocabulary the app's setting fields use).
+
+Every generator carries these **default parameters** (a canonical instance adds its own rows below
+them):
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `dry_run` | toggle | false | Plan only — make no writes |
+| `max_passes` | number | 3 | Stop after this many passes |
+| `output_label` | text |  | Optional label prefix for output |
+
+---
+
 ## Requirements
 
 A canonical generator declares **requirements** — anything it needs that is not generic:
