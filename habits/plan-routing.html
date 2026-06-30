@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>plan-routing — Habit</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="habit">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">plan-routing</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Routes new plans to a lens work folder and refuses to treat a work/ plan as authorization to act; fires whenever a plan is created, referenced, or invoked.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+	</dl>
+
+	<h1>plan-routing — Habit</h1>
+
+	<section data-kcd-section="when">
+		<h3>When</h3>
+		<p>A new plan needs to be created, or a plan (in any location) is referenced or invoked
+		in a session.</p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p><strong>All new plans go to <code>_Claude/work/{lens}/plans/</code> — never directly to
+		<code>_Claude/plans/</code>.</strong></p>
+
+		<p>Plans in <code>work/</code> are thinking tools. They are drafts. <strong>A plan in
+		<code>work/</code> must not be used as authorization to make changes to the system.</strong>
+		If the user references a <code>work/</code> plan as the basis for doing work, pause and
+		surface this: the plan needs to be promoted first. Only a plan in <code>_Claude/plans/</code>
+		authorizes action.</p>
+
+		<p>When any plan is invoked, check its location. If it is in <code>work/</code>, treat it as a
+		design artifact to review and align on — not a task list to execute.</p>
+
+		<p><strong>Filename in <code>work/</code>:</strong> <code>YYYY-MM-DD_{description}.md</code> —
+		dated, kebab-case description.</p>
+
+		<p><strong>Filename in <code>_Claude/plans/</code>:</strong> <code>{lens}_{description}.md</code>
+		— no date, same description. The date is stripped at promotion time.</p>
+
+		<p><strong>Promotion is always explicit.</strong> A plan moves from <code>work/</code> to
+		<code>_Claude/plans/</code> only when the user directs it and it meets the quality bar (per the
+		plan contract). No plan self-promotes.</p>
+	</section>
+
+</article>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- ============================================================================
+     NAV INDEX — kcd/lenses. Migrated from index.md (renamed index → nav-index).
+     Full format law: _Claude/references/domain/kcd-document-protocol.md §3.
+     ============================================================================ -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>kcd/lenses — Nav index</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="nav-index">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">lenses</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Know+Care personalities — the auto-loaded base lens plus deployable seed lenses. Use to find a lens to deploy or the base every lens inherits.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">nav-index</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-06-04</dd>
+	</dl>
+
+	<h1>kcd/lenses — Nav index</h1>
+
+	<p>Know+Care personalities. <code>_lens_base</code> is auto-loaded into every session; deployable
+	lenses are copied into <code>_Claude/lenses/</code> and activated via the deploy-lens contract,
+	then loaded by name.</p>
+
+	<section data-kcd-section="base">
+		<h3>Base (auto-loaded)</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">lens base</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/lenses/_lens_base.html">lens base</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Global Know+Care+Do every lens inherits — auto-loaded, never deployed standalone</span>
+			</div>
+		</div>
+	</section>
+
+	<section data-kcd-section="deployable-lenses">
+		<h3>Deployable lenses</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">lens crafter</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/lenses/lens_crafter/lens_crafter.html">lens_crafter</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Authoring and deploying KCD artifacts — the framework's own builder lens</span>
+			</div>
+		</div>
+	</section>
+
+</article>
+
+</body>
+</html>

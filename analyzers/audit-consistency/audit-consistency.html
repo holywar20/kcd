@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>audit-consistency — Analyzer</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="analyzer">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">audit-consistency</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Interpretive audit of a KCD doc tree — surfaces redundancy, cross-lens conflicts, stale todos, broken references, and orphans as a human-decision feed. Use to find consistency drift; it does not auto-repair.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">analyzer</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>lens</dt>          <dd data-kcd-field="lens"           data-kcd-type="slug">lens-crafter</dd>
+		<dt>base</dt>          <dd data-kcd-field="base"           data-kcd-type="slug">_analyzer-base</dd>
+	</dl>
+
+	<h1>audit-consistency — Analyzer</h1>
+
+	<p data-kcd-audience="human"><em>Generic across any KCD-structured documentation tree. Interpretive —
+	surfaces redundancy, conflicts, stale todos, broken references, and orphans as a human-decision
+	feed; it does not auto-repair. The deployed copy solves the requirements below with project-specific
+	values.</em></p>
+
+	<p>Base rules: <a href="_Claude/kcd/analyzers/_analyzer_base.html">_analyzer_base</a> — role,
+	requirement resolution, output conventions.</p>
+
+	<p data-kcd-audience="human"><em>This is the <strong>judgment half</strong> of doc maintenance.
+	Actionable findings (a broken reference, a clear redundancy) carry a <strong>manifest</strong> per
+	<code>_analyzer_base</code> — a separate repair generator (or a human) executes them, gated by
+	review. The mechanical repair is never done here.</em></p>
+
+	<section data-kcd-section="parameters">
+		<h3>Parameters</h3>
+		<div data-kcd-table data-kcd-params style="--kcd-cols: 1fr 1fr 1fr 2fr">
+			<div data-kcd-head><span>Name</span><span>Type</span><span>Default</span><span>Description</span></div>
+			<!-- model — default model seeding the work-graph node. Optional; NOT YET IMPLEMENTED. -->
+			<div data-kcd-param>
+				<span data-kcd-field="name"        data-kcd-type="slug">model</span>
+				<span data-kcd-field="type"        data-kcd-type="enum">model</span>
+				<span data-kcd-field="default"     data-kcd-type="text">claude-sonnet-4-6</span>
+				<span data-kcd-field="description" data-kcd-type="text">Default model that seeds this analyzer's work-graph node (not yet implemented).</span>
+			</div>
+		</div>
+		<p>Output: <a href="_Claude/reports/audit-consistency.html">_Claude/reports/audit-consistency.html</a></p>
+		<p><em>No own parameters beyond the default model (inherits the base defaults). <code>name</code>
+		derives from the filename; <code>lens</code> and <code>base</code> live in frontmatter.</em></p>
+	</section>
+
+	<section data-kcd-section="requirements">
+		<h3>Requirements</h3>
+		<p data-kcd-audience="human"><em>Declared generically here; solved in the deployed copy. See
+		<code>_analyzer_base</code> for pre-flight resolution and the fail rule.</em></p>
+		<ul>
+			<li><code>doc-root</code> (Input) — Root directory of the documentation tree. In-tree relative
+			paths resolve from here.</li>
+			<li><code>global-doc</code> (Input) — Path to the global session-entry document (e.g.
+			<code>CLAUDE.md</code>).</li>
+			<li><code>memory-source</code> (Input) — Directory of memory files declared as a reference
+			target by lenses.</li>
+			<li><code>stale-age</code> (Input) — Maximum age in days for todo items before they are flagged
+			as stale.</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="know">
+		<h3>Know</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Global doc</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{global-doc}">global-doc</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 1</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Lenses index</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{doc-root}/lenses/nav-index.html">lenses/nav-index</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 1 — to enumerate lens files</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">_lens_base</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{doc-root}/kcd/lenses/_lens_base.html">_lens_base</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 1 — global Know+Care baseline</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Each lens file</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{doc-root}/lenses/{name}/{name}.html">lenses/{name}</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 1 — one at a time</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">References index</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{doc-root}/references/nav-index.html">references/nav-index</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 1 — reference store catalog</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">KCD framework</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{doc-root}/kcd/kcd_framework.html">kcd_framework</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 3 — structural shape reference for lens checks</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Lens anatomy</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{doc-root}/kcd/docs/lens_anatomy.html">lens_anatomy</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 3 — structural check reference</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Memory files</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{memory-source}">memory-source</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 4 — check memory references declared in docs</span>
+			</div>
+		</div>
+	</section>
+
+	<section data-kcd-section="care">
+		<h3>Care</h3>
+		<p><strong>Defends:</strong></p>
+		<ul>
+			<li>Findings are specific and actionable — no vague "this could be improved" entries.</li>
+			<li>Ambiguous cases surface to the Recommendations section; never silently resolved.</li>
+			<li>One report per run; the prior report is destroyed and recreated (flush-and-fill).</li>
+			<li>Reads documents only; modifies no file (report-only write authority).</li>
+		</ul>
+		<p><strong>Will not touch:</strong></p>
+		<ul>
+			<li>Source code outside the documentation tree.</li>
+			<li>Work-in-progress drafts in <code>{doc-root}/work/</code>.</li>
+			<li>Log files.</li>
+		</ul>
+		<p><strong>Surfaces (notes inline, does not block):</strong></p>
+		<ul>
+			<li>A cross-lens conflict where both formulations may be intentionally different — flag both,
+			recommend reconciliation.</li>
+			<li>A redundancy where it is unclear which location is canonical — flag both, recommend a
+			canonical.</li>
+			<li>A broken reference where no candidate match exists — flag the missing target.</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="do">
+		<h3>Do</h3>
+		<p><em>Pre-flight runs first, per <code>_analyzer_base</code> — deployment check, then requirement
+		resolution.</em></p>
+
+		<section data-kcd-section="phase-1">
+			<h4>Phase 1 — Document Load</h4>
+			<p>Load the global doc, lenses index, <code>_lens_base</code>, every named lens file, and the
+			references index. Hold in working context for subsequent phases.</p>
+		</section>
+		<section data-kcd-section="phase-2">
+			<h4>Phase 2 — Redundancy Findings</h4>
+			<p>Compare the global doc and all lens files for duplicated content:</p>
+			<ul>
+				<li>Same rule or fact stated in the global doc and one or more lens files.</li>
+				<li>Same gotcha or pattern documented in multiple places.</li>
+				<li>Different phrasings of identical constraints.</li>
+			</ul>
+			<p>For each finding: identify the concept, list all locations, and name a canonical location
+			(global doc for global rules; lens file for domain-specific rules; <code>_lens_base</code> for
+			project-wide stances).</p>
+			<p>Output: <code>{concept, found_in[], canonical_location, recommendation}</code> records.</p>
+		</section>
+		<section data-kcd-section="phase-3">
+			<h4>Phase 3 — Cross-Lens Conflict Detection</h4>
+			<p>Compare all lens files against each other for contradictions:</p>
+			<ul>
+				<li>A rule in lens A that directly contradicts a rule in lens B.</li>
+				<li>Different conventions for the same concept (naming, error handling, etc.).</li>
+			</ul>
+			<p>Suppression entries in Care blocks are not conflicts — they are intentional per-domain
+			carve-outs.</p>
+			<p>Output: <code>{concept, lens_a, lens_b, description}</code> records.</p>
+		</section>
+		<section data-kcd-section="phase-4">
+			<h4>Phase 4 — Reference Validation</h4>
+			<p>For every file path declared in:</p>
+			<ul>
+				<li>Know blocks (all lens files and the global doc),</li>
+				<li>Do / Habits tables (all lens files),</li>
+				<li>links in the global doc.</li>
+			</ul>
+			<p>Check whether the file exists at the declared path. Also check declared memory file
+			references (paths under <code>{memory-source}</code>).</p>
+			<p>Output: <code>{reference_label, declared_path, status: valid|missing}</code> records.</p>
+		</section>
+		<section data-kcd-section="phase-5">
+			<h4>Phase 5 — Todo Staleness</h4>
+			<p>For each lens, read its todo store at its todo path
+			(<code>{doc-root}/logs/{lensname}/todo/</code>). For each unchecked item:</p>
+			<ul>
+				<li>Parse the <code>[YYYY-MM-DD]</code> date prefix.</li>
+				<li>Compute age in days from today.</li>
+				<li>Flag items older than <code>{stale-age}</code> days.</li>
+			</ul>
+			<p>Output: <code>{text, lens, date, age_days}</code> records.</p>
+		</section>
+		<section data-kcd-section="phase-6">
+			<h4>Phase 6 — Orphaned Sections</h4>
+			<p>Identify content blocks in lens files or the global doc that:</p>
+			<ul>
+				<li>Reference paths or artifacts that no longer exist.</li>
+				<li>Describe conventions that no longer match the current implementation.</li>
+				<li>Are no longer referenced from any other document.</li>
+			</ul>
+			<p>Best-effort — flag candidates, do not assert definitive staleness.</p>
+			<p>Output: <code>{location, section_heading, reason}</code> records.</p>
+		</section>
+		<section data-kcd-section="phase-7">
+			<h4>Phase 7 — Report (flush-and-fill)</h4>
+			<p>Destroy and recreate <code>_Claude/reports/audit-consistency.html</code>. Recommended report
+			shape:</p>
+			<pre><code># Consistency Audit — {YYYY-MM-DD}
+
+**Documents audited**: N
+**Issues found**: N
+
+## Summary
+
+[One paragraph: counts by category, any critical conflicts]
+
+## 1. Redundancy
+Concept | Found In | Canonical Location | Recommendation
+
+## 2. Cross-Lens Conflicts
+Concept | Lens A | Lens B | Description
+
+## 3. Broken References
+Reference | Declared Path | Status
+
+## 4. Stale Todos (&gt; {stale-age} days)
+Todo | Lens | Date | Age (days)
+
+## 5. Orphaned Sections (Candidates)
+Location | Section | Reason
+
+## Recommendations / Manifests
+
+[Ranked, most impactful first. Each clearly-actionable item carries a self-contained manifest a
+repair generator (or human) can execute without further judgment.]</code></pre>
+		</section>
+		<section data-kcd-section="phase-8">
+			<h4>Phase 8 — Output Declaration</h4>
+			<p>Writes <code>_Claude/reports/audit-consistency.html</code> (flush-and-fill). Modifies nothing
+			— all source files are read-only. No console output, logs, or side effects outside the report
+			path.</p>
+		</section>
+	</section>
+
+</article>
+
+</body>
+</html>

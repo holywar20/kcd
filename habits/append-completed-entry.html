@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>append-completed-entry — Habit</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="habit">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">append-completed-entry</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">At session close, prepend a rich entry to each advanced lens's completed log capturing what was done, why, and what it unlocks.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+	</dl>
+
+	<h1>append-completed-entry — Habit</h1>
+
+	<section data-kcd-section="when">
+		<h3>When</h3>
+		<p>At session close, for each lens this session advanced.</p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>Prepend one entry to the lens's completed log at its <code>completed_path</code>
+		(<code>_Claude/logs/{lensname}/completed/</code>). Capture what was done, why, and what it
+		unlocks.</p>
+		<p><strong>Format:</strong> <code>- [YYYY-MM-DD] {what, why, what it unlocks}</code></p>
+		<p>Thin (avoid): <code>- [2026-05-09] Updated frontend lens.</code></p>
+		<p>Rich (target): <code>- [2026-05-09] Frontend: encoded accordion rebuild the old expansion
+		panels, unblocks the detail left-panel work.</code></p>
+	</section>
+
+</article>
+
+</body>
+</html>

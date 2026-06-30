@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>templates — Nav index</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="nav-index">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">templates</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Scaffolds for authoring each artifact type. Use to find and copy the most specific template before authoring a new artifact.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">nav-index</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-06-04</dd>
+	</dl>
+
+	<h1>templates — Nav index</h1>
+
+	<p>Scaffolds for authoring each artifact type. Copy the matching template, fill every placeholder,
+	and write the real <code>type</code>/<code>status</code> onto the artifact. Use the most specific
+	template available.</p>
+
+	<section data-kcd-section="agents">
+		<h3>Agents</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">analyzer template</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/_analyzer_template.html">analyzer template</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Authoring a new analyzer — judgment agent that emits manifests + reports</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">generator template</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/_generator_template.html">generator template</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Authoring a new generator — mechanical agent that executes a manifest</span>
+			</div>
+		</div>
+	</section>
+
+	<section data-kcd-section="lenses-habits">
+		<h3>Lenses &amp; habits</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">lens template</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/_lens_template.html">lens template</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Creating a new lens — Know/Care/Do skeleton with placeholders</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">habit template</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/_habit_template.html">habit template</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Authoring a new habit — atomic When/Action reflex (or a don't-style constraint)</span>
+			</div>
+		</div>
+	</section>
+
+	<section data-kcd-section="plans-contracts">
+		<h3>Plans &amp; contracts</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">plan template</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/_plan_template.html">plan template</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Starting a new plan — naming, lifecycle, phase structure</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">contract template</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/_contract_template.html">contract template</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Writing a new contract — a human-in-the-loop session lifecycle</span>
+			</div>
+		</div>
+	</section>
+
+	<section data-kcd-section="nav-indexes-references">
+		<h3>Nav-indexes &amp; references</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">nav-index template</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/_nav-index_template.html">nav-index template</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Creating a new nav-index for any folder — the What/Where/Why table with frontmatter</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">reference template</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/_reference_template.html">reference template</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Creating a new reference — a pointer to a living artifact with location, interface, and status</span>
+			</div>
+		</div>
+	</section>
+
+</article>
+
+</body>
+</html>

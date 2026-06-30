@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>easy-test — Generator</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="generator">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">easy-test</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Deterministic test fixture — draws three known shapes into one SVG at a hardcoded path so a grader can verify the run with a fixed answer. Use to exercise the agent/workflow harness.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">generator</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>base</dt>          <dd data-kcd-field="base"           data-kcd-type="slug">_generator-base</dd>
+	</dl>
+
+	<h1>easy-test — Generator</h1>
+
+	<p data-kcd-audience="human"><em>A deterministic test fixture. It draws three known shapes into one
+	SVG at a hardcoded path so a downstream grader (see
+	<a href="_Claude/kcd/contracts/easy-test-contract.html">easy-test-contract</a>) can verify the run
+	with a fixed, machine-checkable answer. The point is exercising the agent / workflow harness, not
+	the artwork — the output is fully specified, so there is nothing to improvise.</em></p>
+
+	<p>Base rules: <a href="_Claude/kcd/generators/_generator_base.html">_generator_base</a> —
+	composition model, requirement resolution, fail behavior, output conventions.</p>
+
+	<section data-kcd-section="parameters">
+		<h3>Parameters</h3>
+		<div data-kcd-table data-kcd-params style="--kcd-cols: 1fr 1fr 1fr 2fr">
+			<div data-kcd-head><span>Name</span><span>Type</span><span>Default</span><span>Description</span></div>
+			<!-- model — default model seeding the work-graph node. Optional; NOT YET IMPLEMENTED. -->
+			<div data-kcd-param>
+				<span data-kcd-field="name"        data-kcd-type="slug">model</span>
+				<span data-kcd-field="type"        data-kcd-type="enum">model</span>
+				<span data-kcd-field="default"     data-kcd-type="text">claude-haiku-4-5</span>
+				<span data-kcd-field="description" data-kcd-type="text">Default model that seeds this generator's work-graph node (not yet implemented). Haiku is justified — the work is fully mechanical with a fixed answer, the trivial case _generator_base permits a downgrade for.</span>
+			</div>
+		</div>
+		<p>Output: <a href="_Claude/audits/easy-test/easy-test.svg">_Claude/audits/easy-test/easy-test.svg</a>
+		— flush-and-fill, single file, hardcoded.</p>
+		<p><em>No project-specific parameters beyond the default model — inherits the base default
+		params; <code>name</code> and <code>base</code> derive from the filename / frontmatter.</em></p>
+	</section>
+
+	<section data-kcd-section="requirements">
+		<h3>Requirements</h3>
+		<p><em>None. The output path and the full shape spec are hardcoded below — this generator is
+		self-contained by design and takes no project inputs. Pre-flight is the deployment check only (per
+		<code>_generator_base</code>); there are no requirements to resolve.</em></p>
+	</section>
+
+	<section data-kcd-section="care">
+		<h3>Care</h3>
+		<p><strong>Defends:</strong></p>
+		<ul>
+			<li>Flush-and-fill — the output file is destroyed and recreated whole on each run.</li>
+			<li>Exact spec fidelity — the three shapes, their types, their colors, and their coordinates
+			match the spec below byte-for-intent. A grader must be able to pass the file
+			deterministically.</li>
+		</ul>
+		<p><strong>Will not touch:</strong></p>
+		<ul><li>Anything outside <code>_Claude/audits/easy-test/</code> — this generator writes one file
+		and only that file.</li></ul>
+		<p><strong>Surfaces (notes inline, does not block):</strong></p>
+		<ul><li>If the output directory cannot be created or written, fail loudly — do not emit partial
+		output.</li></ul>
+	</section>
+
+	<section data-kcd-section="do">
+		<h3>Do</h3>
+		<p>Pre-flight runs first, per <code>_generator_base</code> — deployment check only (no
+		requirements).</p>
+		<section data-kcd-section="phase-1">
+			<h4>Phase 1 — Write the SVG</h4>
+			<p>Write exactly the following document to
+			<code>_Claude/audits/easy-test/easy-test.svg</code>, flush-and-fill (overwrite if it exists):</p>
+			<pre><code>&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100" width="300" height="100"&gt;
+  &lt;rect x="20" y="25" width="50" height="50" fill="blue" /&gt;
+  &lt;circle cx="150" cy="50" r="25" fill="green" /&gt;
+  &lt;polygon points="250,25 225,75 275,75" fill="black" /&gt;
+&lt;/svg&gt;</code></pre>
+			<p>The three shapes are fixed:</p>
+			<table>
+				<thead><tr><th>Shape</th><th>Element</th><th>Color</th><th>Position</th></tr></thead>
+				<tbody>
+					<tr><td>Box</td><td><code>&lt;rect&gt;</code> 50×50</td><td>blue</td><td>left third</td></tr>
+					<tr><td>Circle</td><td><code>&lt;circle&gt;</code> r=25</td><td>green</td><td>center</td></tr>
+					<tr><td>Triangle</td><td><code>&lt;polygon&gt;</code> 3 points</td><td>black</td><td>right third</td></tr>
+				</tbody>
+			</table>
+		</section>
+		<section data-kcd-section="phase-2">
+			<h4>Phase 2 — Output Declaration</h4>
+			<p>After the write, print a one-line summary:</p>
+			<pre><code>## easy-test report
+
+Wrote _Claude/audits/easy-test/easy-test.svg — blue rect, green circle, black triangle.</code></pre>
+			<p>This generator produces no other output.</p>
+		</section>
+	</section>
+
+</article>
+
+</body>
+</html>

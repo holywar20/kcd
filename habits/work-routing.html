@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>work-routing — Habit</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="habit">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">work-routing</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Defines where session output lands — every artifact goes under _Claude/work/{lensname}/; fires before any work output is written.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+	</dl>
+
+	<h1>work-routing — Habit</h1>
+
+	<p><em>Inherited by every lens via <a href="_Claude/kcd/lenses/_lens_base.html">_lens_base</a>.
+	Defines where session output goes.</em></p>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>All work output produced during a session goes to
+		<code>_Claude/work/{lensname}/</code>:</p>
+
+		<table>
+			<thead><tr><th>Output type</th><th>Drop in</th></tr></thead>
+			<tbody>
+				<tr><td>AI-generated output</td><td><code>_Claude/work/{lensname}/AI/</code></td></tr>
+				<tr><td>The user's working documents</td><td><code>_Claude/work/{lensname}/human/</code></td></tr>
+				<tr><td>Plans and task tracking</td><td><code>_Claude/work/{lensname}/plans/</code></td></tr>
+			</tbody>
+		</table>
+
+		<p>Create subfolders as needed. Use clear, descriptive filenames — no date prefix unless the
+		content is time-series.</p>
+	</section>
+
+	<section data-kcd-section="rules">
+		<h3>Hard rules</h3>
+		<ul>
+			<li>Never write work output directly to <code>references/</code> or <code>lenses/</code> —
+			those are read-only during sessions.</li>
+			<li>Never write to another lens's work folder.</li>
+			<li>Promotion from <code>work/</code> to a permanent location is always manual. The user
+			decides what's canonical; the agent does not promote its own output.</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="customization">
+		<h3>Customizable once deployed</h3>
+		<p>The routing above is the <em>default</em>. A deployed copy of this habit is the user's to
+		adjust per project — the targets and the <code>AI/human/plans</code> split are defaults, not
+		locked. The canonical seed in <code>kcd/</code> stays the shipped default; the deployed copy is
+		where per-project customization lives (per the deploy model — <code>kcd/</code> is the locked
+		factory-reset seed, deployed copies are the live, editable layer).</p>
+	</section>
+
+</article>
+
+</body>
+</html>

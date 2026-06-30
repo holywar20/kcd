@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Agent Types — Framework</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="framework">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">agent-types</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">The operational registry for the KCD agent model — model, context depth, output, and boundary per type. Read for the practical "what each type is"; the conceptual treatment lives in kcd_framework.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">framework</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+	</dl>
+
+	<h1>Agent Types — Framework</h1>
+
+	<p>The operational registry for the KCD agent model — model, context depth, output, and boundary
+	per type. The conceptual treatment (why the split exists, the forcing function) lives in
+	<a href="_Claude/kcd/kcd_framework.html">kcd_framework</a> → <em>The agent model</em>; this doc
+	is the practical "what each type is."</p>
+
+	<p>There is <strong>one axis: judgment vs. mechanical.</strong> It yields <strong>two AI
+	agents</strong> — Generator and Analyzer — standing on <strong>one tool tier</strong>, Utility.
+	The tiers compose; they are not symmetric.</p>
+
+	<section data-kcd-section="generator">
+		<h3>Generator <em>(agent · mechanical · no lens)</em></h3>
+		<ul>
+			<li><strong>Purpose:</strong> Build and modify artifacts to a spec. A generator asks
+			<em>"apply this manifest"</em> — it does not decide <em>whether</em> or <em>what</em>; it
+			executes. Mechanical, <strong>manifest-driven</strong>.</li>
+			<li><strong>The invariant:</strong> a generator <strong>executes a spec; it does not
+			improvise.</strong> Broad write authority is only safe because the work is mechanically
+			specified. Where a choice is genuinely open it does not decide — it flags and stops, or
+			notes inline.</li>
+			<li><strong>Model:</strong> default <code>claude-sonnet-4-6</code>; <strong>downgrade to
+			<code>claude-haiku-4-5</code> only for genuinely trivial, fully-mechanical work</strong>
+			(e.g. extract-and-count).</li>
+			<li><strong>Context depth:</strong> task-dependent — loads exactly what its declared
+			requirements name. <strong>No lens.</strong></li>
+			<li><strong>Output:</strong> the artifact's real home — a reference into
+			<code>references/</code>, a test into the test tree, etc. Declared per generator; no single
+			folder. Raw/diagnostic/staging output and <code>--test</code> runs go to
+			<code>_Claude/audits/</code>. Flush-and-fill.</li>
+			<li><strong>Write authority:</strong> broad — but spec-bound. <strong>Boundary:</strong> a
+			generator builds; it does not exercise judgment about what to build. That is an analyzer's
+			job.</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="analyzer">
+		<h3>Analyzer <em>(agent · judgment · carries a lens)</em></h3>
+		<ul>
+			<li><strong>Purpose:</strong> Read broadly, interpret, rank, and surface opportunities. An
+			analyzer asks <em>"what does this mean and what should we do?"</em> When it finds work that
+			can be made mechanical, it <strong>composes a manifest and hands it to a generator</strong>
+			— it does not do the mechanical work itself.</li>
+			<li><strong>Model:</strong> <code>claude-sonnet-4-6</code> — judgment is the point.</li>
+			<li><strong>Lens:</strong> every analyzer declares a <code>lens:</code> it composes with.
+			The lens gives it judgment and personality, and is what lets it run <strong>cold /
+			unsupervised</strong> (a sub-agent is just a lens run without a human in the loop).</li>
+			<li><strong>Context depth:</strong> full — reads <strong>anywhere</strong> (source,
+			references, generator <code>audits/</code>).</li>
+			<li><strong>Output:</strong> <strong>report-only</strong> — to <code>_Claude/reports/</code>
+			and nowhere else (typically one report, a small number when the work splits cleanly).
+			Flush-and-fill. The report's actionable core is the <strong>manifest</strong>: a
+			self-contained spec a generator (or human) can execute without further judgment.</li>
+			<li><strong>Write authority:</strong> narrow — report-only; cannot modify source or any
+			canonical path. <strong>Boundary:</strong> an analyzer decides and specifies; it does not
+			build. Building is generator work.</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="utility">
+		<h3>Utility <em>(tool tier · not AI)</em></h3>
+		<p>The project's <strong>shared tool-surface</strong> — a service that registers many
+		deterministic scripts, runnable by both a user and an in-session agent (e.g. <code>help</code>).
+		Unlike the agent families, a utility has <strong>no base/template/instance pattern</strong> —
+		it is one service, not a family.</p>
+		<p><strong>Deferred</strong> pending Starmind architecture (signaling + security model still
+		open). See <a href="_Claude/kcd/kcd_framework.html">kcd_framework</a> → <em>The agent
+		model</em> / <em>Still evolving</em>. Utilities are not an agent type and carry no
+		model/lens.</p>
+	</section>
+
+	<section data-kcd-section="the-blast-radius-invariant">
+		<h3>The blast-radius invariant</h3>
+		<p>The agent <strong>with</strong> judgment and a lens (Analyzer) has the <strong>narrowest</strong>
+		write authority — report-only, can't wreck the tree. The agent <strong>with</strong> broad
+		write authority (Generator) has <strong>no</strong> judgment — predictable, spec-driven.
+		<strong>High autonomy ⇒ narrow write; broad write ⇒ low autonomy.</strong> An explicit rule,
+		not an accident.</p>
+	</section>
+
+	<section data-kcd-section="why-the-split">
+		<h3>Why the split — the constraint is the point</h3>
+		<p>The Analyzer→Generator handoff is a <strong>forcing function</strong>, not just division of
+		labor. Requiring an analyzer to emit a manifest a generator can execute <strong>without
+		further judgment</strong> forces it to resolve every consequence in advance. The bet:
+		constrained output is more reliable and repeatable than free output. Build strategy: make
+		generators boringly reliable, then tune the analyzer hard against the hardest problems.</p>
+	</section>
+
+	<section data-kcd-section="handoffs">
+		<h3>Handoffs</h3>
+		<p>Types chain through clean handoffs, with a human gate where judgment commits to action:</p>
+		<pre><code>Analyzer  →  reports/ (manifest)  →  (human gate)  →  Generator  →  artifact's home</code></pre>
+		<p>The canonical case is <strong>decide-then-repair</strong>: an analyzer surfaces a repair
+		manifest, a human approves, a generator applies it. Judgment and the mechanical write stay in
+		separate agents. Generators feed analyzers too (raw data in <code>audits/</code> →
+		interpretation); the two tiers cycle. Lens-stacking applies at each stage — the same step can
+		run under different lenses to tune what is surfaced or how it is interpreted.</p>
+	</section>
+
+</article>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!-- ============================================================================
+     CONTRACT — deploy-lens (canonical). Migrated from deploy-lens.md.
+     Full format law: _Claude/references/domain/kcd-document-protocol.md.
+     ============================================================================ -->
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>deploy-lens — Contract</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="contract">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">deploy-lens</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">The steps required to take a lens from the kcd library and activate it in a project; use when deploying, activating, or wiring up a lens.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">contract</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>scope</dt>         <dd data-kcd-field="scope"          data-kcd-type="enum">lens:lens-crafter</dd>
+	</dl>
+
+	<h1>Deploy Lens — Contract</h1>
+
+	<p>The steps required to take a lens from the kcd library and activate it in a project.</p>
+
+	<p><strong>C6 — deployment is moving to a script.</strong> Full copy + path rewrite, with file
+	pathing 100% predictable. This contract is the <strong>spec the deploy script mechanizes</strong>,
+	and the interim manual procedure until that script exists. The kcd source is never modified.</p>
+
+	<section data-kcd-section="when">
+		<h3>When</h3>
+		<p>This contract activates whenever a session:</p>
+		<ul>
+			<li>Receives <code>#deploy-lens</code> or "deploy a lens" / "activate a lens" / "wire up a lens"</li>
+			<li>Is asked to make a lens available for use in a project</li>
+			<li>Is preparing a new project for KCD-based development</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="artifact-format">
+		<h3>Artifact format</h3>
+		<p>A deployed lens is a folder <code>_Claude/lenses/{name}/</code> containing
+		<code>{name}.md</code> plus a <code>context/</code>, sourced from
+		<code>_Claude/kcd/lenses/{name}/{name}.md</code>.</p>
+		<p>Frontmatter (after deployment):</p>
+		<pre><code>---
+type: lens
+status: active
+todo_path: _Claude/logs/{name}/todo/todo.md
+completed_path: _Claude/logs/{name}/completed/completed.md
+---</code></pre>
+		<p><strong>Rendering conventions:</strong> Per
+		<a href="_Claude/kcd/lenses/_lens_base.html">_lens_base</a> — paths are links;
+		backticks-around-paths reserved for pattern paths, fenced code, and quoted speech; blank line
+		before every table.</p>
+	</section>
+
+	<section data-kcd-section="lifecycle">
+		<h3>Lifecycle</h3>
+		<p>The phases this contract walks. Each phase carries three labelled lines.</p>
+
+		<section data-kcd-section="phase-0">
+			<h4>Phase 0 — Check Base</h4>
+			<p><strong>Trigger:</strong> Any lens deployment is requested.</p>
+			<p><strong>Together:</strong> Check whether <code>_Claude/lenses/_lens_base.md</code> exists.
+			If it does, proceed to Phase 1. If not, deploy <code>_Claude/kcd/lenses/_lens_base.md</code>
+			first — copy it to <code>_Claude/lenses/_lens_base.md</code>, set <code>status: active</code>.
+			Base has no CLAUDE.md registration and no path rewriting on its own body — its links stay
+			pointing at <code>_Claude/kcd/...</code> because base is the canonical floor and is the one
+			exception to the deployed-points-at-deployed rule. Base <strong>still deploys its descendant
+			habits and contracts</strong> per Phase 2.5 (write-approval, work-routing, append-session-log,
+			plan). Once base is deployed, proceed to Phase 1.</p>
+			<p><strong>Standard:</strong> <code>_Claude/lenses/_lens_base.md</code> exists and is
+			<code>status: active</code> before any other lens is deployed. Base's descendant habits and
+			contracts exist at their deployed locations. Base is deployed once and never redeployed unless
+			explicitly requested.</p>
+		</section>
+
+		<section data-kcd-section="phase-1">
+			<h4>Phase 1 — Verify Source</h4>
+			<p><strong>Trigger:</strong> A lens deployment is requested.</p>
+			<p><strong>Together:</strong> Confirm the lens exists at
+			<code>_Claude/kcd/lenses/{name}/{name}.md</code> and carries <code>status: disabled</code>.
+			Read the lens and check anatomy compliance: Know / Care / Do structure present, References
+			table uses <code>What | Where | Why</code> headers, no paths hardcoded to another project
+			(portability boundary). Surface any anatomy failures to the user before proceeding.</p>
+			<p><strong>Standard:</strong> No deployment proceeds against a lens that is missing,
+			<code>status: active</code> (already deployed), or has anatomy violations. A lens with
+			<code>status: disabled</code> and clean anatomy is ready to deploy.</p>
+		</section>
+
+		<section data-kcd-section="phase-2">
+			<h4>Phase 2 — Copy and Activate</h4>
+			<p><strong>Trigger:</strong> Phase 1 passes.</p>
+			<p><strong>Together:</strong> Copy the lens folder <code>_Claude/kcd/lenses/{name}/</code> to
+			<code>_Claude/lenses/{name}/</code>. Set <code>status: active</code> in the deployed copy. The
+			kcd source retains <code>status: disabled</code> — never modify the kcd original.</p>
+			<p>Populate <code>todo_path</code> and <code>completed_path</code> in the deployed frontmatter
+			per the artifact format (<code>_Claude/logs/{name}/todo/todo.md</code> and
+			<code>_Claude/logs/{name}/completed/completed.md</code>). Create the empty directories
+			<code>_Claude/logs/{name}/todo/</code> and <code>_Claude/logs/{name}/completed/</code> and seed
+			the two files with frontmatter only (<code>type: log</code>, <code>status: active</code>).
+			Folder-plus-file is the v1 shape; breakout to many files is a forward path, not a v1 concern.</p>
+			<p><strong>Standard:</strong> The deployed folder exists at <code>_Claude/lenses/{name}/</code>.
+			The kcd source is unchanged. The two log files exist and carry valid frontmatter.</p>
+		</section>
+
+		<section data-kcd-section="phase-2-5">
+			<h4>Phase 2.5 — Deploy Descendant Habits &amp; Contracts</h4>
+			<p><strong>Trigger:</strong> Phase 2 complete.</p>
+			<p><strong>Together:</strong> Read the deployed lens's <code>Do &gt; Habits</code> and
+			<code>Do &gt; Contracts</code> tables. For each row pointing into <code>_Claude/kcd/habits/</code>
+			or <code>_Claude/kcd/contracts/</code>, copy the source file to its deployed location
+			(<code>_Claude/habits/{name}.md</code>, <code>_Claude/contracts/{name}.md</code>). Set
+			<code>status: active</code> in each deployed copy. If a deployed copy already exists, skip with
+			a one-line surface to the user; never overwrite silently.</p>
+			<p><strong>Standard:</strong> Every habit and contract the lens depends on exists at its
+			deployed location with <code>status: active</code>. The kcd sources remain <code>disabled</code>
+			and unchanged.</p>
+		</section>
+
+		<section data-kcd-section="phase-3">
+			<h4>Phase 3 — Rewrite Paths</h4>
+			<p><strong>Trigger:</strong> The deployed copy exists.</p>
+			<p><strong>Together:</strong> Per C6, a deployed agent references <em>deployed</em> copies, not
+			the canonical <code>kcd/</code>. Rewrite every <code>_Claude/kcd/…</code> reference in the
+			deployed lens — habits, contracts — to its deployed location (<code>_Claude/habits/…</code>,
+			<code>_Claude/contracts/…</code>). References within <code>lenses/</code>,
+			<code>references/</code>, etc. are already vault-root-relative and identical across the move.
+			<em>(This is the step the deploy script owns; done by hand only in the interim.)</em></p>
+			<p><strong>Standard:</strong> Every link in the deployed lens resolves to a file that exists.
+			Broken links are surfaced to the user — do not deploy a lens pointing at missing files without
+			flagging it.</p>
+		</section>
+
+		<section data-kcd-section="phase-4">
+			<h4>Phase 4 — Register</h4>
+			<p><strong>Trigger:</strong> Paths verified.</p>
+			<p><strong>Together:</strong> Two writes.</p>
+			<p><strong>4a — Lens nav index.</strong> Append the lens row to
+			<a href="_Claude/lenses/nav-index.html">_Claude/lenses/nav-index.html</a>. If the file does not
+			exist, create it from <a href="_Claude/kcd/templates/_nav-index_template.html">_nav-index_template</a>
+			with a <code>Deployable lenses</code> section (mirroring the shape of
+			<a href="_Claude/kcd/lenses/nav-index.html">kcd/lenses/nav-index</a>), then append. This write is
+			<strong>not approval-gated</strong> — the index is a structural projection over the deployed
+			roster.</p>
+			<p>Row shape:</p>
+			<pre><code>| What | Where | Why |
+|---|---|---|
+| {name} | [{name}](_Claude/lenses/{name}/{name}.html) | {one-line purpose from the lens Purpose section} |</code></pre>
+			<p><strong>4b — CLAUDE.md.</strong> Append the lens row to the Lens Index table in
+			<code>CLAUDE.md</code>. The <code>!{name}</code> command is <strong>legacy</strong> — it is no
+			longer a canonical KCD field, but persists in <code>CLAUDE.md</code> as a human affordance:</p>
+			<pre><code>| What | Where | Why |
+|---|---|---|
+| `!{name}` | [{name}](_Claude/lenses/{name}/{name}.md) | {one-line purpose from the lens Purpose section} |</code></pre>
+			<p>If <code>CLAUDE.md</code> does not exist, create it with at minimum a one-line project header
+			and the Lens Index table (header + this one row). <code>CLAUDE.md</code> is
+			<strong>approval-gated</strong> — per the
+			<a href="_Claude/kcd/habits/write-approval.html">write-approval</a> habit, lens_crafter drafts
+			the change to <code>_Claude/work/lens_crafter/plans/</code> first and presents the draft for
+			explicit approval before applying.</p>
+			<p><strong>Standard:</strong> The lens appears in both indexes. Both one-line purposes are drawn
+			directly from the lens's Purpose section — not paraphrased.</p>
+		</section>
+
+		<section data-kcd-section="phase-5">
+			<h4>Phase 5 — Verify</h4>
+			<p><strong>Trigger:</strong> Registration complete.</p>
+			<p><strong>Together:</strong> Do a final read of the deployed lens. Confirm:
+			<code>status: active</code>, link convention followed per
+			<a href="_Claude/kcd/lenses/_lens_base.html">_lens_base</a> (paths are links; backticks only for
+			pattern/code/quoted-speech), all tables have blank lines before them, Working Space paths
+			reference <code>_Claude/work/{name}/</code>.</p>
+			<p><strong>Standard:</strong> The lens is ready to load. Announce the command
+			(<code>!{name}</code>) and the working space location to the user.</p>
+		</section>
+	</section>
+
+	<section data-kcd-section="standards">
+		<h3>Standards</h3>
+		<ul>
+			<li><strong>kcd is the only valid source.</strong> Never copy from another project's <code>_Claude/lenses/</code>.</li>
+			<li><strong>kcd source is never modified during deployment.</strong> The kcd copy stays <code>disabled</code>.</li>
+			<li><strong>CLAUDE.md is approval-gated.</strong> The index update requires explicit user sign-off.</li>
+			<li><strong>Broken paths block deployment.</strong> A lens pointing at missing files is flagged, not silently deployed.</li>
+			<li><strong>Substrate conventions are non-negotiable.</strong> What/Where/Why faux-tables (never a real <code>&lt;table&gt;</code>); real <code>&lt;a href&gt;</code> links throughout.</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="edge-cases">
+		<h3>Edge cases</h3>
+		<ul>
+			<li><strong>Lens already deployed</strong> (<code>status: active</code> at <code>_Claude/lenses/</code>): Surface to user — confirm whether to overwrite or skip.</li>
+			<li><strong>Referenced file doesn't exist</strong> (e.g. a doc or template the lens points into <code>kcd/</code>): Flag the broken link; deploy the lens anyway with a todo noting the gap. Habits and contracts referenced by the lens are co-deployed per Phase 2.5 and should not normally appear in this case.</li>
+			<li><strong>kcd source has hardcoded paths from another project:</strong> Surface during Phase 1 anatomy check; fix paths before proceeding.</li>
+		</ul>
+	</section>
+
+</article>
+
+</body>
+</html>

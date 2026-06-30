@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>audit-structure — Analyzer</title>
+	<link rel="stylesheet" href="kcd.css">
+</head>
+<body>
+
+<article data-kcd="analyzer">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">audit-structure</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Mechanical structural-drift detection across a KCD doc tree — splits findings into a repair manifest (mechanical fixes) and a decisions report (human calls). Use as the detect stage before apply-repairs; it applies nothing.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">analyzer</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>lens</dt>          <dd data-kcd-field="lens"           data-kcd-type="slug">lens-crafter</dd>
+		<dt>base</dt>          <dd data-kcd-field="base"           data-kcd-type="slug">_analyzer-base</dd>
+	</dl>
+
+	<h1>audit-structure — Analyzer</h1>
+
+	<p data-kcd-audience="human"><em>Generic across any KCD-structured documentation tree. The
+	<strong>mechanical-detection</strong> half of doc healing: it walks the tree, finds structural drift
+	(broken links, nav-index gaps, frontmatter cascade gaps, and stale log entries), and <strong>splits
+	every finding</strong> into a <strong>repair manifest</strong> (unambiguous mechanical fixes a
+	generator executes) and a <strong>decisions report</strong> (anything a human must resolve). It
+	applies nothing — detection only. The deployed copy solves the requirements below with project
+	values.</em></p>
+
+	<p>Base rules: <a href="_Claude/kcd/analyzers/_analyzer_base.html">_analyzer_base</a> — role,
+	requirement resolution, output conventions.</p>
+
+	<p data-kcd-audience="human"><em>This is the <strong>detect</strong> stage of the
+	doc-repair sequence (<code>audit-structure → apply-repairs</code>). The
+	repair manifest is the generator's input; the decisions report is the sequence's human-facing
+	output. The mechanical write is never done here — that is <code>apply-repairs</code>.</em></p>
+
+	<p data-kcd-audience="human"><strong>Split by mechanism, not topic.</strong> audit-structure is
+	<strong>purely mechanical detection</strong>. Semantic and interpretive checks — redundancy,
+	cross-lens conflict, scope drift, the "what reference is this lens missing" brainstorm — are
+	<strong>not</strong> done here; they belong to
+	<a href="_Claude/kcd/analyzers/audit-consistency/audit-consistency.html">audit-consistency</a>. The
+	split line is <em>is the fix mechanical</em>, not <em>what topic does it concern</em>.</p>
+
+	<section data-kcd-section="parameters">
+		<h3>Parameters</h3>
+		<p>Outputs:</p>
+		<ul>
+			<li><a href="_Claude/reports/audit-structure.html">_Claude/reports/audit-structure.html</a> —
+			the <strong>decisions report</strong> (human-facing).</li>
+			<li><a href="_Claude/reports/audit-structure-manifest.html">_Claude/reports/audit-structure-manifest.html</a>
+			— the <strong>repair manifest</strong> (<code>apply-repairs</code> input).</li>
+		</ul>
+		<div data-kcd-table data-kcd-params style="--kcd-cols: 1fr 1fr 1fr 2fr">
+			<div data-kcd-head><span>Name</span><span>Type</span><span>Default</span><span>Description</span></div>
+			<!-- model — default model seeding the work-graph node. Optional; NOT YET IMPLEMENTED. -->
+			<div data-kcd-param>
+				<span data-kcd-field="name"        data-kcd-type="slug">model</span>
+				<span data-kcd-field="type"        data-kcd-type="enum">model</span>
+				<span data-kcd-field="default"     data-kcd-type="text">claude-sonnet-4-6</span>
+				<span data-kcd-field="description" data-kcd-type="text">Default model that seeds this analyzer's work-graph node (not yet implemented).</span>
+			</div>
+		</div>
+		<p><em>No own parameters beyond the default model (inherits the base defaults). <code>name</code>
+		derives from the filename; <code>lens</code> and <code>base</code> live in frontmatter.</em></p>
+	</section>
+
+	<section data-kcd-section="requirements">
+		<h3>Requirements</h3>
+		<p data-kcd-audience="human"><em>Declared generically here; solved in the deployed copy. See
+		<code>_analyzer_base</code> for pre-flight resolution and the fail rule.</em></p>
+		<ul>
+			<li><code>doc-root</code> (Input) — Root directory of the KCD documentation tree. In-tree paths
+			resolve from here (see <em>Path Convention</em>).</li>
+			<li><code>work-exclude</code> (Input) — Project scratch subtree excluded from every phase (the
+			<code>excluded</code> zone's project-specific member; <code>reports/</code> and
+			<code>audits/</code> are excluded by the chart).</li>
+			<li><code>log-max-age</code> (Input) — Maximum age in days for a log entry. Older entries are
+			slated for pruning (the manifest carries the cutoff; <code>apply-repairs</code> removes them).</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="know">
+		<h3>Know</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Routing chart</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/analyzers/audit-structure/context/routing-chart.html">routing-chart</a>
+				<span data-kcd-field="why"   data-kcd-type="text">The classification policy — zones + finding-resolution. Loaded first; governs every routing call below.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Frontmatter schema</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/docs/frontmatter_schema.html">frontmatter_schema</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 5 — template-is-schema; defines the cascade check and the kcd: exemption.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Root index</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{doc-root}/nav-index.html">nav-index</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 1 — entry point for the inventory walk.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Lens index</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="{doc-root}/lenses/nav-index.html">lenses/nav-index</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 4 — enumerate lens files.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Lens anatomy</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/docs/lens_anatomy.html">lens_anatomy</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Phase 4 — the structural blocks a lens must carry.</span>
+			</div>
+		</div>
+	</section>
+
+	<section data-kcd-section="care">
+		<h3>Care</h3>
+		<p>audit-structure repairs nothing and decides nothing about meaning. It detects structural drift
+		and routes each finding; the routing is <strong>not its own judgment</strong> — it is read from
+		the <strong>routing-chart</strong> reference. The chart is the single source of routing truth: a
+		file's <strong>zone</strong> (by location) decides whether a fix may be applied at all, and the
+		<strong>finding</strong> decides whether the fix is obvious enough to apply. Files never declare
+		their own classification — location does (the CSS-cascade model).</p>
+		<p><strong>Defends:</strong></p>
+		<ul>
+			<li>Every finding routes per the routing-chart — never by per-file frontmatter or ad-hoc
+			judgment.</li>
+			<li>The repair manifest is <strong>self-contained and mechanical</strong>: every row a
+			generator can execute without further judgment. A row that needs a human is a decision, not a
+			manifest entry.</li>
+			<li>Ambiguity surfaces to the decisions report; never silently resolved into a repair.</li>
+			<li>Canonical (<code>kcd/**</code>) is <strong>health-check only</strong> — every finding there
+			is a decision; nothing in <code>kcd/</code> is ever slated for repair.</li>
+			<li>Flush-and-fill — both outputs reflect current state only; no accumulated history.</li>
+			<li>Detection only — reads the whole tree, modifies nothing (report-only write authority).</li>
+		</ul>
+		<p><strong>Will not touch:</strong></p>
+		<ul>
+			<li>Any file (it is report-only) — it produces a manifest <em>describing</em> repairs;
+			<code>apply-repairs</code> makes them.</li>
+			<li>The <code>excluded</code> zone (<code>{work-exclude}</code>, <code>reports/</code>,
+			<code>audits/</code>) — skipped in every phase.</li>
+			<li>Prose, arguments, or Care content — link repair fixes a <em>path</em>, never content;
+			semantic review is <code>audit-consistency</code>'s job.</li>
+			<li>The <code>kcd:</code> frontmatter block — opaque to cascade (see frontmatter_schema).</li>
+			<li>Non-HTML files — operates only on KCD artifacts.</li>
+		</ul>
+		<p><strong>Surfaces to decisions (does not slate for repair):</strong></p>
+		<ul>
+			<li>Broken link with <strong>zero or multiple</strong> candidate targets — not obvious where it
+			should point.</li>
+			<li>Any finding in the <strong>canonical</strong> zone — health report, never a repair.</li>
+			<li>A lens missing a standard block (Know, Care, or Do) — no mechanical synthesis exists.</li>
+			<li>A frontmatter field present on an instance but <strong>absent from its type's
+			template</strong> — promote to the template or move to <code>kcd:</code> (a human call).</li>
+			<li>Malformed frontmatter — file skipped for the cascade phase, logged for human attention.</li>
+			<li>A log file with no parseable entries — pruning skipped, format flagged.</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="path-convention">
+		<h3>Path Convention</h3>
+		<p>Every path is relative to <code>{doc-root}</code> unless it begins with another requirement
+		variable (<code>{work-exclude}</code>). The deployed copy solves <code>{doc-root}</code> once in
+		its Requirements block; no section repeats that prefix.</p>
+	</section>
+
+	<section data-kcd-section="repair-manifest-format">
+		<h3>Repair Manifest Format</h3>
+		<p>The analyzer↔generator contract. <code>apply-repairs</code> reads
+		<code>_Claude/reports/audit-structure-manifest.html</code> and executes each row <strong>without
+		judgment</strong> — so every row must be complete and unambiguous. One uniform table; the six
+		<strong>actions</strong> interpret the columns slightly differently.</p>
+		<pre><code># Repair Manifest — audit-structure — {YYYY-MM-DD}
+
+**Repairs slated**: N
+
+# | action | target | locator | from | to | note</code></pre>
+		<table>
+			<thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+			<tbody>
+				<tr><td><code>action</code></td><td>One of the six verbs below.</td></tr>
+				<tr><td><code>target</code></td><td>The deployed file <code>apply-repairs</code> modifies (or creates).</td></tr>
+				<tr><td><code>locator</code></td><td>Where in the target the edit applies — disambiguates when the same value appears twice.</td></tr>
+				<tr><td><code>from</code></td><td>The current value to replace/remove (blank for pure additions).</td></tr>
+				<tr><td><code>to</code></td><td>The replacement/added value (blank for pure removals).</td></tr>
+				<tr><td><code>note</code></td><td>Provenance — why this is safe/mechanical (the matched candidate, the cascade source).</td></tr>
+			</tbody>
+		</table>
+		<p><strong>Actions</strong> (per-action column semantics):</p>
+		<table>
+			<thead><tr><th>action</th><th>target</th><th>locator</th><th>from</th><th>to</th><th>note</th></tr></thead>
+			<tbody>
+				<tr><td><code>rewrite-link</code></td><td>file containing the link</td><td>link text</td><td>broken path</td><td>corrected path</td><td>single stem match: {candidate}</td></tr>
+				<tr><td><code>index-add</code></td><td>the nav-index file</td><td>folder</td><td>—</td><td>a What | Where | Why stub row</td><td>present, unlisted: {file}</td></tr>
+				<tr><td><code>index-remove</code></td><td>the nav-index file</td><td>entry name</td><td>the stale row</td><td>—</td><td>listed, file absent</td></tr>
+				<tr><td><code>index-create</code></td><td>the new nav-index path</td><td>folder</td><td>—</td><td>stub header + empty What | Where | Why table</td><td>folder missing nav-index</td></tr>
+				<tr><td><code>cascade-field</code></td><td>the instance file</td><td>field key</td><td>—</td><td>the field value</td><td>cascaded from {template path}</td></tr>
+				<tr><td><code>prune-log</code></td><td>the log file</td><td>—</td><td>cutoff date</td><td>—</td><td>remove entries older than {log-max-age}d</td></tr>
+			</tbody>
+		</table>
+		<p>Every manifest row is, by construction, in the <strong>deployed</strong> zone with an
+		<strong>obvious</strong> fix — those are the only findings that reach the manifest. Everything else
+		is a decision.</p>
+	</section>
+
+	<section data-kcd-section="do">
+		<h3>Do</h3>
+		<p><em>Pre-flight runs first, per <code>_analyzer_base</code> — deployment check, then requirement
+		resolution. Load the routing-chart before Phase 1; it governs every routing call.</em></p>
+
+		<section data-kcd-section="phase-1">
+			<h4>Phase 1 — Inventory &amp; Zone Classification</h4>
+			<p>Walk <code>{doc-root}</code>. Build:</p>
+			<ul>
+				<li><strong>File manifest</strong> — every KCD file, each tagged with its <strong>zone</strong>
+				(<code>excluded</code> / <code>canonical</code> / <code>deployed</code>) per the routing-chart.
+				<code>excluded</code> files are dropped from the manifest entirely.</li>
+				<li><strong>Reference manifest</strong> — every path string in a link
+				<code>&lt;a href&gt;</code> or a table cell that resolves to a file path, collected across the
+				file manifest, each tagged with its source file's zone.</li>
+			</ul>
+			<p><strong>Path normalization</strong> (before comparison; per the project link convention in
+			<code>_lens_base</code> → <em>Link paths</em>): a <strong>bare</strong> path is
+			vault-root-relative (resolve from the project root, the parent of <code>{doc-root}</code>) — the
+			standard form. A leading-<code>/</code> path is a legacy/erroneous root form — resolve from the
+			project root for verification, but slate the leading slash for stripping. A <code>./</code> or
+			<code>../</code> path is a legacy relative form — resolve against the source file for
+			verification, then slate it for rewrite to the vault-root form. Root-relative links may resolve
+			<strong>outside</strong> <code>{doc-root}</code> (a sibling code tree) — verified against the real
+			filesystem, never stem-matched.</p>
+		</section>
+		<section data-kcd-section="phase-2">
+			<h4>Phase 2 — Link Resolution</h4>
+			<p>For each reference, resolve it, then route by the source file's <strong>zone</strong> + the
+			<strong>routing-chart</strong> resolution rules:</p>
+			<ul>
+				<li><strong>deployed</strong>, resolves cleanly → no finding.</li>
+				<li><strong>deployed</strong>, broken, <strong>exactly one</strong> candidate by filename stem
+				→ <strong>manifest</strong> (<code>rewrite-link</code>).</li>
+				<li><strong>deployed</strong>, broken, <strong>zero or multiple</strong> candidates →
+				<strong>decisions</strong> (ambiguous target).</li>
+				<li><strong>deployed</strong>, legacy form but resolvable → <strong>manifest</strong>
+				(<code>rewrite-link</code> to the vault-root form).</li>
+				<li><strong>canonical</strong>, broken (any cause) → <strong>decisions</strong> (health report;
+				never repaired).</li>
+			</ul>
+			<p>Stem comparison is case-insensitive; stem = filename minus extension. Link repair is
+			type-agnostic — it fixes a path, never content — so a resolvable broken link in a lens's Know
+			table is a manifest row exactly like one anywhere else. The only gate is <em>is the target
+			obvious</em>.</p>
+		</section>
+		<section data-kcd-section="phase-3">
+			<h4>Phase 3 — Nav-index Validation</h4>
+			<p>Scope: every <code>nav-index</code> in the file manifest.</p>
+			<ul>
+				<li>Entry listed, file does not exist → <code>index-remove</code>.</li>
+				<li>File present in the folder, not listed → <code>index-add</code> (stub conforming to
+				<code>What | Where | Why</code>).</li>
+				<li>Folder that should carry a nav-index has none → <code>index-create</code> (stub header +
+				empty table).</li>
+			</ul>
+			<p>Nav-index repairs are pure table-row mechanics — in the <strong>deployed</strong> zone they
+			always go to the manifest. In the <strong>canonical</strong> zone they go to
+			<strong>decisions</strong> like any other finding.</p>
+		</section>
+		<section data-kcd-section="phase-4">
+			<h4>Phase 4 — Lens Structural Check</h4>
+			<p>For each lens in <code>{doc-root}/lenses/</code>, confirm the standard blocks (Know, Care, Do
+			— see lens_anatomy) are <strong>present</strong>. A missing block → <strong>decisions</strong>
+			(no mechanical synthesis exists; a human authors it). Path findings inside a lens's Know/Do
+			tables are already covered by Phase 2 (lens files are in the reference manifest) — this phase
+			adds only block-presence.</p>
+			<p><em>Semantic lens review — stale-Know detection and the missing-reference brainstorm — is
+			<strong>not</strong> done here. It routes to <code>audit-consistency</code>.</em></p>
+		</section>
+		<section data-kcd-section="phase-5">
+			<h4>Phase 5 — Frontmatter Cascade Conformance</h4>
+			<p>Per frontmatter_schema (<strong>the type's template is its schema</strong>). For each
+			instance, compare its frontmatter against its type's template:</p>
+			<ul>
+				<li>A template-set field <strong>missing</strong> on the instance → <strong>manifest</strong>
+				(<code>cascade-field</code>, value from the template).</li>
+				<li>A field present on the instance but <strong>absent from the template</strong> (and not
+				<code>kcd:</code>) → <strong>decisions</strong> (promote to the template or move to
+				<code>kcd:</code> — a human call).</li>
+				<li>Differing values at a shared field → no action (intentional override).</li>
+				<li>The <code>kcd:</code> block is <strong>exempt</strong> — never read into or out of cascade.</li>
+				<li>Malformed/unparseable frontmatter → <strong>decisions</strong>
+				(<code>frontmatter unparseable: {path}</code>); skip the file for this phase.</li>
+			</ul>
+			<p>Canonical-zone cascade gaps go to <strong>decisions</strong>, not the manifest.</p>
+		</section>
+		<section data-kcd-section="phase-6">
+			<h4>Phase 6 — Log Age Check</h4>
+			<p>Scope: every log file under <code>{doc-root}/logs/</code> in the file manifest.</p>
+			<ul>
+				<li>Parse single-line date-stamped entries (<code>- [YYYY-MM-DD] ...</code>); compute each
+				entry's age.</li>
+				<li>If any entry exceeds <code>{log-max-age}</code> days → one <strong>manifest</strong> row
+				(<code>prune-log</code>, <code>from</code> = the cutoff date). <code>apply-repairs</code>
+				removes every entry older than the cutoff, leaving headers, blank lines, and prose
+				untouched.</li>
+				<li>A non-empty log with <strong>zero parseable entries</strong> → <strong>decisions</strong>
+				(<code>log format unsupported, pruning skipped: {file}</code>). Session-log format
+				(<code>YYYY-MM-DD : {lens} : ...</code>) is unsupported until format consolidation lands.</li>
+				<li>An empty log, or one with no over-age entries → no finding.</li>
+			</ul>
+		</section>
+		<section data-kcd-section="phase-7">
+			<h4>Phase 7 — Emit Outputs (flush and fill)</h4>
+			<p>Destroy and recreate both files.</p>
+			<p><strong><code>_Claude/reports/audit-structure-manifest.html</code></strong> — the repair
+			manifest, per <em>Repair Manifest Format</em> above. Header: run date · repairs slated. If there
+			are zero manifest rows, write the header and an empty table (an empty manifest is valid — the
+			sequence's <code>apply-repairs</code> stage is skipped when the manifest is empty).</p>
+			<p><strong><code>_Claude/reports/audit-structure.html</code></strong> — the decisions report.
+			Recommended shape:</p>
+			<pre><code># Structure Audit — Decisions — {YYYY-MM-DD}
+
+**Files scanned**: N   ·   **Decisions**: N   ·   **Repairs slated**: N (see manifest)
+
+## Summary
+[One paragraph: counts by category; any canonical-zone health flags.]
+
+## 1. Ambiguous Links (zero / multiple candidates)
+Reference | In file | Candidates | Why flagged
+
+## 2. Canonical Health (kcd/** — flag only, never repaired)
+Finding | Where | Why
+
+## 3. Lens Structural Gaps
+Lens | Missing block | Why
+
+## 4. Frontmatter Decisions (template-absent fields · malformed)
+File | Field / issue | Recommendation
+
+## 5. Log Format
+File | Issue
+
+## Referred to audit-consistency
+[Semantic findings noticed in passing — redundancy, scope drift, cross-lens conflict — that this
+analyzer does not own. Pointer only; audit-consistency is the authority.]</code></pre>
+		</section>
+		<section data-kcd-section="phase-8">
+			<h4>Phase 8 — Output Declaration</h4>
+			<p>Produces <code>_Claude/reports/audit-structure.html</code> and
+			<code>_Claude/reports/audit-structure-manifest.html</code> (both flush-and-fill).
+			<strong>Modifies nothing</strong> — every source file is read-only; repairs are described in the
+			manifest, never made. Excludes <code>{work-exclude}</code>, <code>reports/</code>, and
+			<code>audits/</code> from all phases. No console output, logs, or side effects outside the two
+			report paths.</p>
+			<p>After Phase 8, the <code>run-report</code> habit fires automatically (declared at
+			<code>_analyzer_base</code>).</p>
+		</section>
+	</section>
+
+</article>
+
+</body>
+</html>
