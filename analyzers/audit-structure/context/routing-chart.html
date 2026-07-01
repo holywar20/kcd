@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Routing Chart — Reference</title>
+	<link rel="stylesheet" href="../../../../kcd/kcd.css">
+</head>
+<body>
+
+<article data-kcd="reference">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>        <dd data-kcd-field="name"        data-kcd-type="slug">routing-chart</dd>
+		<dt>description</dt> <dd data-kcd-field="description" data-kcd-type="text">Structural classification policy — zones + finding-resolution — that audit-structure uses to split findings into the repair manifest vs the decisions report.</dd>
+		<dt>type</dt>        <dd data-kcd-field="type"        data-kcd-type="enum">reference</dd>
+		<dt>status</dt>      <dd data-kcd-field="status"      data-kcd-type="enum">active</dd>
+		<dt>updated</dt>     <dd data-kcd-field="updated"     data-kcd-type="date">2026-06-03</dd>
+	</dl>
+
+	<h1>Routing Chart</h1>
+
+	<p>The policy <code>audit-structure</code> loads as a Know. It is deliberately <strong>simple</strong>:
+	the <em>zone</em> a file sits in decides whether fixes may be applied; the <em>finding</em> decides
+	whether a fix is obvious enough to apply. Aggressively auto-healing the deployed tree (especially
+	link-drift) is the whole point — that drift is the dominant pain during documentation composition.</p>
+
+	<h2>Zones (by location — first match wins)</h2>
+
+	<table>
+		<thead><tr><th>Zone</th><th>Pattern</th><th>Policy</th></tr></thead>
+		<tbody>
+			<tr><td><strong>Excluded</strong></td><td><code>{work-exclude}/**</code>, <code>reports/**</code>, <code>audits/**</code></td><td>Skip entirely — fluid workbench and generated output.</td></tr>
+			<tr><td><strong>Canonical</strong></td><td><code>kcd/**</code></td><td><strong>Health-check only.</strong> Run every check, but <strong>every finding → decisions report</strong>; <em>nothing in <code>kcd/</code> is ever repaired.</em> (How canonical is defended is deferred; for now, look-don't-touch.)</td></tr>
+			<tr><td><strong>Deployed</strong></td><td>everything else</td><td><strong>Auto-heal.</strong> Apply the resolution below — fixes go to the repair manifest.</td></tr>
+		</tbody>
+	</table>
+
+	<p><code>kcd/</code> being canonical is the one location rule that matters. Identity is by location
+	(the CSS-cascade model) — a file does not declare its own classification.</p>
+
+	<h2>Resolution (per finding)</h2>
+
+	<p>In the <strong>deployed</strong> zone, each finding resolves to <strong>manifest</strong>
+	(auto-repair) or <strong>decisions</strong> (flag) by whether the fix is unambiguous:</p>
+
+	<table>
+		<thead><tr><th>Finding</th><th>Resolves to</th></tr></thead>
+		<tbody>
+			<tr><td>Broken link, <strong>single obvious target</strong> (one stem match)</td><td><strong>manifest</strong> — rewrite it</td></tr>
+			<tr><td>Broken link, <strong>ambiguous</strong> (zero or multiple candidates — not obvious where it should point)</td><td><strong>decisions</strong> — flag for a human</td></tr>
+			<tr><td>Index drift (row for a missing file, file with no row, folder missing its <code>index.md</code>)</td><td><strong>manifest</strong> — mechanical index repair</td></tr>
+			<tr><td>Log entry older than <code>{log-max-age}</code></td><td><strong>manifest</strong> — prune</td></tr>
+			<tr><td>Frontmatter cascade gap (a template field missing on an instance)</td><td><strong>manifest</strong> — copy from the type's template (<code>kcd:</code> exempt; see schema)</td></tr>
+			<tr><td>Semantic / judgment (redundancy, scope drift, missing-reference brainstorm)</td><td><strong>not audit-structure</strong> → <code>audit-consistency</code></td></tr>
+		</tbody>
+	</table>
+
+	<p>In the <strong>canonical</strong> zone, the <em>same checks run</em> but every finding routes to
+	<strong>decisions</strong> — it's a health report, never a repair.</p>
+
+	<p><strong>Link repair is always safe</strong> regardless of file type: it fixes a path, never prose
+	or Care content. So a resolvable broken link in a lens's Know table auto-repairs just like one
+	anywhere else — the only gate is <em>is the target obvious</em>, not <em>what kind of file is
+	this</em>.</p>
+
+	<h2>Frontmatter cascade is checked against the schema, not a chart</h2>
+
+	<p>The old heal-docs "Chains" fold into the frontmatter schema. Cascade conformance = <em>check an
+	instance's frontmatter against its type's template</em> per
+	<a href="_Claude/kcd/docs/frontmatter_schema.html">frontmatter_schema</a> (the template is the
+	type's schema; the <code>kcd:</code> block is exempt). There is no standalone chains artifact.</p>
+
+</article>
+
+</body>
+</html>

@@ -16,7 +16,7 @@
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-06-04</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-01</dd>
 	</dl>
 
 	<h1>KCD Framework — Framework</h1>
@@ -74,9 +74,9 @@
 		semantically dense than it needs to be. Reducing primitives is a goal, not an accident. Each
 		family folder holds its base, its template, and its instances.</p>
 		<p><strong>An instance is a folder, not a file.</strong> A lens is <code>lenses/{lensname}/</code>
-		containing <code>{lensname}.md</code> (the K/C/D body) and a <code>context/</code> subfolder.
+		containing <code>{lensname}.html</code> (the K/C/D body) and a <code>context/</code> subfolder.
 		Same shape for <code>analyzers/{analyzername}/</code> and <code>generators/{generatorname}/</code>.
-		This is the on-disk form of the trunk-and-branches model: the <code>.md</code> file is the
+		This is the on-disk form of the trunk-and-branches model: the <code>.html</code> file is the
 		trunk, <code>context/</code> holds the branches.</p>
 		<p><code>context/</code> is a <strong>local store for context specific to that
 		instance.</strong> It lets the lens body stay thin while keeping lens-specific material close
@@ -87,9 +87,8 @@
 		<ul>
 			<li><code>kcd/</code> — the canonical framework library. <strong>Shouldn't change
 			ever</strong> in a deployed instance: it is the normalization reference the project is
-			checked against, edited only at the framework's own home. The canonical bases and
-			templates live here (templates under <code>kcd/templates/</code>); deployment copies a
-			family's base and template into its deployed family folder.</li>
+			checked against, edited only at the framework's own home. All artifacts are in
+			<code>.html</code> format per the <a href="_Claude/references/domain/kcd-document-protocol.html">KCD Document Protocol</a>.</li>
 			<li><code>utilities/</code> — the registered tool tier (see <em>The agent model</em>).
 			Structurally carries its own security gate: <code>draft/</code> (agent- or human-proposed,
 			<strong>not yet runnable</strong>), <code>deployed/</code> (<strong>human-approved,
@@ -199,10 +198,10 @@
 		<h3>Principles</h3>
 		<p>Named so the rest of the system can refer to them.</p>
 		<ul>
-			<li><strong>Code where executable, markdown where authored.</strong> The framework's
+			<li><strong>Code where executable, HTML where authored.</strong> The framework's
 			executable parts (parse, validate, deploy, dispatch, flush) live in code; its authored
-			parts (lenses, references, plans, docs) live in markdown. Markdown is not the runtime — it
-			is the schema-conformant authoring surface that code reads, writes, and round-trips.</li>
+			parts (lenses, references, plans, docs) live in HTML per the <a href="_Claude/references/domain/kcd-document-protocol.html">KCD Document Protocol</a>.
+			HTML is the schema-conformant authoring surface that code reads, writes, and round-trips.</li>
 			<li><strong>Shared tool bucket.</strong> The Utility tier is a <em>single</em> registered
 			API surface shared by the human and the AI: the same script the engineer runs from a
 			terminal is the one an agent calls in-session is the one an analyzer hands a generator.

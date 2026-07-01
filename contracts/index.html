@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>kcd/contracts — Index</title>
+	<link rel="stylesheet" href="../../kcd/kcd.css">
+</head>
+<body>
+
+<article data-kcd="nav-index">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>        <dd data-kcd-field="name"        data-kcd-type="slug">kcd-contracts-index</dd>
+		<dt>description</dt> <dd data-kcd-field="description" data-kcd-type="text">Human-in-the-loop session lifecycles for recurring collaborative work — plan authoring, lens deployment, and similar multi-phase activities.</dd>
+		<dt>type</dt>        <dd data-kcd-field="type"        data-kcd-type="enum">nav-index</dd>
+		<dt>status</dt>      <dd data-kcd-field="status"      data-kcd-type="enum">active</dd>
+		<dt>updated</dt>     <dd data-kcd-field="updated"     data-kcd-type="date">2026-06-04</dd>
+	</dl>
+
+	<h1>Index — kcd/contracts</h1>
+
+	<p>Human-in-the-loop session lifecycles. A contract describes how a human-in-session and Claude
+	collaborate on a recurring kind of work — plan authoring, lens deployment, and so on. Contracts
+	differ from pipelines (automated, no human gate) and from habits (atomic single-step reflexes):
+	a contract is a multi-phase lifecycle <em>with</em> a human in the loop.</p>
+
+	<p>A contract's <code>scope:</code> declares where it is wired: <code>universal</code>
+	(referenced from <code>_lens_base</code>, loaded every session) or <code>lens:{name}</code>
+	(referenced from a single lens's Know block).</p>
+
+	<h2>Universal</h2>
+
+	<div data-kcd-table>
+		<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+		<div data-kcd-slot data-kcd-always>
+			<span data-kcd-field="what"  data-kcd-type="text">Plan</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="plan.html">plan</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Lifecycle and format for every plan — write, promote, retire</span>
+		</div>
+	</div>
+
+	<h2>Lens-scoped</h2>
+
+	<div data-kcd-table>
+		<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+		<div data-kcd-slot data-kcd-always>
+			<span data-kcd-field="what"  data-kcd-type="text">Deploy lens</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="deploy-lens.html">deploy-lens</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>lens:lens-crafter</code> — copy a lens from <code>kcd/lenses/</code> into <code>_Claude/lenses/</code> and activate it</span>
+		</div>
+		<div data-kcd-slot data-kcd-always>
+			<span data-kcd-field="what"  data-kcd-type="text">Easy test</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="easy-test-contract.html">easy-test-contract</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>workflow:easy-test</code> — grade the easy-test SVG (three known shapes) PASS/FAIL; harness fixture</span>
+		</div>
+	</div>
+
+</article>
+
+</body>
+</html>

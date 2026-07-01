@@ -1,34 +1,33 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+<!-- ============================================================================
+     NAV INDEX — kcd/contracts. Migrated from index.md (renamed index → nav-index).
+     Full format law: _Claude/references/domain/kcd-document-protocol.md §3.
+     ============================================================================ -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>contracts — Nav index</title>
-	<link rel="stylesheet" href="kcd.css">
+	<title>kcd/contracts — Nav index</title>
+	<link rel="stylesheet" href="../kcd.css">
 </head>
 <body>
 
 <article data-kcd="nav-index">
 
 	<dl data-kcd-frontmatter>
-		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">contracts</dd>
-		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Human-in-the-loop session lifecycles — multi-phase recurring collaborations with a human in the loop. Use to locate a contract by its wiring scope.</dd>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">kcd-contracts</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Human-in-the-loop session lifecycles. A contract describes how a human-in-session and Claude collaborate on a recurring kind of work — plan authoring, lens deployment, and so on.</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">nav-index</dd>
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-06-04</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-01</dd>
 	</dl>
 
-	<h1>contracts — Nav index</h1>
+	<h1>kcd/contracts — Nav index</h1>
 
-	<p>Human-in-the-loop session lifecycles. A contract describes how a human-in-session and Claude
-	collaborate on a recurring kind of work — plan authoring, lens deployment, and so on. Contracts
-	differ from habits (atomic single-step reflexes): a contract is a multi-phase lifecycle
-	<em>with</em> a human in the loop.</p>
+	<p>Human-in-the-loop session lifecycles. A contract describes how a human-in-session and Claude collaborate on a recurring kind of work — plan authoring, lens deployment, and so on. Contracts differ from pipelines (automated, no human gate) and from habits (atomic single-step reflexes): a contract is a multi-phase lifecycle <em>with</em> a human in the loop.</p>
 
-	<p>A contract's <code>scope</code> declares where it is wired: <code>universal</code> (referenced
-	from <code>_lens_base</code>, loaded every session) or <code>lens:{name}</code> (referenced from a
-	single lens's Know block).</p>
+	<p>A contract's <code>scope:</code> declares where it is wired: <code>universal</code> (referenced from <code>_lens_base</code>, loaded every session) or <code>lens:{name}</code> (referenced from a single lens's Know block).</p>
 
 	<section data-kcd-section="universal">
 		<h3>Universal</h3>

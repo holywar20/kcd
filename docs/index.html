@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>kcd/docs — Index</title>
+	<link rel="stylesheet" href="../../kcd/kcd.css">
+</head>
+<body>
+
+<article data-kcd="nav-index">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>        <dd data-kcd-field="name"        data-kcd-type="slug">kcd-docs-index</dd>
+		<dt>description</dt> <dd data-kcd-field="description" data-kcd-type="text">Framework reference documentation — load when building or reviewing agents, lenses, or the structure itself.</dd>
+		<dt>type</dt>        <dd data-kcd-field="type"        data-kcd-type="enum">nav-index</dd>
+		<dt>status</dt>      <dd data-kcd-field="status"      data-kcd-type="enum">active</dd>
+		<dt>updated</dt>     <dd data-kcd-field="updated"     data-kcd-type="date">2026-06-04</dd>
+	</dl>
+
+	<h1>Index — kcd/docs</h1>
+
+	<p>Framework reference documentation. Load when building or reviewing agents, lenses, or the
+	structure itself.</p>
+
+	<div data-kcd-table>
+		<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+		<div data-kcd-slot data-kcd-always>
+			<span data-kcd-field="what"  data-kcd-type="text">Deployed structure (canvas)</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="deployment_schema.canvas">deployment_schema</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><strong>The authoritative structure lock</strong> — every folder/file in a deployed <code>_Claude/</code> tree; hand-drawn, readable from JSON, machine-checkable (rectangle = folder, parallelogram = file)</span>
+		</div>
+		<div data-kcd-slot data-kcd-always>
+			<span data-kcd-field="what"  data-kcd-type="text">Lens anatomy</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="lens_anatomy.html">lens_anatomy</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Structural reference for the lens file format — Know/Care/Do blocks, Care forms, stacking rules</span>
+		</div>
+		<div data-kcd-slot data-kcd-always>
+			<span data-kcd-field="what"  data-kcd-type="text">Agent types</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="agent_types.html">agent_types</a>
+			<span data-kcd-field="why"   data-kcd-type="text">The two AI agents (Generator, Analyst) + the Utility tool-tier — model, context depth, output, boundaries</span>
+		</div>
+		<div data-kcd-slot data-kcd-always>
+			<span data-kcd-field="what"  data-kcd-type="text">Frontmatter schema</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="frontmatter_schema.html">frontmatter_schema</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Per-type frontmatter shapes (template-is-schema) plus the universal <code>type</code>/<code>status</code> fields and the <code>kcd:</code> escape hatch</span>
+		</div>
+		<div data-kcd-slot data-kcd-always>
+			<span data-kcd-field="what"  data-kcd-type="text">Reference categories</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="reference_categories.html">reference_categories</a>
+			<span data-kcd-field="why"   data-kcd-type="text">The <code>references/</code> category scheme and the references-vs-<code>kcd/</code> boundary — where a fact lives</span>
+		</div>
+	</div>
+
+</article>
+
+</body>
+</html>

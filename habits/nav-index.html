@@ -1,80 +1,80 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+<!-- ============================================================================
+     NAV INDEX — kcd/habits. Migrated from index.md (renamed index → nav-index).
+     Full format law: _Claude/references/domain/kcd-document-protocol.md §3.
+     ============================================================================ -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>habits — Nav index</title>
-	<link rel="stylesheet" href="kcd.css">
+	<title>kcd/habits — Nav index</title>
+	<link rel="stylesheet" href="../kcd.css">
 </head>
 <body>
 
 <article data-kcd="nav-index">
 
 	<dl data-kcd-frontmatter>
-		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">habits</dd>
-		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Atomic single-step reflexes, inherited by lenses through their Do block (or _lens_base). Use to locate a habit to compose into a lens or agent.</dd>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">kcd-habits</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Atomic single-step reflexes, inherited by lenses through their Do block (or _lens_base).</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">nav-index</dd>
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-06-04</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-01</dd>
 	</dl>
 
-	<h1>habits — Nav index</h1>
+	<h1>kcd/habits — Nav index</h1>
 
-	<p>Atomic single-step reflexes, inherited by lenses through their Do block (or
-	<code>_lens_base</code>).</p>
+	<p>Atomic single-step reflexes, inherited by lenses through their Do block (or <code>_lens_base</code>).</p>
 
-	<section data-kcd-section="entries">
-		<h3>Entries</h3>
-		<div data-kcd-table>
-			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">add-todo</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/add-todo.html">add-todo</a>
-				<span data-kcd-field="why"   data-kcd-type="text">When a deferred item surfaces — capture it to the todo store</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">append-completed-entry</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/append-completed-entry.html">append-completed-entry</a>
-				<span data-kcd-field="why"   data-kcd-type="text">When a task is completed — log it to the completed store</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">append-session-log</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/append-session-log.html">append-session-log</a>
-				<span data-kcd-field="why"   data-kcd-type="text">End of every session — record the session-log line</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">index-format</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/index-format.html">index-format</a>
-				<span data-kcd-field="why"   data-kcd-type="text">When writing or modifying any navigational index — enforce the What/Where/Why shape</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">no-subagents</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/no-subagents.html">no-subagents</a>
-				<span data-kcd-field="why"   data-kcd-type="text">When tempted to delegate — process the task yourself; spawn a subagent only on explicit request, and draft its prompt for the user to run</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">plan-routing</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/plan-routing.html">plan-routing</a>
-				<span data-kcd-field="why"   data-kcd-type="text">When creating a plan — route new plans to work/, never canonical plans/</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">run-report</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/run-report.html">run-report</a>
-				<span data-kcd-field="why"   data-kcd-type="text">After an analyzer's or generator's final phase — mandatory close step</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">work-routing</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/work-routing.html">work-routing</a>
-				<span data-kcd-field="why"   data-kcd-type="text">Governs where work output is placed (inherited from _lens_base)</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">write-approval</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval.html">write-approval</a>
-				<span data-kcd-field="why"   data-kcd-type="text">Governs all write operations (inherited from _lens_base)</span>
-			</div>
+	<div data-kcd-table>
+		<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">add-todo</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/add-todo.html">add-todo</a>
+			<span data-kcd-field="why"   data-kcd-type="text">When a deferred item surfaces — capture it to the todo store</span>
 		</div>
-	</section>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">append-completed-entry</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/append-completed-entry.html">append-completed-entry</a>
+			<span data-kcd-field="why"   data-kcd-type="text">When a task is completed — log it to the completed store</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">append-session-log</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/append-session-log.html">append-session-log</a>
+			<span data-kcd-field="why"   data-kcd-type="text">End of every session — record the session-log line</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">index-format</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/index-format.html">index-format</a>
+			<span data-kcd-field="why"   data-kcd-type="text">When writing or modifying any navigational index — enforce the What/Where/Why shape</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">no-subagents</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/no-subagents.html">no-subagents</a>
+			<span data-kcd-field="why"   data-kcd-type="text">When tempted to delegate — process the task yourself; spawn a subagent only on explicit request, and draft its prompt for the user to run</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">plan-routing</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/plan-routing.html">plan-routing</a>
+			<span data-kcd-field="why"   data-kcd-type="text">When creating a plan — route new plans to work/, never canonical plans/</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">run-report</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/run-report.html">run-report</a>
+			<span data-kcd-field="why"   data-kcd-type="text">After an analyzer&apos;s or generator&apos;s final phase — mandatory close step</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">work-routing</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/work-routing.html">work-routing</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Governs where work output is placed (inherited from _lens_base)</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">write-approval</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval.html">write-approval</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Governs all write operations (inherited from _lens_base)</span>
+		</div>
+	</div>
 
 </article>
 
