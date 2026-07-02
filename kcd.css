@@ -31,10 +31,16 @@
 	--kcd-panel:      #17172e;
 	--kcd-bg:         #0d0d1c;
 	--kcd-chip:       #221f48;
-	--kcd-measure:    46rem;
+	--kcd-measure:    72rem;
 	--kcd-gap:        1.2rem;
 	--kcd-radius:     8px;
 }
+
+/* ── Scrollbar (Chromium) ─────────────────────────────────────────────────── */
+::-webkit-scrollbar              { width: 8px; height: 8px; }
+::-webkit-scrollbar-track        { background: var(--kcd-bg); }
+::-webkit-scrollbar-thumb        { background: var(--kcd-accent); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover  { background: #a090f8; }
 
 /* ── Page + reading frame ─────────────────────────────────────────────────── */
 body {
