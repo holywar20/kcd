@@ -238,7 +238,7 @@
 		{
 			"id":"99b5d11e25027d58",
 			"type":"text",
-			"text":"{lensname}.md",
+			"text":"{lensname}.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-1620,
 			"y":-400,
@@ -260,7 +260,7 @@
 		{
 			"id":"104310cd1096b45c",
 			"type":"text",
-			"text":"{generatorname}.md",
+			"text":"{generatorname}.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-1060,
 			"y":-640,
@@ -304,7 +304,7 @@
 		{
 			"id":"9e68ec01d92402ed",
 			"type":"text",
-			"text":"{analyzername}.md",
+			"text":"{analyzername}.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-1620,
 			"y":-90,
@@ -350,7 +350,7 @@
 		{
 			"id":"308a920a8d510ca2",
 			"type":"text",
-			"text":"{habitname}.md",
+			"text":"{habitname}.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-1140,
 			"y":235,
@@ -361,7 +361,7 @@
 		{
 			"id":"b6336725ea1d7789",
 			"type":"text",
-			"text":"_habit_template.md",
+			"text":"_habit_template.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-1170,
 			"y":330,
@@ -383,7 +383,7 @@
 		{
 			"id":"9d12ffb7d10c9280",
 			"type":"text",
-			"text":"_reference_template.md",
+			"text":"_reference_template.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":520,
 			"y":-100,
@@ -416,7 +416,7 @@
 		{
 			"id":"bdc60167f3567bc5",
 			"type":"text",
-			"text":"_plan_template.md",
+			"text":"_plan_template.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":520,
 			"y":100,
@@ -449,7 +449,7 @@
 		{
 			"id":"09a190a94b835aa0",
 			"type":"text",
-			"text":"_generator_base.md",
+			"text":"_generator_base.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-350,
 			"y":-810,
@@ -460,7 +460,7 @@
 		{
 			"id":"9ad4013af0d991d6",
 			"type":"text",
-			"text":"_generator_template.md",
+			"text":"_generator_template.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-370,
 			"y":-730,
@@ -471,7 +471,7 @@
 		{
 			"id":"b241203e87584c47",
 			"type":"text",
-			"text":"_lens_template.md",
+			"text":"_lens_template.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-720,
 			"y":-370,
@@ -482,7 +482,7 @@
 		{
 			"id":"549198be3710f5fa",
 			"type":"text",
-			"text":"_lens_base.md",
+			"text":"_lens_base.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-700,
 			"y":-450,
@@ -493,7 +493,7 @@
 		{
 			"id":"07f290ec969cbdb0",
 			"type":"text",
-			"text":"_analyzer_base.md",
+			"text":"_analyzer_base.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-730,
 			"y":30,
@@ -504,7 +504,7 @@
 		{
 			"id":"f2f7e380e602eb4f",
 			"type":"text",
-			"text":"_analyzer_template.md",
+			"text":"_analyzer_template.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-710,
 			"y":-40,
@@ -515,7 +515,7 @@
 		{
 			"id":"18605430fa154c77",
 			"type":"text",
-			"text":"_contract_template.md",
+			"text":"_contract_template.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":520,
 			"y":0,
@@ -524,31 +524,9 @@
 			"color":"4"
 		},
 		{
-			"id":"a801650394c7b668",
-			"type":"text",
-			"text":"pipelines",
-			"styleAttributes":{},
-			"x":180,
-			"y":-610,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
-			"id":"aeba2de8b29c6747",
-			"type":"text",
-			"text":"_pipeline_template.md",
-			"styleAttributes":{"shape":"parallelogram"},
-			"x":180,
-			"y":-700,
-			"width":260,
-			"height":60,
-			"color":"4"
-		},
-		{
 			"id":"1352fae30c6aa4b4",
 			"type":"text",
-			"text":"registry.md",
+			"text":"registry.html",
 			"styleAttributes":{"shape":"parallelogram"},
 			"x":-210,
 			"y":440,
@@ -1054,24 +1032,6 @@
 			"fromSide":"bottom",
 			"toNode":"035dc646290e4ce8",
 			"toSide":"top"
-		},
-		{
-			"id":"d14addc8861f2838",
-			"styleAttributes":{},
-			"toFloating":false,
-			"fromNode":"24b824c829043c56",
-			"fromSide":"right",
-			"toNode":"a801650394c7b668",
-			"toSide":"left"
-		},
-		{
-			"id":"26d27071ba989e72",
-			"styleAttributes":{},
-			"toFloating":false,
-			"fromNode":"a801650394c7b668",
-			"fromSide":"top",
-			"toNode":"aeba2de8b29c6747",
-			"toSide":"bottom"
 		},
 		{
 			"id":"596f0ff1b996b257",

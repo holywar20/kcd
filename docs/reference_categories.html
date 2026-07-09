@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Reference Categories — Framework</title>
-	<link rel="stylesheet" href="kcd.css">
+	<link rel="stylesheet" href="../kcd.css">
 </head>
 <body>
 
@@ -69,8 +69,8 @@
 		</table>
 		<p><code>codebase/</code> is the only category written by a <strong>generator</strong> — it is
 		generator-only and flush-and-fill. No hand-authored file ever lives here. It is split per
-		sub-project so a multi-repo codebase does not collide names (<code>backend/routes.md</code> vs
-		<code>frontend/routes.md</code>).</p>
+		sub-project so a multi-repo codebase does not collide names (<code>backend/routes.html</code> vs
+		<code>frontend/routes.html</code>).</p>
 		<p><code>features/</code> and <code>notes/</code> deploy empty and fill as sessions produce
 		authored references. Both are linked to lenses via Know tables so they are discoverable. A
 		future subfolder convention may be needed when either grows large, but flat is fine until
@@ -80,12 +80,12 @@
 	<section data-kcd-section="example-instantiation">
 		<h3>Example instantiation</h3>
 		<pre><code>_Claude/references/
-  style-guides/   global.md  comments.md  php.md  vue.md  css.md
-  patterns/       controller.md  sql.md  vue.md
-  domain/         database.md  domain_concepts.md
+  style-guides/   global.html  comments.html  php.html  vue.html  css.html
+  patterns/       controller.html  sql.html  vue.html
+  domain/         database.html  domain_concepts.html
   codebase/
-    backend/      routes.md  controllers.md  data_map.md
-    frontend/     routes.md  views.md  stores.md  api.md  components.md</code></pre>
+    backend/      routes.html  controllers.html  data_map.html
+    frontend/     routes.html  views.html  stores.html  api.html  components.html</code></pre>
 		<p>Filenames are lowercase. The category folder already carries the "what kind of thing"
 		signal, so the filename only needs the specific subject.</p>
 	</section>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Routing Chart — Reference</title>
-	<link rel="stylesheet" href="../../../../kcd/kcd.css">
+	<link rel="stylesheet" href="../../../kcd.css">
 </head>
 <body>
 
@@ -48,7 +48,7 @@
 		<tbody>
 			<tr><td>Broken link, <strong>single obvious target</strong> (one stem match)</td><td><strong>manifest</strong> — rewrite it</td></tr>
 			<tr><td>Broken link, <strong>ambiguous</strong> (zero or multiple candidates — not obvious where it should point)</td><td><strong>decisions</strong> — flag for a human</td></tr>
-			<tr><td>Index drift (row for a missing file, file with no row, folder missing its <code>index.md</code>)</td><td><strong>manifest</strong> — mechanical index repair</td></tr>
+			<tr><td>Index drift (row for a missing file, file with no row, folder missing its <code>nav-index.html</code>)</td><td><strong>manifest</strong> — mechanical index repair</td></tr>
 			<tr><td>Log entry older than <code>{log-max-age}</code></td><td><strong>manifest</strong> — prune</td></tr>
 			<tr><td>Frontmatter cascade gap (a template field missing on an instance)</td><td><strong>manifest</strong> — copy from the type's template (<code>kcd:</code> exempt; see schema)</td></tr>
 			<tr><td>Semantic / judgment (redundancy, scope drift, missing-reference brainstorm)</td><td><strong>not audit-structure</strong> → <code>audit-consistency</code></td></tr>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <!-- ============================================================================
      CONTRACT — deploy-lens (canonical). Migrated from deploy-lens.md.
-     Full format law: _Claude/references/domain/kcd-document-protocol.md.
+     Full format law: _Claude/references/domain/kcd-document-protocol.html.
      ============================================================================ -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>deploy-lens — Contract</title>
-	<link rel="stylesheet" href="kcd.css">
+	<link rel="stylesheet" href="../kcd.css">
 </head>
 <body>
 
@@ -44,8 +44,8 @@
 	<section data-kcd-section="artifact-format">
 		<h3>Artifact format</h3>
 		<p>A deployed lens is a folder <code>_Claude/lenses/{name}/</code> containing
-		<code>{name}.md</code> plus a <code>context/</code>, sourced from
-		<code>_Claude/kcd/lenses/{name}/{name}.md</code>.</p>
+		<code>{name}.html</code> plus a <code>context/</code>, sourced from
+		<code>_Claude/kcd/lenses/{name}/{name}.html</code>.</p>
 		<p>Frontmatter (after deployment):</p>
 		<pre><code>---
 type: lens
@@ -66,15 +66,15 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 		<section data-kcd-section="phase-0">
 			<h4>Phase 0 — Check Base</h4>
 			<p><strong>Trigger:</strong> Any lens deployment is requested.</p>
-			<p><strong>Together:</strong> Check whether <code>_Claude/lenses/_lens_base.md</code> exists.
-			If it does, proceed to Phase 1. If not, deploy <code>_Claude/kcd/lenses/_lens_base.md</code>
-			first — copy it to <code>_Claude/lenses/_lens_base.md</code>, set <code>status: active</code>.
+			<p><strong>Together:</strong> Check whether <code>_Claude/lenses/_lens_base.html</code> exists.
+			If it does, proceed to Phase 1. If not, deploy <code>_Claude/kcd/lenses/_lens_base.html</code>
+			first — copy it to <code>_Claude/lenses/_lens_base.html</code>, set <code>status: active</code>.
 			Base has no CLAUDE.md registration and no path rewriting on its own body — its links stay
 			pointing at <code>_Claude/kcd/...</code> because base is the canonical floor and is the one
 			exception to the deployed-points-at-deployed rule. Base <strong>still deploys its descendant
 			habits and contracts</strong> per Phase 2.5 (write-approval, work-routing, append-session-log,
 			plan). Once base is deployed, proceed to Phase 1.</p>
-			<p><strong>Standard:</strong> <code>_Claude/lenses/_lens_base.md</code> exists and is
+			<p><strong>Standard:</strong> <code>_Claude/lenses/_lens_base.html</code> exists and is
 			<code>status: active</code> before any other lens is deployed. Base's descendant habits and
 			contracts exist at their deployed locations. Base is deployed once and never redeployed unless
 			explicitly requested.</p>
@@ -84,7 +84,7 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 			<h4>Phase 1 — Verify Source</h4>
 			<p><strong>Trigger:</strong> A lens deployment is requested.</p>
 			<p><strong>Together:</strong> Confirm the lens exists at
-			<code>_Claude/kcd/lenses/{name}/{name}.md</code> and carries <code>status: disabled</code>.
+			<code>_Claude/kcd/lenses/{name}/{name}.html</code> and carries <code>status: disabled</code>.
 			Read the lens and check anatomy compliance: Know / Care / Do structure present, References
 			table uses <code>What | Where | Why</code> headers, no paths hardcoded to another project
 			(portability boundary). Surface any anatomy failures to the user before proceeding.</p>
@@ -115,7 +115,7 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 			<p><strong>Together:</strong> Read the deployed lens's <code>Do &gt; Habits</code> and
 			<code>Do &gt; Contracts</code> tables. For each row pointing into <code>_Claude/kcd/habits/</code>
 			or <code>_Claude/kcd/contracts/</code>, copy the source file to its deployed location
-			(<code>_Claude/habits/{name}.md</code>, <code>_Claude/contracts/{name}.md</code>). Set
+			(<code>_Claude/habits/{name}.html</code>, <code>_Claude/contracts/{name}.html</code>). Set
 			<code>status: active</code> in each deployed copy. If a deployed copy already exists, skip with
 			a one-line surface to the user; never overwrite silently.</p>
 			<p><strong>Standard:</strong> Every habit and contract the lens depends on exists at its
@@ -157,7 +157,7 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 			longer a canonical KCD field, but persists in <code>CLAUDE.md</code> as a human affordance:</p>
 			<pre><code>| What | Where | Why |
 |---|---|---|
-| `!{name}` | [{name}](_Claude/lenses/{name}/{name}.md) | {one-line purpose from the lens Purpose section} |</code></pre>
+| `!{name}` | [{name}](_Claude/lenses/{name}/{name}.html) | {one-line purpose from the lens Purpose section} |</code></pre>
 			<p>If <code>CLAUDE.md</code> does not exist, create it with at minimum a one-line project header
 			and the Lens Index table (header + this one row). <code>CLAUDE.md</code> is
 			<strong>approval-gated</strong> — per the

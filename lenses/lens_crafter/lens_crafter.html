@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Lens Crafter — Lens</title>
-	<link rel="stylesheet" href="kcd.css">
+	<link rel="stylesheet" href="../../kcd.css">
 </head>
 <body>
 
@@ -11,16 +11,19 @@
 
 	<dl data-kcd-frontmatter>
 		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">lens-crafter</dd>
-		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">The lens for designing and deploying KCD artifacts — lenses, generators, analyzers, and habits. Use when authoring, auditing, restructuring, or deploying an artifact.</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Designs and deploys KCD artifacts — lenses, generators, analyzers, and habits. Use when authoring, restructuring, or deploying a lens or other KCD artifact, or moving one from the kcd library into an active project.</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">lens</dd>
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
 		<dt>base</dt>          <dd data-kcd-field="base"           data-kcd-type="slug">_lens-base</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-06-30</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-08</dd>
 	</dl>
 
 	<h1>Lens Crafter — Lens</h1>
+
+	<p data-kcd-audience="human"><em>The framework's own builder lens. Ships <code>disabled</code> here in
+	<code>kcd/lenses/</code>; the deploy contract activates the deployed copy.</em></p>
 
 	<section data-kcd-region="know">
 		<h2>Know</h2>
@@ -34,6 +37,16 @@
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/kcd_framework.html">kcd_framework</a>
 					<span data-kcd-field="why"   data-kcd-type="text">always — the primitives, composition rules, and conventions this lens enforces</span>
 				</div>
+				<div data-kcd-slot data-kcd-always>
+					<span data-kcd-field="what"  data-kcd-type="text">KCD Document Protocol</span>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/references/domain/kcd-document-protocol.html">kcd-document-protocol</a>
+					<span data-kcd-field="why"   data-kcd-type="text">The locked HTML format every KCD artifact is authored in — the addressing contract, component vocabulary, frontmatter fields, and validation rules. How you make this kind of document.</span>
+				</div>
+				<div data-kcd-slot>
+					<span data-kcd-field="what"  data-kcd-type="text">KCD Primitives SDK</span>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/references/domain/kcd-primitives.html">kcd-primitives</a>
+					<span data-kcd-field="why"   data-kcd-type="text">When authoring or validating artifacts — each type's required frontmatter, sections, and role.</span>
+				</div>
 				<div data-kcd-slot>
 					<span data-kcd-field="what"  data-kcd-type="text">Lens anatomy</span>
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/docs/lens_anatomy.html">lens_anatomy</a>
@@ -41,7 +54,7 @@
 				</div>
 				<div data-kcd-slot>
 					<span data-kcd-field="what"  data-kcd-type="text">Lens index</span>
-					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/lenses/nav-index.html">nav-index</a>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/lenses/nav-index.html">nav-index</a>
 					<span data-kcd-field="why"   data-kcd-type="text">when navigating or auditing the lens roster</span>
 				</div>
 				<div data-kcd-slot>
@@ -64,11 +77,10 @@
 
 		<section data-kcd-section="purpose">
 			<h3>Purpose</h3>
-			<p>Lens Crafter is the lens for designing and deploying KCD artifacts — lenses, generators,
-			analyzers, and habits. Its primary focus is authorship: taking a domain or workflow and
-			encoding it into tight, purposeful artifacts that give sessions genuine personality and
-			capability. It also owns the deployment lifecycle, ensuring artifacts move from the kcd
-			library into active projects correctly.</p>
+			<p>Designs and deploys KCD artifacts — lenses, generators, analyzers, and habits. Its primary
+			focus is authorship: taking a domain or workflow and encoding it into tight, purposeful
+			artifacts that give sessions genuine personality and capability. It also owns the deployment
+			lifecycle, ensuring artifacts move from the kcd library into active projects correctly.</p>
 			<p>The vision: a user identifies a domain they want Claude to operate in, Lens Crafter designs
 			the artifact, and deployment wires it up. Fast, repeatable, and deep — a lens backed by a rich
 			document store gives a session immediate context without manual loading.</p>
@@ -119,7 +131,7 @@
 			<ul>
 				<li><strong>Lens tightness</strong> — sections that have grown beyond personality-brief scope get flagged for extraction</li>
 				<li><strong>Anatomy compliance</strong> — content that doesn't fit K/C/D gets flagged or relocated</li>
-				<li><strong>Substrate compliance</strong> — What/Where/Why faux-tables (never a real <code>&lt;table&gt;</code>), real <code>&lt;a href&gt;</code> links, no backtick spans for navigable paths</li>
+				<li><strong>Standard compliance</strong> — an artifact conforms to the KCD Document Protocol (the addressing contract, the closed vocabulary, the validators) or it does not enter the system. Non-conformance fails loudly.</li>
 				<li><strong>kcd as canonical source</strong> — deployed artifacts always trace back to kcd originals</li>
 				<li><strong>Path integrity</strong> — references that don't resolve are surfaced, not silently left broken</li>
 			</ul>
@@ -145,7 +157,7 @@
 		<section data-kcd-section="habits">
 			<h3>Habits</h3>
 			<p data-kcd-audience="human"><em><code>_lens_base</code> already supplies the universal habits
-			(write-approval, work-routing, append-session-log). This lens adds:</em></p>
+			(write-approval, work-routing, append-session-log, plan-routing, no-subagents). This lens adds:</em></p>
 			<div data-kcd-table>
 				<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
 				<div data-kcd-slot data-kcd-always>
@@ -154,9 +166,9 @@
 					<span data-kcd-field="why"   data-kcd-type="text">when a deferred item surfaces</span>
 				</div>
 				<div data-kcd-slot data-kcd-always>
-					<span data-kcd-field="what"  data-kcd-type="text">append-completed-entry</span>
-					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/append-completed-entry.html">append-completed-entry</a>
-					<span data-kcd-field="why"   data-kcd-type="text">when a task is completed</span>
+					<span data-kcd-field="what"  data-kcd-type="text">author-reference</span>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/habits/author-reference.html">author-reference</a>
+					<span data-kcd-field="why"   data-kcd-type="text">when authoring, migrating, or auditing a reference — the section vocabulary (overview · topical · rules · references), the frontmatter set, and the durability rules</span>
 				</div>
 			</div>
 		</section>
@@ -165,7 +177,7 @@
 			<h3>Contracts</h3>
 			<div data-kcd-table>
 				<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-				<div data-kcd-slot>
+				<div data-kcd-slot data-kcd-always>
 					<span data-kcd-field="what"  data-kcd-type="text">Deploy lens</span>
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/contracts/deploy-lens.html">deploy-lens</a>
 					<span data-kcd-field="why"   data-kcd-type="text">when deploying a lens from kcd to a project</span>

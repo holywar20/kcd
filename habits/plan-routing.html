@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>plan-routing — Habit</title>
-	<link rel="stylesheet" href="kcd.css">
+	<link rel="stylesheet" href="../kcd.css">
 </head>
 <body>
 
@@ -40,11 +40,12 @@
 		<p>When any plan is invoked, check its location. If it is in <code>work/</code>, treat it as a
 		design artifact to review and align on — not a task list to execute.</p>
 
-		<p><strong>Filename in <code>work/</code>:</strong> <code>YYYY-MM-DD_{description}.md</code> —
+		<p><strong>Filename in <code>work/</code>:</strong> <code>YYYY-MM-DD_{description}.html</code> —
 		dated, kebab-case description.</p>
 
-		<p><strong>Filename in <code>_Claude/plans/</code>:</strong> <code>{lens}_{description}.md</code>
-		— no date, same description. The date is stripped at promotion time.</p>
+		<p><strong>Filename in <code>_Claude/plans/</code>:</strong> <code>{description}.html</code>
+		— no date, no lens prefix (the lens lives in frontmatter + the nav-index). Date and lens prefix
+		are stripped at promotion time.</p>
 
 		<p><strong>Promotion is always explicit.</strong> A plan moves from <code>work/</code> to
 		<code>_Claude/plans/</code> only when the user directs it and it meets the quality bar (per the

@@ -92,7 +92,7 @@
 			<li><code>utilities/</code> — the registered tool tier (see <em>The agent model</em>).
 			Structurally carries its own security gate: <code>draft/</code> (agent- or human-proposed,
 			<strong>not yet runnable</strong>), <code>deployed/</code> (<strong>human-approved,
-			runnable</strong>), and <code>registry.md</code> (the allowlist record). The
+			runnable</strong>), and <code>registry.html</code> (the allowlist record). The
 			author→approve→execute boundary is a folder boundary.</li>
 		</ul>
 
@@ -245,8 +245,8 @@
 			file-roster index are both legitimate projections over one store (the artifact files).
 			Robust indexes are a feature.</li>
 			<li><strong>Naming</strong> — kebab/lowercase for instance and report filenames;
-			<code>_</code>-prefixed bases and templates (<code>_lens_base.md</code>,
-			<code>_lens_template.md</code>).</li>
+			<code>_</code>-prefixed bases and templates (<code>_lens_base.html</code>,
+			<code>_lens_template.html</code>).</li>
 			<li><strong>Verb-first names from a fixed vocabulary.</strong> Every agent name
 			<strong>leads with a verb</strong> drawn from a small canonical set, so names sort by
 			broad function rather than by topic. The starter vocabulary (extend deliberately, not
@@ -304,7 +304,7 @@
 			has architecture to host it. Two open pieces: <strong>signaling</strong> (how a tool
 			invocation is dispatched and its result returned, for both a user and an in-session agent),
 			and the <strong>security model</strong> — the <code>draft/</code>→<code>deployed/</code>
-			gate + <code>registry.md</code> is the structural half; the content-addressed allowlist
+			gate + <code>registry.html</code> is the structural half; the content-addressed allowlist
 			(hash, invalidate-on-change, re-approval) and per-utility capability scope are still being
 			designed.</li>
 			<li><strong>Procedure as a named primitive — downregulated.</strong> A generator or
