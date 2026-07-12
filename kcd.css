@@ -26,7 +26,8 @@
 	--kcd-muted:      #9a9ac4;
 	--kcd-faint:      #61617e;
 	--kcd-accent:     #8b7ff0;   /* the KCD violet */
-	--kcd-always:     #e0c24a;   /* the always / progressive-disclosure marker */
+	--kcd-suggested:  #e0c24a;   /* the suggested / progressive-disclosure marker */
+	--kcd-off:        #4a4a63;   /* the off / disabled-slot marker */
 	--kcd-rule:       #2a2a46;
 	--kcd-panel:      #17172e;
 	--kcd-bg:         #0d0d1c;
@@ -103,8 +104,10 @@ body {
 [data-kcd-table] [data-kcd-field="where"] { color: var(--kcd-accent); font-weight: 600; text-decoration: none; font-family: ui-monospace, monospace; }
 [data-kcd-table] [data-kcd-field="where"]:hover { text-decoration: underline; }
 [data-kcd-table] [data-kcd-field="why"], [data-kcd-table] [data-kcd-field="description"] { color: var(--kcd-muted); font-size: .9rem; }
-/* progressive-disclosure + cardinality markers ride the row's own attributes */
-[data-kcd-slot][data-kcd-always] [data-kcd-field="where"]::after { content: " ★"; color: var(--kcd-always); }
+/* progressive-disclosure + cardinality markers ride the row's own attributes.
+   data-kcd-mode = off | on ( default, routing-row only ) | suggested ( full text rides ). */
+[data-kcd-slot][data-kcd-mode="suggested"] [data-kcd-field="where"]::after { content: " ★"; color: var(--kcd-suggested); }
+[data-kcd-slot][data-kcd-mode="off"] { opacity: .5; text-decoration: line-through; }
 [data-kcd-slot][data-kcd-param] [data-kcd-field="where"]::before { content: "◇1 "; color: var(--kcd-faint); font-weight: 400; font-size: .85em; }
 /* an empty params area announces itself so an author sees the slot exists */
 [data-kcd-params]:not(:has([data-kcd-param]))::after { content: "No parameters."; color: var(--kcd-faint); font-style: italic; font-size: .85rem; padding: .25rem .5rem; }

@@ -2,28 +2,30 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>write-approval — Habit</title>
-	<link rel="stylesheet" href="../kcd.css">
+	<title>write-approval-docs — Habit</title>
+	<link rel="stylesheet" href="../../kcd.css">
 </head>
 <body>
 
 <article data-kcd="habit">
 
 	<dl data-kcd-frontmatter>
-		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">write-approval</dd>
-		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Pre-approves writes inside _Claude/, requires approval outside it, and hard-blocks writes to kcd/ and CLAUDE.md; fires before any write operation.</dd>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">write-approval-docs</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Pre-approves writes inside _Claude/, requires approval outside it, and hard-blocks writes to kcd/ and CLAUDE.md; fires before any write operation. The default pole of the write-approval mutual-exclusion class.</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>habit-class</dt>   <dd data-kcd-field="habit-class"    data-kcd-type="slug">write-approval</dd>
 	</dl>
 
-	<h1>write-approval — Habit</h1>
+	<h1>write-approval-docs — Habit</h1>
 
 	<section data-kcd-section="when">
 		<h3>When</h3>
 		<p>Any write operation is about to occur. Inherited by every lens via
-		<a href="_Claude/kcd/lenses/_lens_base.html">_lens_base</a>.</p>
+		<a href="_Claude/kcd/lenses/_lens_base.html">_lens_base</a> unless a more specific source
+		swaps in a different <code>write-approval</code> pole.</p>
 	</section>
 
 	<section data-kcd-section="rules">
@@ -48,6 +50,11 @@
 			explicit approval before applying. No other lens drafts, proposes, or applies edits to
 			<code>CLAUDE.md</code>.</li>
 		</ul>
+
+		<p><em>Why this is the default: a typical project's real risk surface is outside
+		<code>_Claude/</code> — application code, config, anything that ships. Writes inside
+		<code>_Claude/</code> are documentation and framework artifacts, cheap to revert and expected
+		to churn every session; gating those on approval would just be noise.</em></p>
 	</section>
 
 	<section data-kcd-section="action">

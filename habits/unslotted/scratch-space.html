@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>scratch-space — Habit</title>
+	<link rel="stylesheet" href="../../kcd.css">
+</head>
+<body>
+
+<article data-kcd="habit">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">scratch-space</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Encourages liberal, low-ceremony use of the lens's own work/ folder — plans, experiments, research notes — as cheap and genuinely discardable; fires at the start of any exploratory, uncertain, or multi-step task.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+	</dl>
+
+	<h1>scratch-space — Habit</h1>
+
+	<p><em>Companion to <a href="_Claude/kcd/habits/unslotted/work-routing.html">work-routing</a>.
+	work-routing says <strong>where</strong> output goes; this habit says <strong>how liberally</strong>
+	to use that space. Canonical seed — ships disabled; the deployed copy is active.</em></p>
+
+	<section data-kcd-section="when">
+		<h3>When</h3>
+		<p>A task is exploratory, uncertain, multi-step, or benefits from thinking on paper before
+		committing to an approach — sketching a plan, trying an approach that might not pan out, pulling
+		in live research, or working out a design before writing real code or editing a canonical
+		artifact.</p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p><strong>Default to writing it down, not holding it in the conversation.</strong> Create a
+		plan, a scratch note, or a probe script in
+		<a href="_Claude/kcd/habits/unslotted/work-routing.html">the lens's work/ folder</a> the moment
+		it would help — do not wait to be asked, and do not treat the act of creating one as needing
+		separate justification. A written artifact is faster to align on than paragraphs of chat, and
+		costs nothing to discard if it goes nowhere.</p>
+
+		<ul>
+			<li><strong>Plan liberally.</strong> A plan does not need to be earned. Draft one for
+			anything with real shape — multi-file changes, an approach with open questions, work you
+			expect to hand off or resume later. A half-formed plan in <code>work/{lens}/plans/</code> is
+			a thinking tool, not a commitment; per
+			<a href="_Claude/habits/unslotted/plan-routing.html">plan-routing</a>, it authorizes nothing
+			until the user promotes it.</li>
+			<li><strong>Experiment and noodle without asking permission first.</strong> Try the
+			approach. Write the probe. Spike the idea in a scratch file. If it doesn't pan out, say so
+			and move on — a dead end in scratch space cost nothing. This is the counterweight to
+			over-deliberating in conversation before touching anything.</li>
+			<li><strong>Do live research when it would sharpen the work.</strong> Read the actual code,
+			run the actual query, check the actual current state rather than reasoning from what a plan
+			or a memory says should be true — see
+			<a href="_Claude/references/domain/kcd-document-protocol.html">kcd-document-protocol</a>'s
+			distinction between frozen snapshots and ground truth. Land findings as a scratch note if
+			they'll matter beyond this turn.</li>
+			<li><strong>Stay disposable.</strong> Scratch output does not need polish, doesn't need to
+			anticipate future readers, and doesn't need a defensible structure — it needs to be useful
+			for the next hour or the next session. Promotion out of scratch space (to
+			<code>references/</code>, <code>plans/</code>, or committed code) is always a separate,
+			explicit, later step — never do it implicitly by writing something "nice" the first time.</li>
+		</ul>
+	</section>
+
+	<section data-kcd-section="customization">
+		<h3>Customizable once deployed</h3>
+		<p>The posture above — plan liberally, experiment freely, research live, treat it all as
+		discardable — reflects how <em>this project's user</em> works; it is not a universal law of
+		good agent behavior. A deployed copy of this habit, like
+		<a href="_Claude/kcd/habits/unslotted/work-routing.html">work-routing</a>, is the user's to
+		adjust: a different project may want a stricter gate before scratch files get created, a
+		different folder shape, or a smaller default footprint. The canonical seed in <code>kcd/</code>
+		stays the shipped default; the deployed copy is where per-project preference lives.</p>
+	</section>
+
+</article>
+
+</body>
+</html>

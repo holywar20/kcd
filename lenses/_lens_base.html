@@ -32,12 +32,12 @@
 			<h3>References</h3>
 			<div data-kcd-table>
 				<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-				<div data-kcd-slot data-kcd-always>
+				<div data-kcd-slot data-kcd-mode="suggested">
 					<span data-kcd-field="what"  data-kcd-type="text">Framework concepts</span>
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/kcd_framework.html">kcd_framework</a>
 					<span data-kcd-field="why"   data-kcd-type="text">orientation — the primitives, structure, and composition rules that govern all KCD sessions</span>
 				</div>
-				<div data-kcd-slot data-kcd-always>
+				<div data-kcd-slot data-kcd-mode="suggested">
 					<span data-kcd-field="what"  data-kcd-type="text">Session log</span>
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/logs/">logs</a>
 					<span data-kcd-field="why"   data-kcd-type="text">where this project's sessions are recorded — so every lens inherits where session history lives</span>
@@ -65,7 +65,8 @@
 			<h3>Philosophy &amp; Prerogatives</h3>
 			<p><strong>kcd is canonical:</strong> <code>_Claude/kcd/</code> is the source of truth for all
 			framework artifacts. Do not modify it without explicit instruction. <em>(Mechanically enforced
-			by the <a href="_Claude/kcd/habits/write-approval.html">write-approval</a> habit.)</em></p>
+			by the <a href="_Claude/kcd/habits/write-approval/write-approval-docs.html">write-approval</a>
+			habit family.)</em></p>
 			<p><strong>Delegation is by manifest, not brief.</strong> When you hand work to a generator —
 			or dispatch any unsupervised sub-agent — deliver a <strong>manifest it can execute without
 			further judgment</strong>, every consequence resolved in advance, not a loose brief. A
@@ -118,30 +119,30 @@
 			<h3>Habits</h3>
 			<div data-kcd-table>
 				<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-				<div data-kcd-slot data-kcd-always>
-					<span data-kcd-field="what"  data-kcd-type="text">write-approval</span>
-					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval.html">write-approval</a>
-					<span data-kcd-field="why"   data-kcd-type="text">before any write operation</span>
+				<div data-kcd-slot data-kcd-mode="suggested" data-kcd-habit-class="write-approval">
+					<span data-kcd-field="what"  data-kcd-type="text">write-approval-docs</span>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval/write-approval-docs.html">write-approval-docs</a>
+					<span data-kcd-field="why"   data-kcd-type="text">before any write operation. The write-approval slot's default (docs) occupant — write-approval-always and write-approval-yolo are the other two poles</span>
 				</div>
-				<div data-kcd-slot data-kcd-always>
+				<div data-kcd-slot data-kcd-mode="suggested">
 					<span data-kcd-field="what"  data-kcd-type="text">work-routing</span>
-					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/work-routing.html">work-routing</a>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/work-routing.html">work-routing</a>
 					<span data-kcd-field="why"   data-kcd-type="text">all output goes to work/{lensname}/</span>
 				</div>
-				<div data-kcd-slot data-kcd-always>
+				<div data-kcd-slot data-kcd-mode="suggested">
 					<span data-kcd-field="what"  data-kcd-type="text">append-session-log</span>
-					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/append-session-log.html">append-session-log</a>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/append-session-log.html">append-session-log</a>
 					<span data-kcd-field="why"   data-kcd-type="text">record the session before it compacts or ends</span>
 				</div>
-				<div data-kcd-slot data-kcd-always>
+				<div data-kcd-slot data-kcd-mode="suggested">
 					<span data-kcd-field="what"  data-kcd-type="text">plan-routing</span>
-					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/plan-routing.html">plan-routing</a>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/plan-routing.html">plan-routing</a>
 					<span data-kcd-field="why"   data-kcd-type="text">route new plans to work/, never canonical plans/</span>
 				</div>
-				<div data-kcd-slot data-kcd-always data-kcd-habit-class="subagent-policy">
+				<div data-kcd-slot data-kcd-mode="suggested" data-kcd-habit-class="subagent-policy">
 					<span data-kcd-field="what"  data-kcd-type="text">no-subagents</span>
-					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/no-subagents.html">no-subagents</a>
-					<span data-kcd-field="why"   data-kcd-type="text">do the task in-session; spawn a subagent only when the user asks</span>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/subagent-policy/no-subagents.html">no-subagents</a>
+					<span data-kcd-field="why"   data-kcd-type="text">do the task in-session; spawn a subagent only when the user asks. The subagent-policy slot's default occupant — subagents-allowed is the experimental other pole</span>
 				</div>
 			</div>
 		</section>
