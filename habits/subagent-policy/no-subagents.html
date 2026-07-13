@@ -23,33 +23,32 @@
 
 	<section data-kcd-section="when">
 		<h3>When</h3>
-		<p>A task could be decomposed or parallelized and you are tempted to spawn a subagent (the
-		Task / Agent tool, a workflow fan-out, any unsupervised relay).</p>
+		<p>a task could be decomposed or parallelized and you're tempted to spawn a subagent (the
+		Task / Agent tool, a workflow fan-out, any unsupervised relay)</p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>do the task yourself in the main session; spawn a subagent only when the user asks for one by
+		name, and even then draft the prompt for them to run rather than dispatching it</p>
+	</section>
+
+	<section data-kcd-section="explanation">
+		<h3>Explanation</h3>
+		<p>An autonomously-spawned subagent starts cold — it blows the token budget on standup, never
+		receives the lens context the main session carries, and spins rediscovering what it's supposed to
+		do. The separation of concerns is real but currently costs more than it returns.
+		Drafting-not-dispatching keeps the human in the loop, where the leverage is — they run the agent
+		so they can track its progress and step in on confusion or error.</p>
 	</section>
 
 	<section data-kcd-section="rules">
 		<h3>Rules</h3>
 		<ul>
-			<li><strong>Do the task yourself, in the main session.</strong> Process it in this
-			context. Do not spawn subagents to "separate concerns," parallelize, or offload standup.</li>
-			<li><strong>Exception is explicit only.</strong> Spin up a subagent solely when the user
-			asks for one by name in the current session. Absent that, there is no subagent.</li>
-			<li><strong>When the user does want one, draft — don't dispatch.</strong> Write the
-			subagent prompt and hand it to the user to modify and inject themselves. The user runs the
-			agent so they can track its progress and step in on confusion or error.</li>
+			<li>do it in the main session — no subagents to "separate concerns," parallelize, or offload standup</li>
+			<li>exception is explicit only — a subagent solely when the user asks for one by name</li>
+			<li>when they do want one, draft the prompt and hand it over; don't dispatch</li>
 		</ul>
-		<p><em>Why: an autonomously-spawned subagent starts cold — it blows the token budget on
-		standup, never receives the lens context the main session carries, and spins in circles
-		rediscovering what it is supposed to do. The separation of concerns is real but currently
-		costs more than it returns. Drafting-not-dispatching keeps the human in the loop, where the
-		leverage is.</em></p>
-	</section>
-
-	<section data-kcd-section="action">
-		<h3>Action</h3>
-		<p><strong>Tempted to spawn a subagent unprompted:</strong></p>
-		<blockquote>"This could be delegated, but no-subagents holds — I'll do it here. If you'd
-		rather farm it out, say so and I'll draft a prompt for you to run."</blockquote>
 	</section>
 
 </article>

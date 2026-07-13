@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>write-memory-restricted — Habit</title>
+	<link rel="stylesheet" href="../../kcd.css">
+</head>
+<body>
+
+<article data-kcd="habit">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">write-memory-restricted</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Commit a durable lesson via the learn tool only when it is genuinely high-value and will recur — sparse, deliberate, when-in-doubt-don't. The default pole of the write-memory mutual-exclusion class.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>habit-class</dt>   <dd data-kcd-field="habit-class"    data-kcd-type="slug">write-memory</dd>
+	</dl>
+
+	<h1>write-memory-restricted — Habit</h1>
+
+	<section data-kcd-section="when">
+		<h3>When</h3>
+		<p>you arrive at a general rule, heuristic, or stable preference that will clearly apply again
+		beyond the task in front of you — and it clears a high bar: durable, high-value, worth re-reading
+		on some future turn</p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>call <code>learn({ claim, because, lens, tags? })</code> with a self-contained claim and a
+		because that names the mechanism</p>
+	</section>
+
+	<section data-kcd-section="explanation">
+		<h3>Explanation</h3>
+		<p>The default, disciplined posture: when in doubt, don't. Memory context has higher leverage per
+		token than task context, so a trivial or wrong memory biases every future turn — and there is no
+		delete, so a memory is carried until it decays and you cannot choose to forget it. Opt-in per
+		lens: a lens carries a <code>write-memory</code> pole when its agents are meant to accumulate
+		wisdom. The full model lives in the
+		<a href="_Claude/plans/memory-system.html">memory-system</a> plan.</p>
+	</section>
+
+	<section data-kcd-section="rules">
+		<h3>Rules</h3>
+		<ul>
+			<li>save the rule, never the instance — a general heuristic, never a datum, secret, transcript, or fact about now (absolute in every pole)</li>
+			<li>claim + because both required — a claim with no because is rejected</li>
+			<li>terse by hard cap — claim ~120 chars, because ~280; the store rejects longer</li>
+			<li>sparse and high-value — no take-backs; a memory that fires on every future turn had better earn its place</li>
+			<li>tag beyond the lens only from the <code>known_tags</code> menu, for a real reusable topic; unknown tags are dropped</li>
+			<li><code>asAgentZero</code> only for a genuinely universal rule; default to your own identity</li>
+		</ul>
+	</section>
+
+</article>
+
+</body>
+</html>

@@ -23,44 +23,32 @@
 
 	<section data-kcd-section="when">
 		<h3>When</h3>
-		<p>Any write operation is about to occur.</p>
+		<p>any write operation is about to occur</p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>write anywhere directly, no confirmation; state what you wrote afterward if it's non-obvious</p>
+	</section>
+
+	<section data-kcd-section="explanation">
+		<h3>Explanation</h3>
+		<p>The loosest pole — "YOLO" is a statement about this lens's own approval friction, not license
+		to gamble with shared state. Two hard exceptions survive even here because they protect the
+		framework root and the one file governing every lens, not any single lens's day-to-day writes:
+		<code>_Claude/kcd/</code> is read-only (write only on explicit command) and <code>CLAUDE.md</code>
+		is read-only to all but <code>lens_crafter</code> (which drafts to
+		<code>_Claude/work/lens_crafter/plans/</code> and gets approval first). A corrupted copy of either
+		would break every other lens in the session.</p>
 	</section>
 
 	<section data-kcd-section="rules">
 		<h3>Rules</h3>
 		<ul>
-			<li>Writes anywhere — <strong>execute directly, no confirmation.</strong> State what you
-			wrote after the fact if it's non-obvious; don't wait for clearance first.</li>
+			<li>writes anywhere — execute directly, no clearance</li>
+			<li><code>_Claude/kcd/</code> — never write without an explicit user command during the session</li>
+			<li><code>CLAUDE.md</code> — only <code>lens_crafter</code> edits it, via drafted-and-approved changes</li>
 		</ul>
-
-		<p><strong>Hard exceptions — never write directly, regardless of lens:</strong></p>
-		<ul>
-			<li><strong><code>_Claude/kcd/</code></strong> — read-only for all lenses without exception.
-			Never write to any file inside <code>kcd/</code> unless the user explicitly commands it
-			during the session. This is the framework root; corrupting it breaks everything
-			downstream.</li>
-			<li><strong><code>CLAUDE.md</code></strong> — read-only for all lenses without exception.
-			<code>lens_crafter</code> is the sole authorized editor: it drafts changes to
-			<code>_Claude/work/lens_crafter/plans/</code> first and presents the draft for the user's
-			explicit approval before applying. No other lens drafts, proposes, or applies edits to
-			<code>CLAUDE.md</code>.</li>
-		</ul>
-
-		<p><em>Why the hard exceptions survive even here: they protect the framework root and the
-		one file that governs every lens's behavior, not any single lens's day-to-day writes. A
-		corrupted copy of either would break every other lens in the same session — "YOLO" is a
-		statement about this lens's own approval friction, not license to gamble with shared
-		state.</em></p>
-	</section>
-
-	<section data-kcd-section="action">
-		<h3>Action</h3>
-		<p><strong>Tempted to edit <code>CLAUDE.md</code> (non-lens_crafter lens):</strong></p>
-		<blockquote>"Editing CLAUDE.md is outside my authority. Flagging for lens_crafter."</blockquote>
-
-		<p><strong>Tempted to edit <code>_Claude/kcd/</code> without explicit command:</strong></p>
-		<blockquote>"<code>_Claude/kcd/</code> is read-only. If this needs changing, ask the user to
-		authorize it explicitly."</blockquote>
 	</section>
 
 </article>

@@ -23,50 +23,34 @@
 
 	<section data-kcd-section="when">
 		<h3>When</h3>
-		<p>Any write operation is about to occur, anywhere — including inside
-		<code>_Claude/</code>.</p>
+		<p>any write operation is about to occur, anywhere — including inside <code>_Claude/</code></p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>state the target path and intended change, then wait for the user's clearance before executing
+		any write</p>
+	</section>
+
+	<section data-kcd-section="explanation">
+		<h3>Explanation</h3>
+		<p>The strictest pole: the other two (<code>write-approval-docs</code>,
+		<code>write-approval-yolo</code>) pre-approve some zone for speed, but a lens working somewhere
+		with real blast radius — production config, a shared credential store, anything the user can't
+		cheaply revert — should clear every write, every time, with no exceptions carved for convenience.
+		Two hard exceptions refuse regardless of lens: <code>_Claude/kcd/</code> is read-only (framework
+		root; write only on explicit command) and <code>CLAUDE.md</code> is read-only to all but
+		<code>lens_crafter</code>, which drafts to <code>_Claude/work/lens_crafter/plans/</code> and gets
+		approval first.</p>
 	</section>
 
 	<section data-kcd-section="rules">
 		<h3>Rules</h3>
 		<ul>
-			<li>Every write, everywhere — <strong>requires explicit approval.</strong> State the
-			target path and intended change before executing, then wait for the user's clearance. No
-			path is pre-approved, including work under <code>_Claude/</code>.</li>
+			<li>every write, everywhere — state path + intended change, wait for clearance; no path is pre-approved, including under <code>_Claude/</code></li>
+			<li><code>_Claude/kcd/</code> — never write without an explicit user command during the session</li>
+			<li><code>CLAUDE.md</code> — only <code>lens_crafter</code> edits it, via drafted-and-approved changes</li>
 		</ul>
-
-		<p><strong>Hard exceptions — never write directly, regardless of lens:</strong></p>
-		<ul>
-			<li><strong><code>_Claude/kcd/</code></strong> — read-only for all lenses without exception.
-			Never write to any file inside <code>kcd/</code> unless the user explicitly commands it
-			during the session. This is the framework root; corrupting it breaks everything
-			downstream.</li>
-			<li><strong><code>CLAUDE.md</code></strong> — read-only for all lenses without exception.
-			<code>lens_crafter</code> is the sole authorized editor: it drafts changes to
-			<code>_Claude/work/lens_crafter/plans/</code> first and presents the draft for the user's
-			explicit approval before applying. No other lens drafts, proposes, or applies edits to
-			<code>CLAUDE.md</code>.</li>
-		</ul>
-
-		<p><em>Why this pole exists: the other two poles (<code>write-approval-docs</code>,
-		<code>write-approval-yolo</code>) both pre-approve some zone of writes for speed.
-		A lens working somewhere with real blast radius — production config, a shared credential
-		store, anything the user can't cheaply revert — should have to clear every write, every
-		time, no exceptions carved out for convenience.</em></p>
-	</section>
-
-	<section data-kcd-section="action">
-		<h3>Action</h3>
-		<p><strong>Any write:</strong></p>
-		<blockquote>"I'm about to write to <code>&lt;path&gt;</code> — [what and why]. Clearing before
-		I proceed."</blockquote>
-
-		<p><strong>Tempted to edit <code>CLAUDE.md</code> (non-lens_crafter lens):</strong></p>
-		<blockquote>"Editing CLAUDE.md is outside my authority. Flagging for lens_crafter."</blockquote>
-
-		<p><strong>Tempted to edit <code>_Claude/kcd/</code> without explicit command:</strong></p>
-		<blockquote>"<code>_Claude/kcd/</code> is read-only. If this needs changing, ask the user to
-		authorize it explicitly."</blockquote>
 	</section>
 
 </article>

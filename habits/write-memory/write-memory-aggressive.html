@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>write-memory-aggressive — Habit</title>
+	<link rel="stylesheet" href="../../kcd.css">
+</head>
+<body>
+
+<article data-kcd="habit">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">write-memory-aggressive</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Commit lessons liberally via the learn tool — a low bar for saving; capture any general rule as it surfaces and let decay prune what doesn't earn its keep. The eager pole of the write-memory mutual-exclusion class.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>habit-class</dt>   <dd data-kcd-field="habit-class"    data-kcd-type="slug">write-memory</dd>
+	</dl>
+
+	<h1>write-memory-aggressive — Habit</h1>
+
+	<section data-kcd-section="when">
+		<h3>When</h3>
+		<p>any general rule, heuristic, recurring pattern, or durable preference surfaces</p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>call <code>learn({ claim, because, lens, tags? })</code> as soon as the rule crystallizes —
+		don't wait for it to prove itself first, that's what decay is for</p>
+	</section>
+
+	<section data-kcd-section="explanation">
+		<h3>Explanation</h3>
+		<p>The eager pole — prefer saving over skipping. Decay is the safety valve: the relevance formula
+		prunes what's never reached for again, so the cost of an unremarkable memory self-corrects while
+		the cost of a missed lesson is permanent. When in doubt, save. The low bar is on <em>worth</em>,
+		NOT on <em>shape</em> — the hard constraints below are identical in every pole and the store
+		enforces them; aggressive does not relax them. The full model lives in the
+		<a href="_Claude/plans/memory-system.html">memory-system</a> plan.</p>
+	</section>
+
+	<section data-kcd-section="rules">
+		<h3>Rules</h3>
+		<ul>
+			<li>save the rule, never the instance — still absolute; a low bar means more rules, never a one-off fact, secret, or log ("log everything" is this pole's failure mode)</li>
+			<li>claim + because both required — even a low-stakes memory needs its rationale</li>
+			<li>terse by hard cap — claim ~120 chars, because ~280; saving often makes terseness matter more</li>
+			<li>no take-backs — a low bar is fine because decay prunes; storing instances is not</li>
+			<li>tag from the <code>known_tags</code> menu only; unknown tags are dropped</li>
+			<li><code>asAgentZero</code> only for a genuinely universal rule</li>
+		</ul>
+	</section>
+
+</article>
+
+</body>
+</html>

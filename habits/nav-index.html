@@ -20,7 +20,7 @@
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-11</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-12</dd>
 	</dl>
 
 	<h1>kcd/habits — Nav index</h1>
@@ -55,6 +55,11 @@
 			<span data-kcd-field="why"   data-kcd-type="text">When writing or modifying any navigational index — enforce the What/Where/Why shape</span>
 		</div>
 		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">inline-affordances</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/inline-affordances.html">inline-affordances</a>
+			<span data-kcd-field="why"   data-kcd-type="text">When a chat reply carries tabular data — emit plain GFM and the chat surface enriches it into a styled, interactive KCD table (widen / open-in-Studio). The first inline affordance; a tool call without the tool</span>
+		</div>
+		<div data-kcd-slot>
 			<span data-kcd-field="what"  data-kcd-type="text">no-subagents</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/subagent-policy/no-subagents.html">no-subagents</a>
 			<span data-kcd-field="why"   data-kcd-type="text">When tempted to delegate — process the task yourself; spawn a subagent only on explicit request, and draft its prompt for the user to run. subagent-policy class, default pole</span>
@@ -65,11 +70,6 @@
 			<span data-kcd-field="why"   data-kcd-type="text">Spawn subagents freely for delegatable work. subagent-policy class, experimental pole — no lens wires this in by default</span>
 		</div>
 		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">plan-routing</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/plan-routing.html">plan-routing</a>
-			<span data-kcd-field="why"   data-kcd-type="text">When creating a plan — route new plans to work/, never canonical plans/</span>
-		</div>
-		<div data-kcd-slot>
 			<span data-kcd-field="what"  data-kcd-type="text">run-report</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/run-report.html">run-report</a>
 			<span data-kcd-field="why"   data-kcd-type="text">After an analyzer&apos;s or generator&apos;s final phase — mandatory close step</span>
@@ -78,6 +78,21 @@
 			<span data-kcd-field="what"  data-kcd-type="text">work-routing</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/work-routing.html">work-routing</a>
 			<span data-kcd-field="why"   data-kcd-type="text">Governs where work output is placed (inherited from _lens_base)</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">write-memory-restricted</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-memory/write-memory-restricted.html">write-memory-restricted</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Commit a durable lesson via learn only when high-value and recurring — when-in-doubt-don't. write-memory class, default pole; opt-in per lens</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">write-memory-aggressive</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-memory/write-memory-aggressive.html">write-memory-aggressive</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Commit lessons liberally — low bar to save, decay prunes. write-memory class, eager pole</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">write-memory-never</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-memory/write-memory-never.html">write-memory-never</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Write no memory, regardless of trigger; reading unaffected. write-memory class, off pole</span>
 		</div>
 		<div data-kcd-slot>
 			<span data-kcd-field="what"  data-kcd-type="text">write-approval-always</span>

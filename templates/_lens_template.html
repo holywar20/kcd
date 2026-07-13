@@ -72,12 +72,7 @@
 
 		<section data-kcd-section="purpose">
 			<h3>Purpose</h3>
-			<p>{One short paragraph: what this lens activates, what kind of thinking it summons.}</p>
-		</section>
-
-		<section data-kcd-section="core-mental-model">
-			<h3>Core Mental Model</h3>
-			<p>{How this collaborator frames problems in its domain. Vocabulary in use. Stance.}</p>
+			<p>{One short paragraph: what this lens activates, the kind of thinking it summons, and how it frames problems in its domain — the vocabulary and stance in use.}</p>
 		</section>
 
 		<section data-kcd-section="philosophy">
@@ -124,20 +119,6 @@
 					<span data-kcd-field="why"   data-kcd-type="text">{when it applies}</span>
 				</div>
 			</div>
-		</section>
-
-		<section data-kcd-section="working-space">
-			<h3>Working Space</h3>
-			<p><em>Output goes here, per the work-routing habit:</em></p>
-			<ul>
-				<li><code>_Claude/work/{name}/AI/</code> — AI-generated output</li>
-				<li><code>_Claude/work/{name}/human/</code> — the user's working documents</li>
-				<li><code>_Claude/work/{name}/plans/</code> — plans and task tracking</li>
-			</ul>
-			<p><em>TODO and Completed are not kept in the lens body. They live at <code>todo</code> and
-			<code>completed</code> paths (populated at deploy time — typically
-			<code>_Claude/logs/{name}/todo/</code> and <code>_Claude/logs/{name}/completed/</code>).
-			Agents know where they are but do not read them unless asked.</em></p>
 		</section>
 	</section>
 

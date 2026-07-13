@@ -23,52 +23,36 @@
 
 	<section data-kcd-section="when">
 		<h3>When</h3>
-		<p>Any write operation is about to occur. Inherited by every lens via
-		<a href="_Claude/kcd/lenses/_lens_base.html">_lens_base</a> unless a more specific source
-		swaps in a different <code>write-approval</code> pole.</p>
+		<p>any write operation is about to occur (inherited by every lens via <code>_lens_base</code>
+		unless a more specific source swaps in another <code>write-approval</code> pole)</p>
+	</section>
+
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>inside <code>_Claude/</code> write freely; outside it, state the target path and intended
+		change and wait for the user's clearance before writing</p>
+	</section>
+
+	<section data-kcd-section="explanation">
+		<h3>Explanation</h3>
+		<p>The default pole because a typical project's real risk surface is outside <code>_Claude/</code>
+		— application code, config, anything that ships — while writes inside <code>_Claude/</code> are
+		documentation and framework artifacts, cheap to revert and expected to churn every session; gating
+		those on approval would just be noise. Two paths refuse regardless of lens and override the
+		pre-approval: <code>_Claude/kcd/</code> is read-only (the framework root — corrupting it breaks
+		everything downstream), and <code>CLAUDE.md</code> is read-only to all but
+		<code>lens_crafter</code>, which drafts changes to
+		<code>_Claude/work/lens_crafter/plans/</code> and gets explicit approval before applying.</p>
 	</section>
 
 	<section data-kcd-section="rules">
 		<h3>Rules</h3>
 		<ul>
-			<li>Writes anywhere inside <code>_Claude/</code> (any depth, any file) —
-			<strong>pre-approved.</strong> No confirmation needed; execute.</li>
-			<li>Writes anywhere outside <code>_Claude/</code> — <strong>require explicit
-			approval.</strong> State the target path and intended change before executing, then wait for
-			the user's clearance.</li>
+			<li>inside <code>_Claude/</code> — pre-approved; execute, no confirmation</li>
+			<li>outside <code>_Claude/</code> — state path + change, then wait for clearance</li>
+			<li><code>_Claude/kcd/</code> — never write without an explicit user command during the session</li>
+			<li><code>CLAUDE.md</code> — only <code>lens_crafter</code> edits it, via drafted-and-approved changes</li>
 		</ul>
-
-		<p><strong>Hard exceptions — never write directly, regardless of lens:</strong></p>
-		<ul>
-			<li><strong><code>_Claude/kcd/</code></strong> — read-only for all lenses without exception.
-			Never write to any file inside <code>kcd/</code> unless the user explicitly commands it
-			during the session. This is the framework root; corrupting it breaks everything
-			downstream.</li>
-			<li><strong><code>CLAUDE.md</code></strong> — read-only for all lenses without exception.
-			<code>lens_crafter</code> is the sole authorized editor: it drafts changes to
-			<code>_Claude/work/lens_crafter/plans/</code> first and presents the draft for the user's
-			explicit approval before applying. No other lens drafts, proposes, or applies edits to
-			<code>CLAUDE.md</code>.</li>
-		</ul>
-
-		<p><em>Why this is the default: a typical project's real risk surface is outside
-		<code>_Claude/</code> — application code, config, anything that ships. Writes inside
-		<code>_Claude/</code> are documentation and framework artifacts, cheap to revert and expected
-		to churn every session; gating those on approval would just be noise.</em></p>
-	</section>
-
-	<section data-kcd-section="action">
-		<h3>Action</h3>
-		<p><strong>Outside write:</strong></p>
-		<blockquote>"I'm about to write to <code>&lt;path&gt;</code> — [what and why]. Clearing before
-		I proceed."</blockquote>
-
-		<p><strong>Tempted to edit <code>CLAUDE.md</code> (non-lens_crafter lens):</strong></p>
-		<blockquote>"Editing CLAUDE.md is outside my authority. Flagging for lens_crafter."</blockquote>
-
-		<p><strong>Tempted to edit <code>_Claude/kcd/</code> without explicit command:</strong></p>
-		<blockquote>"<code>_Claude/kcd/</code> is read-only. If this needs changing, ask the user to
-		authorize it explicitly."</blockquote>
 	</section>
 
 </article>

@@ -31,6 +31,21 @@
 		report.</p>
 	</section>
 
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>write a per-phase self-assessment chart to <code>_Claude/audits/{name}-run.md</code>
+		(flush-and-fill, one file per procedure) — see the Output/Format sections below for the exact
+		shape</p>
+	</section>
+
+	<section data-kcd-section="explanation">
+		<h3>Explanation</h3>
+		<p>Self-assessment by the agent is noisy in absolute terms, so use this as an outlier detector and
+		a forced reflection prompt, not a calibrated quality metric — the differential across phases and
+		the contents of the Notes section carry more signal than absolute confidence numbers. It runs
+		unconditionally at the end of every generator/analyzer so an unusual run stands out at a glance.</p>
+	</section>
+
 	<section data-kcd-section="output">
 		<h3>Output</h3>
 		<p>File: <code>_Claude/audits/{name}-run.md</code> — one file per procedure, flush-and-fill.

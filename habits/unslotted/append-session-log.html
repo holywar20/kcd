@@ -10,30 +10,34 @@
 <article data-kcd="habit">
 
 	<dl data-kcd-frontmatter>
-		<dt>name</dt>        <dd data-kcd-field="name"        data-kcd-type="slug">append-session-log</dd>
-		<dt>description</dt> <dd data-kcd-field="description" data-kcd-type="text">Prepend one line to session.md at session close if work produced concrete changes to _Claude/.</dd>
-		<dt>type</dt>        <dd data-kcd-field="type"        data-kcd-type="enum">habit</dd>
-		<dt>status</dt>      <dd data-kcd-field="status"      data-kcd-type="enum">disabled</dd>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">append-session-log</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Prepend one line to session.md at session close if work produced concrete changes to _Claude/.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
 	</dl>
 
-	<h1>Habit — append-session-log</h1>
+	<h1>append-session-log — Habit</h1>
 
-	<p><strong>When:</strong> at session close, if work produced concrete changes to
-	<code>_Claude/</code>.</p>
+	<section data-kcd-section="when">
+		<h3>When</h3>
+		<p>at session close, if work produced concrete changes to <code>_Claude/</code></p>
+	</section>
 
-	<p><strong>Action:</strong> prepend one line to <code>_Claude/logs/session.md</code>. One entry
-	per meaningful checkpoint — do not log micro-edits.</p>
+	<section data-kcd-section="action">
+		<h3>Action</h3>
+		<p>prepend one line to <a href="_Claude/logs/session.md">_Claude/logs/session.md</a> (format
+		<code>YYYY-MM-DD : !{lens} : 1–2 sentence description of the action.</code>), newest at top</p>
+	</section>
 
-	<p><strong>Format:</strong>
-	<code>YYYY-MM-DD : !{lens} : 1–2 sentence description of the action.</code></p>
-
-	<ul>
-		<li>Newest at the top (prepended).</li>
-		<li><code>!{lens}</code> is the active lens command. For cross-cutting work use
-		<code>!lens_crafter</code> or a descriptive label.</li>
-		<li><strong>Append-only history.</strong> The session log accumulates; current-state-only
-		rule — it <em>is</em> the history.</li>
-	</ul>
+	<section data-kcd-section="explanation">
+		<h3>Explanation</h3>
+		<p>One entry per meaningful checkpoint — never log micro-edits. The session log is append-only and
+		accumulates; the current-state rule holds because it <em>is</em> the history a future session
+		reads to orient. <code>!{lens}</code> is the active lens command; for cross-cutting work use
+		<code>!lens_crafter</code> or a descriptive label.</p>
+	</section>
 
 </article>
 
