@@ -23,7 +23,7 @@
 
 	<p>The frontmatter every artifact in the <code>_Claude/</code> tree carries. This doc restates the
 	contract for orientation; the <strong>locked authority</strong> is
-	<a href="_Claude/references/kcd_sdk/kcd-document-protocol.html">kcd-document-protocol</a> §4 — where
+	<a href="_Claude/kcd/references/kcd_sdk/kcd-document-protocol.html">kcd-document-protocol</a> §4 — where
 	the two differ, the protocol wins.</p>
 
 	<section data-kcd-section="core-principles">
@@ -64,7 +64,7 @@
 				<tr><td><code>name</code></td><td>universal · required</td><td>slug</td><td>Skill standard — kebab, ≤64 chars, <code>[a-z0-9-]</code>, no "claude"/"anthropic"</td></tr>
 				<tr><td><code>description</code></td><td>universal · required</td><td>text</td><td>Skill standard — what it does <strong>+ when to use it</strong> (the trigger), ≤1024</td></tr>
 				<tr><td><code>type</code></td><td>universal · required</td><td>enum</td><td>the discriminator (see <em>Artifact types</em> below)</td></tr>
-				<tr><td><code>status</code></td><td>universal · required</td><td>enum</td><td><code>draft｜active｜composed｜disabled｜deployed｜complete｜retired｜paused</code>; <strong><code>active</code> ⇒ validated</strong></td></tr>
+				<tr><td><code>status</code></td><td>universal · required</td><td>enum</td><td><code>draft｜active｜observation｜composed｜disabled｜deployed｜complete｜retired｜paused</code>; <strong><code>active</code> ⇒ validated</strong>. <code>observation</code> = a note's forward-looking, not-yet-built status</td></tr>
 				<tr><td><code>schema-version</code></td><td>universal</td><td>text</td><td>the protocol version this doc targets — the migration hook for a locked schema</td></tr>
 				<tr><td><code>author</code></td><td>universal</td><td>text</td><td>the author block — <code>Name &lt;email&gt;</code></td></tr>
 				<tr><td><code>updated</code> / <code>created</code></td><td>universal</td><td>date</td><td>staleness signal</td></tr>
@@ -128,9 +128,11 @@
 		<table>
 			<thead><tr><th>Type</th><th>Adds</th><th>Notes</th></tr></thead>
 			<tbody>
-				<tr><td><code>lens</code></td><td><code>base</code>, <code>dredge-depth</code>, <code>audience</code>, <code>tags</code>, <code>todo</code>, <code>completed</code></td><td><code>todo</code>/<code>completed</code> are log paths (populated at deploy); <code>_lens-base</code> is auto-loaded. <strong>No invocation command</strong> — lenses are description-triggered (protocol §7).</td></tr>
+				<tr><td><code>lens</code></td><td><code>base</code>, <code>dredge-depth</code>, <code>audience</code>, <code>tags</code>, <code>todo_path</code>, <code>completed_path</code></td><td><code>todo_path</code>/<code>completed_path</code> are log paths (populated at deploy); <code>_lens-base</code> is auto-loaded. <strong>No invocation command</strong> — lenses are description-triggered (protocol §7).</td></tr>
 				<tr><td><code>plan</code></td><td><code>lens</code>, <code>created</code>, <code>updated</code></td><td><code>lens: {name｜cross}</code>; live states (<code>draft｜active｜paused</code>) require a <code>phases</code> section.</td></tr>
 				<tr><td><code>reference</code></td><td><code>domain</code>, <code>updated</code></td><td>references live in <code>references/{domain}/</code> only; they do not travel.</td></tr>
+				<tr><td><code>note</code></td><td><code>updated</code></td><td>a forward-looking observation — keeps its open / candidate sections (unlike a reference); legal status <code>observation</code>.</td></tr>
+				<tr><td><code>how-to</code></td><td><code>updated</code></td><td>a procedural recipe — keeps its own step shape.</td></tr>
 				<tr><td><code>contract</code></td><td><code>scope</code></td><td><code>universal｜lens:{name}</code>.</td></tr>
 				<tr><td><code>generator</code></td><td><code>base</code></td><td><code>base: _generator-base</code>; deployed copy records its ancestor via <code>origin</code>. (<code>model</code> is a <strong>parameter</strong>, not frontmatter.)</td></tr>
 				<tr><td><code>analyzer</code></td><td><code>lens</code>, <code>base</code></td><td><code>lens</code> = the lens it composes with, so it can run cold. (<code>model</code> is a <strong>parameter</strong>, not frontmatter.)</td></tr>
@@ -144,10 +146,10 @@
 
 	<section data-kcd-section="artifact-types">
 		<h3>Artifact types</h3>
-		<p>The <code>type</code> discriminator is one of the ten:</p>
-		<p><code>lens</code> · <code>plan</code> · <code>reference</code> · <code>framework</code> ·
-		<code>template</code> · <code>nav-index</code> · <code>habit</code> · <code>contract</code> ·
-		<code>generator</code> · <code>analyzer</code>.</p>
+		<p>The <code>type</code> discriminator is one of the twelve:</p>
+		<p><code>lens</code> · <code>plan</code> · <code>reference</code> · <code>note</code> ·
+		<code>how-to</code> · <code>framework</code> · <code>template</code> · <code>nav-index</code> ·
+		<code>habit</code> · <code>contract</code> · <code>generator</code> · <code>analyzer</code>.</p>
 		<p><code>type</code> is also a drift guard: a <code>type</code>↔location mismatch is a signal.
 		(<code>command</code>, <code>pipeline</code>, <code>index</code>, <code>doc</code>,
 		<code>utility</code>, and the <code>category</code> field are retired — superseded respectively
@@ -158,7 +160,7 @@
 	<section data-kcd-section="cross-cutting-rules">
 		<h3>Cross-cutting rules</h3>
 		<ul>
-			<li><strong>Model convention:</strong> default <code>claude-sonnet-4-6</code> (the reliable
+			<li><strong>Model convention:</strong> default <code>claude-sonnet-5</code> (the reliable
 			workhorse); downgrade to <code>claude-haiku-4-5</code> only for genuinely trivial,
 			fully-mechanical work. Declared per procedure in <code>model</code>.</li>
 			<li><strong><code>disabled</code> = ignored twice:</strong> behavioral (lenses skip) +

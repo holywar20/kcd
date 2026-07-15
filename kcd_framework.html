@@ -88,7 +88,7 @@
 			<li><code>kcd/</code> — the canonical framework library. <strong>Shouldn't change
 			ever</strong> in a deployed instance: it is the normalization reference the project is
 			checked against, edited only at the framework's own home. All artifacts are in
-			<code>.html</code> format per the <a href="_Claude/references/kcd_sdk/kcd-document-protocol.html">KCD Document Protocol</a>.</li>
+			<code>.html</code> format per the <a href="_Claude/kcd/references/kcd_sdk/kcd-document-protocol.html">KCD Document Protocol</a>.</li>
 			<li><code>utilities/</code> — the registered tool tier (see <em>The agent model</em>).
 			Structurally carries its own security gate: <code>draft/</code> (agent- or human-proposed,
 			<strong>not yet runnable</strong>), <code>deployed/</code> (<strong>human-approved,
@@ -200,7 +200,7 @@
 		<ul>
 			<li><strong>Code where executable, HTML where authored.</strong> The framework's
 			executable parts (parse, validate, deploy, dispatch, flush) live in code; its authored
-			parts (lenses, references, plans, docs) live in HTML per the <a href="_Claude/references/kcd_sdk/kcd-document-protocol.html">KCD Document Protocol</a>.
+			parts (lenses, references, plans, docs) live in HTML per the <a href="_Claude/kcd/references/kcd_sdk/kcd-document-protocol.html">KCD Document Protocol</a>.
 			HTML is the schema-conformant authoring surface that code reads, writes, and round-trips.</li>
 			<li><strong>Shared tool bucket.</strong> The Utility tier is a <em>single</em> registered
 			API surface shared by the human and the AI: the same script the engineer runs from a

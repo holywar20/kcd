@@ -98,7 +98,7 @@
 		<table>
 			<thead><tr><th>Layer</th><th>Purpose</th></tr></thead>
 			<tbody>
-				<tr><td><strong>Habits</strong></td><td>Atomic single-step behaviors. Source lives in <code>_Claude/kcd/habits/</code>; the Where column in a deployed lens links to the deployed copy at <code>_Claude/habits/</code>. <code>_lens_base</code> supplies the universal ones (write-approval, work-routing, append-session-log); a lens lists only what it adds. <code>_lens_base</code> is the one exception — its links stay at <code>_Claude/kcd/</code> because it is the canonical floor.</td></tr>
+				<tr><td><strong>Habits</strong></td><td>Atomic single-step behaviors. Source lives in <code>_Claude/kcd/habits/{class}/</code>; the Where column in a deployed lens links to the deployed copy at <code>_Claude/habits/{class}/</code> — the class subfolder (the habit's slot) is preserved on deploy, never flattened. <code>_lens_base</code> supplies the universal ones (write-approval, work-routing, session/completed logging, no-subagents); a lens lists only what it adds. <code>_lens_base</code> is the one exception — its links stay at <code>_Claude/kcd/</code> because it is the canonical floor.</td></tr>
 				<tr><td><strong>Contracts</strong></td><td>Behavioral agreements this lens follows. Source lives in <code>_Claude/kcd/contracts/</code>; the Where column in a deployed lens links to the deployed copy at <code>_Claude/contracts/</code>.</td></tr>
 				<tr><td><strong>Working Space</strong></td><td>Where this lens drops output. Inherited from the <code>work-routing</code> habit in <code>_lens_base</code>. All work goes to <code>_Claude/work/{name}/</code> (<code>AI/</code>, <code>human/</code>, <code>plans/</code>). Never promoted without the user's explicit direction.</td></tr>
 			</tbody>
@@ -233,8 +233,8 @@
 		The reader doesn't experience N lenses — they experience one composite.</p>
 		<p>The base lens at <code>_Claude/lenses/_lens_base.html</code> is stacked on every session
 		without explicit invocation. It carries Care (project-wide stance) and the standing Do habits
-		(<code>write-approval</code>, <code>work-routing</code>, <code>append-session-log</code>).
-		Specific lenses extend it; they do not replace it.</p>
+		(<code>write-approval</code>, <code>work-routing</code>, <code>session-log-aggressive</code>,
+		<code>completed-log-aggressive</code>). Specific lenses extend it; they do not replace it.</p>
 	</section>
 
 	<section data-kcd-section="operational-appendages">

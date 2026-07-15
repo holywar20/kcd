@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>kcd/references — Nav index</title>
+	<link rel="stylesheet" href="../kcd.css">
+</head>
+<body>
+
+<article data-kcd="nav-index">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">kcd-references</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Canonical framework references — the durable, project-agnostic specs a KCD instance is built on. Categorized by subfolder.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">nav-index</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-14</dd>
+	</dl>
+
+	<h1>kcd/references — Nav index</h1>
+
+	<p>Canonical framework references — the durable, project-agnostic specs a KCD instance is built on.
+	Categorized by subfolder; a deploy copies these out to <code>_Claude/references/</code>.</p>
+
+	<div data-kcd-table>
+		<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">KCD Document Protocol</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/references/kcd_sdk/kcd-document-protocol.html">kcd-document-protocol</a>
+			<span data-kcd-field="why"   data-kcd-type="text">The locked HTML format every KCD artifact is authored in — addressing contract, component vocabulary, frontmatter, validation. Read when authoring, parsing, validating, or rendering any KCD document</span>
+		</div>
+		<div data-kcd-slot>
+			<span data-kcd-field="what"  data-kcd-type="text">KCD Primitives</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/references/kcd_sdk/kcd-primitives.html">kcd-primitives</a>
+			<span data-kcd-field="why"   data-kcd-type="text">The SDK object model — artifact type discriminators and their classes, the role model, the serialized wire shape, and the error types</span>
+		</div>
+	</div>
+
+</article>
+
+</body>
+</html>

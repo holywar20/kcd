@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ============================================================================
      CONTRACT — deploy-lens (canonical). Migrated from deploy-lens.md.
-     Full format law: _Claude/references/domain/kcd-document-protocol.html.
+     Full format law: _Claude/kcd/references/kcd_sdk/kcd-document-protocol.html.
      ============================================================================ -->
 <html lang="en">
 <head>
@@ -46,13 +46,14 @@
 		<p>A deployed lens is a folder <code>_Claude/lenses/{name}/</code> containing
 		<code>{name}.html</code> plus a <code>context/</code>, sourced from
 		<code>_Claude/kcd/lenses/{name}/{name}.html</code>.</p>
-		<p>Frontmatter (after deployment):</p>
-		<pre><code>---
-type: lens
-status: active
-todo_path: _Claude/logs/{name}/todo/todo.md
-completed_path: _Claude/logs/{name}/completed/completed.md
----</code></pre>
+		<p>Frontmatter (after deployment) — the HTML <code>&lt;dl&gt;</code> form per
+		<a href="_Claude/kcd/references/kcd_sdk/kcd-document-protocol.html">kcd-document-protocol</a> §4:</p>
+		<pre><code>&lt;dl data-kcd-frontmatter&gt;
+  &lt;dt&gt;type&lt;/dt&gt;           &lt;dd data-kcd-field="type"           data-kcd-type="enum"&gt;lens&lt;/dd&gt;
+  &lt;dt&gt;status&lt;/dt&gt;         &lt;dd data-kcd-field="status"         data-kcd-type="enum"&gt;active&lt;/dd&gt;
+  &lt;dt&gt;todo_path&lt;/dt&gt;      &lt;dd data-kcd-field="todo_path"      data-kcd-type="path"&gt;_Claude/logs/{name}/todo/todo.md&lt;/dd&gt;
+  &lt;dt&gt;completed_path&lt;/dt&gt; &lt;dd data-kcd-field="completed_path" data-kcd-type="path"&gt;_Claude/logs/{name}/completed/completed.md&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
 		<p><strong>Rendering conventions:</strong> Per
 		<a href="_Claude/kcd/lenses/_lens_base.html">_lens_base</a> — paths are links;
 		backticks-around-paths reserved for pattern paths, fenced code, and quoted speech; blank line
@@ -72,8 +73,8 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 			Base has no CLAUDE.md registration and no path rewriting on its own body — its links stay
 			pointing at <code>_Claude/kcd/...</code> because base is the canonical floor and is the one
 			exception to the deployed-points-at-deployed rule. Base <strong>still deploys its descendant
-			habits and contracts</strong> per Phase 2.5 (write-approval, work-routing, append-session-log,
-			plan). Once base is deployed, proceed to Phase 1.</p>
+			habits and contracts</strong> per Phase 2.5 (write-approval, work-routing, session-log-aggressive,
+			completed-log-aggressive, plan). Once base is deployed, proceed to Phase 1.</p>
 			<p><strong>Standard:</strong> <code>_Claude/lenses/_lens_base.html</code> exists and is
 			<code>status: active</code> before any other lens is deployed. Base's descendant habits and
 			contracts exist at their deployed locations. Base is deployed once and never redeployed unless
@@ -115,9 +116,15 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 			<p><strong>Together:</strong> Read the deployed lens's <code>Do &gt; Habits</code> and
 			<code>Do &gt; Contracts</code> tables. For each row pointing into <code>_Claude/kcd/habits/</code>
 			or <code>_Claude/kcd/contracts/</code>, copy the source file to its deployed location
-			(<code>_Claude/habits/{name}.html</code>, <code>_Claude/contracts/{name}.html</code>). Set
-			<code>status: active</code> in each deployed copy. If a deployed copy already exists, skip with
-			a one-line surface to the user; never overwrite silently.</p>
+			<strong>preserving its class subfolder</strong>: a habit at
+			<code>_Claude/kcd/habits/{class}/{name}.html</code> deploys to
+			<code>_Claude/habits/{class}/{name}.html</code> — the <code>{class}</code> folder is the habit's
+			slot and travels with it (a classless habit keeps <code>unslotted/</code>). <strong>Never flatten
+			a habit into <code>_Claude/habits/{name}.html</code></strong> — that breaks the class-path
+			references every nav-index and lens carries. A contract deploys to
+			<code>_Claude/contracts/{name}.html</code>. Set <code>status: active</code> in each deployed copy.
+			If a deployed copy already exists, skip with a one-line surface to the user; never overwrite
+			silently.</p>
 			<p><strong>Standard:</strong> Every habit and contract the lens depends on exists at its
 			deployed location with <code>status: active</code>. The kcd sources remain <code>disabled</code>
 			and unchanged.</p>
@@ -148,10 +155,13 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 			<a href="_Claude/kcd/lenses/nav-index.html">kcd/lenses/nav-index</a>), then append. This write is
 			<strong>not approval-gated</strong> — the index is a structural projection over the deployed
 			roster.</p>
-			<p>Row shape:</p>
-			<pre><code>| What | Where | Why |
-|---|---|---|
-| {name} | [{name}](_Claude/lenses/{name}/{name}.html) | {one-line purpose from the lens Purpose section} |</code></pre>
+			<p>Row shape — a What/Where/Why faux-table slot (protocol §3), never a real
+			<code>&lt;table&gt;</code>:</p>
+			<pre><code>&lt;div data-kcd-slot&gt;
+  &lt;span data-kcd-field="what"  data-kcd-type="text"&gt;{name}&lt;/span&gt;
+  &lt;a    data-kcd-field="where" data-kcd-type="path" href="_Claude/lenses/{name}/{name}.html"&gt;{name}&lt;/a&gt;
+  &lt;span data-kcd-field="why"   data-kcd-type="text"&gt;{one-line purpose from the lens Purpose section}&lt;/span&gt;
+&lt;/div&gt;</code></pre>
 			<p><strong>4b — CLAUDE.md.</strong> Append the lens row to the Lens Index table in
 			<code>CLAUDE.md</code>. The <code>!{name}</code> command is <strong>legacy</strong> — it is no
 			longer a canonical KCD field, but persists in <code>CLAUDE.md</code> as a human affordance:</p>
@@ -187,6 +197,7 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 		<ul>
 			<li><strong>kcd is the only valid source.</strong> Never copy from another project's <code>_Claude/lenses/</code>.</li>
 			<li><strong>kcd source is never modified during deployment.</strong> The kcd copy stays <code>disabled</code>.</li>
+			<li><strong>Habits deploy into their class subfolder — never flattened.</strong> <code>habits/{class}/{name}.html</code> in, <code>habits/{class}/{name}.html</code> out (classless → <code>unslotted/</code>). The folder is the habit's slot; a flat <code>habits/{name}.html</code> is malformed.</li>
 			<li><strong>CLAUDE.md is approval-gated.</strong> The index update requires explicit user sign-off.</li>
 			<li><strong>Broken paths block deployment.</strong> A lens pointing at missing files is flagged, not silently deployed.</li>
 			<li><strong>Substrate conventions are non-negotiable.</strong> What/Where/Why faux-tables (never a real <code>&lt;table&gt;</code>); real <code>&lt;a href&gt;</code> links throughout.</li>

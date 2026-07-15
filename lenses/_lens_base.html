@@ -129,10 +129,15 @@
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/work-routing.html">work-routing</a>
 					<span data-kcd-field="why"   data-kcd-type="text">all output goes to work/{lensname}/</span>
 				</div>
-				<div data-kcd-slot data-kcd-mode="on">
-					<span data-kcd-field="what"  data-kcd-type="text">append-session-log</span>
-					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/append-session-log.html">append-session-log</a>
-					<span data-kcd-field="why"   data-kcd-type="text">record the session before it compacts or ends</span>
+				<div data-kcd-slot data-kcd-mode="on" data-kcd-habit-class="session-logging">
+					<span data-kcd-field="what"  data-kcd-type="text">session-log-aggressive</span>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/session-logging/session-log-aggressive.html">session-log-aggressive</a>
+					<span data-kcd-field="why"   data-kcd-type="text">record a terse breadcrumb to session.md before it compacts or ends. The session-logging slot's default (aggressive) occupant; session-log-never is the off pole</span>
+				</div>
+				<div data-kcd-slot data-kcd-mode="on" data-kcd-habit-class="completed-logging">
+					<span data-kcd-field="what"  data-kcd-type="text">completed-log-aggressive</span>
+					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/completed-logging/completed-log-aggressive.html">completed-log-aggressive</a>
+					<span data-kcd-field="why"   data-kcd-type="text">record a detailed completed entry for substantial lens work. The completed-logging slot's default (aggressive) occupant; completed-log-never is the off pole</span>
 				</div>
 				<div data-kcd-slot data-kcd-mode="on" data-kcd-habit-class="subagent-policy">
 					<span data-kcd-field="what"  data-kcd-type="text">no-subagents</span>

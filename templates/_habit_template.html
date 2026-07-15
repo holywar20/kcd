@@ -60,8 +60,9 @@
 		<p><em>Don't-style degrade (no <code>action</code>):</em>
 		<code>{name} — when {why}: {rules}.</code></p>
 		<p>Copy to <code>_Claude/kcd/habits/{class}/{verb-noun}.html</code> (or
-		<code>habits/unslotted/</code> for a classless habit). Fill every <code>{placeholder}</code>,
-		delete these scaffold notes. Frontmatter: <code>type</code> → <code>habit</code>;
+		<code>habits/unslotted/</code> for a classless habit) — the class folder is the habit's slot, and
+		deployment preserves it (<code>habits/{class}/{name}.html</code>, never flattened). Fill every
+		<code>{placeholder}</code>, delete these scaffold notes. Frontmatter: <code>type</code> → <code>habit</code>;
 		<code>status</code> → <code>disabled</code> (the deploy flips the copy to <code>active</code>);
 		<code>habit-class</code> — optional slug naming a mutual-exclusion group (protocol §6), empty for
 		an additive (classless) habit. Register it in
