@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>sig-graph — Reference</title>
+	<link rel="stylesheet" href="../../kcd.css">
+</head>
+<body>
+
+<article data-kcd="reference">
+
+	<dl data-kcd-frontmatter>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">sig-graph</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">How an agent reads and authors a SIG graph — the `.sig` (Starmind Insight Graph) document: a dual-audience JSON file of typed nodes and named edges that a human reads as a spatial picture. The schema, the enumerated render vocabulary, and the authoring recipe. Load when asked to draw, read, or edit a graph, diagram, or canvas.</dd>
+		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">reference</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
+		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
+		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-16</dd>
+	</dl>
+
+	<h1>sig-graph — Reference</h1>
+
+	<section data-kcd-section="overview">
+		<h3>Overview</h3>
+		<p>A <strong>SIG document</strong> (<code>.sig</code> — Starmind Insight Graph) is one JSON file
+		holding a graph: two flat arrays, <code>nodes</code> and <code>edges</code>, edges referencing nodes
+		by short stable <code>id</code>. It is <strong>dual-audience</strong> — the same file serves a human
+		(who opens it in a studio tab and sees a spatial picture: shapes, colors, wires) and an agent (who
+		reads the raw structure: a semantic <code>type</code> on every node, a named <code>rel</code> on every
+		edge). Neither audience gets a lesser artifact; there is one file.</p>
+		<p><strong>Authoring a graph is writing a JSON file.</strong> There is no API, no registry, no
+		registration step. Write valid SIG JSON to any vault path ending in <code>.sig</code> and it is a
+		graph — the extension <em>is</em> the identity, and opening that path in a studio tab routes it to the
+		Insight Graph plug-in. Reading one is reading the file. This makes a graph a legitimate <strong>medium
+		of communication</strong>: an agent can draw a picture for a human, or read the picture a human drew.</p>
+		<p>The governing split, and the one thing to get right: <strong>meaning lives in
+		<code>node.type</code> and <code>edge.rel</code>; the <code>layout</code> block is pure look and
+		carries no meaning.</strong> Geometry is partitioned into <code>layout</code> precisely so an agent can
+		skip it whole — which is also why it costs nothing to make it rich. Be lavish in <code>layout</code>;
+		be precise in <code>type</code> and <code>rel</code>.</p>
+	</section>
+
+	<section data-kcd-section="the-document">
+		<h3>The document</h3>
+		<p>The whole shape. <code>schema</code> is always <code>insight/1</code>; <code>kind</code> names the
+		insight tool that owns the doc (<code>graph</code> for the viewer that exists today):</p>
+		<pre><code class="language-json">{
+  "schema": "insight/1",
+  "kind": "graph",
+  "nodes": [ … ],
+  "edges": [ … ],
+  "anchorMode": "specific"
+}</code></pre>
+		<p><code>anchorMode</code> is optional and graph-wide: <code>"specific"</code> pins every wire end to a
+		fixed anchor index; absent means <code>nearest</code> (wires auto-dock to whichever anchor faces the
+		other node). Absent is the right default — omit the key unless pinning is the point.</p>
+		<p>The format is <strong>additive and forward-compatible</strong>, and the parse is <strong>tolerant by
+		design</strong>: a blank or absent file is an empty graph (absence is not failure), unknown keys are
+		carried rather than rejected, and a malformed document warns and falls back to empty rather than
+		throwing — a studio tab never crashes on a bad doc. One consequence matters when authoring: a non-blank
+		file that is not valid JSON is flagged <em>malformed</em> and the editor <strong>refuses to open
+		it</strong>, so it can never be clobbered by a save. Emit valid JSON.</p>
+	</section>
+
+	<section data-kcd-section="nodes">
+		<h3>Nodes</h3>
+		<p>A node is meaning plus a look. <code>type</code> is the <strong>semantic role</strong> — the agent's
+		inference handle and an open, per-graph vocabulary (<code>concept</code>, <code>fact</code>,
+		<code>task</code>, <code>service</code>, whatever the graph is about). It is <em>not</em> a render type
+		and never a shape name. <code>title</code> renders as a block above the node; <code>body</code> is the
+		text inside it.</p>
+		<pre><code class="language-json">{
+  "id": "n1",
+  "type": "concept",
+  "title": "Economic thesis",
+  "body": "Local models make the unit economics work.",
+  "layout": { "x": 40, "y": 80, "w": 240, "h": 120, "shape": "rounded", "color": "amber" }
+}</code></pre>
+		<p><code>id</code> is short and stable (<code>n1</code>, <code>n2</code> …) and is what edges
+		reference. <code>layout</code> is optional — a geometry-free node still renders, auto-placed on a
+		4-column fallback grid, and gains a real <code>layout</code> the first time a human moves it. Authoring
+		explicit geometry is strongly preferred: you are drawing a picture, so place it.</p>
+		<p><strong><code>type: "group"</code> is the one reserved semantic type.</strong> A group node renders
+		as a translucent container painted <em>behind</em> the ordinary nodes, with its title in the corner —
+		use it to enclose a region of the graph. Size and position it to contain the nodes it groups; group
+		membership today is spatial (what it visually encloses), not an explicit child list.</p>
+	</section>
+
+	<section data-kcd-section="edges">
+		<h3>Edges</h3>
+		<p>A wire is its own object with id-referenced endpoints and — the highest-value token in the whole
+		document — a <strong>named relation</strong>:</p>
+		<pre><code class="language-json">{
+  "id": "e1", "from": "n1", "to": "n2",
+  "rel": "supports", "label": "feeds",
+  "style": "curved", "dashed": false, "color": "gray",
+  "headFrom": "none", "headTo": "chevron"
+}</code></pre>
+		<p><code>rel</code> is required and open (<code>depends_on</code>, <code>supports</code>,
+		<code>derives</code> …). Name it well: an unlabeled arrow is the single biggest loss of meaning in a
+		diagram, and <code>rel</code> is what an agent reads. <code>label</code> is the human-facing caption
+		drawn at the wire's midpoint and <strong>falls back to <code>rel</code> when absent</strong> — so omit
+		it unless the caption should differ from the relation.</p>
+		<p>Each end carries its own arrowhead, independently: <code>headFrom</code> (source) and
+		<code>headTo</code> (target), both defaulting to <code>none</code>. A conventional directed edge is
+		<code>headFrom: "none"</code> + <code>headTo: "chevron"</code>. <code>dashed</code> is orthogonal to
+		<code>style</code> — a curved wire can also be dashed. <code>fromAnchor</code> / <code>toAnchor</code>
+		pin an end to a specific anchor index; leave them out and the wire docks to the nearest anchor. An edge
+		whose <code>from</code> or <code>to</code> names a missing node simply does not render, and deleting a
+		node deletes every edge touching it.</p>
+	</section>
+
+	<section data-kcd-section="the-render-vocabulary">
+		<h3>The render vocabulary</h3>
+		<p>These banks are closed sets — an unknown value degrades quietly rather than failing, but only these
+		render as intended. This is the part that is otherwise undiscoverable without reading the surface.</p>
+		<p><strong>Shapes</strong> (<code>layout.shape</code>, unknown → <code>rounded</code>) — generic
+		geometry, ten of them, <em>carrying no meaning whatsoever</em>:</p>
+		<pre><code>rectangle · rounded · pill · ellipse · diamond · triangle · hexagon · parallelogram · cylinder · document</code></pre>
+		<p><strong>Colors</strong> (<code>layout.color</code>, <code>edge.color</code>) — a <strong>ramp
+		key</strong>, never a raw hex value. Unknown or absent → the element paints neutral. The ten canonical
+		keys the picker offers are <code>blue · cyan · teal · mint · lime · violet · fuchsia · red · orange ·
+		amber</code>; the aliases <code>silver · purple · green · pink · yellow · gray · grey</code> also
+		resolve. The hues are decorative and carry no meaning — the node's meaning is its <code>type</code>.</p>
+		<p><strong>Fonts</strong> (<code>layout.typeFont</code>, <code>layout.bodyFont</code> — picked
+		independently, absent → <code>inter</code>): <code>inter</code> (sans default) · <code>plex</code> (IBM
+		Plex Sans) · <code>grotesk</code> (Space Grotesk) · <code>lora</code> (serif) · <code>source</code>
+		(Source Serif) · <code>mono</code> (JetBrains Mono).</p>
+		<p><strong>Wire styles</strong> (<code>edge.style</code>, default <code>straight</code>):
+		<code>straight</code> · <code>curved</code> (a cubic Bézier) · <code>elbow</code> (orthogonal, two
+		right-angle bends). <strong>Arrowheads</strong> (<code>headFrom</code> / <code>headTo</code>, default
+		<code>none</code>): <code>chevron</code> · <code>double</code> · <code>square</code> ·
+		<code>parallelogram</code> · <code>none</code>.</p>
+		<p><strong>Text alignment</strong> (<code>layout.textAlign</code>): <code>center</code> (default) or
+		<code>top</code> — the body's vertical pull inside the shape.</p>
+		<p><strong>Anchors</strong> — the perimeter dots wires attach to. On by default with one dot per side;
+		<code>anchors: false</code> hides them entirely. Each edge of the node takes an independent count via
+		<code>anchorTop</code> / <code>anchorBottom</code> / <code>anchorLeft</code> / <code>anchorRight</code>
+		(absent → 1), spaced evenly along that side.</p>
+	</section>
+
+	<section data-kcd-section="authoring-a-graph">
+		<h3>Authoring a graph</h3>
+		<p>The recipe, in the order that avoids rework:</p>
+		<ol>
+			<li><strong>Decide the two vocabularies first.</strong> What are the node <code>type</code>s, and
+			what are the edge <code>rel</code>s? This is the graph's actual content; everything else is
+			presentation. A graph with precise types and named relations is useful even unrendered.</li>
+			<li><strong>Write the nodes with real geometry.</strong> The default node is
+			<strong>200×96</strong>; the resize floor is 80×48. A comfortable column pitch is
+			<strong>240</strong> and a comfortable row pitch is about <strong>160</strong>. Origin is
+			top-left, <code>x</code> grows right and <code>y</code> grows down, and the canvas is unbounded —
+			negative coordinates are legal but starting near <code>(40, 40)</code> keeps things tidy.</li>
+			<li><strong>Lay it out so it reads.</strong> Flow left-to-right or top-to-bottom, consistently.
+			Leave real gutters — a wire drawn between two nodes passes <em>behind</em> any node in its way
+			(there is no obstacle routing), so overlapping boxes produce wires that appear to vanish. When a
+			wire must cross a congested area, <code>elbow</code> is the clean answer.</li>
+			<li><strong>Wire it, naming every relation.</strong> Give direction with
+			<code>headTo: "chevron"</code>.</li>
+			<li><strong>Then decorate.</strong> Shape, color, font, alignment. This is free to the agent and
+			valuable to the human, so spend it — but only after the meaning is right. Use color to group
+			things visually, shape to distinguish kinds at a glance; just never let either be the <em>only</em>
+			carrier of a fact, because the agent's read drops the whole block.</li>
+			<li><strong>Save to a path ending <code>.sig</code></strong>, formatted as pretty JSON with tab
+			indentation — that is what the editor writes, so matching it keeps diffs clean. A hand-authored
+			example exercising every render property lives at
+			<a href="_Claude/plans/starmind_insight/examples/sample.sig">sample.sig</a>.</li>
+		</ol>
+		<p>To <strong>read</strong> a graph, invert it: skip <code>layout</code> entirely and read the nodes as
+		<code>id · type · title · body</code> and the edges as an edge list of <code>from → to (rel)</code>.
+		That projection is the whole document's meaning; the picture is the human's half.</p>
+	</section>
+
+	<section data-kcd-section="rules">
+		<h3>Rules</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>Rule</span></div>
+			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Meaning goes in <code>type</code> and <code>rel</code> — never in shape or color.</strong> A diamond does not mean "decision" and amber does not mean "warning". If a fact is only encoded in the look, the agent's read loses it, because the projection drops <code>layout</code> whole.</span></div>
+			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Name every relation.</strong> <code>rel</code> is required and is the highest-value token in the document. An arrow that only means "related somehow" wastes the edge.</span></div>
+			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Color is a ramp key, never a hex.</strong> <code>"amber"</code>, not <code>"#f59e0b"</code> — the renderer resolves the key onto the themed ramp. A raw hex resolves to nothing and paints neutral.</span></div>
+			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Be lavish in <code>layout</code>.</strong> Geometry is partitioned so it costs the agent nothing. Rich presentation is a feature, not indulgence — the human side should be excellent.</span></div>
+			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Ids are short, stable, and referenced.</strong> <code>n1</code> / <code>e1</code>, unique within the document. Edges address nodes by id; an edge naming a missing node silently does not render.</span></div>
+			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>The path is the registration.</strong> A file ending <code>.sig</code> is a graph — no registry entry, no API call. Do not invent a registration step.</span></div>
+			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Emit valid JSON.</strong> Parse is tolerant (blank → empty graph), but non-blank invalid JSON reads as malformed and the editor refuses to open it. Additive keys are safe; broken syntax is not.</span></div>
+			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Do not overlap nodes, and do not expect wire routing.</strong> A wire passes behind any node in its path. Leave gutters; reach for <code>elbow</code> in congested areas.</span></div>
+		</div>
+	</section>
+
+	<section data-kcd-section="references" data-kcd-merge="union">
+		<h3>References</h3>
+		<div data-kcd-table>
+			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">Sig.ts — the schema + codec</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="starmind/src/renderer/src/studio/Sig.ts">Sig.ts</a>
+				<span data-kcd-field="why"   data-kcd-type="text">The document model itself — <code>SigDoc</code> / <code>SigNode</code> / <code>SigEdge</code> / <code>SigLayout</code>, the <code>.sig</code> + <code>insight/1</code> constants, and the tolerant <code>parse</code> / <code>serialize</code> / <code>malformed</code> seam. The authority when this reference and the code disagree.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">SigStudio.vue — the render surface</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="starmind/src/renderer/src/components/studio/plugins/SigStudio.vue">SigStudio.vue</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Where every render vocabulary is actually enumerated — the shape bank, the ramp keys, the font bank, arrowheads, line styles, anchor geometry. Read when a value in this reference needs confirming or the banks have grown.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">SigEngine.ts — the editing session</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="starmind/src/renderer/src/studio/SigEngine.ts">SigEngine.ts</a>
+				<span data-kcd-field="why"   data-kcd-type="text">The live working model behind the human's editor — reactive doc per id, structural dirty compare, id minting, add/remove node + edge. Relevant when reasoning about how a human's edits and an agent's file writes meet.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">sample.sig — a worked example</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/plans/starmind_insight/examples/sample.sig">sample.sig</a>
+				<span data-kcd-field="why"   data-kcd-type="text">A hand-authored graph exercising the render properties — the fastest way to see a real document's shape before writing one.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">starmind_insight — the owning plan</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/plans/starmind_insight/starmind_insight.html">starmind_insight</a>
+				<span data-kcd-field="why"   data-kcd-type="text">Why the format is shaped this way — the dual-audience thesis, the rulings (generic shapes, DOM+SVG render), and what is still unbuilt (the lean projection helper, the MCP query tool, explicit group membership).</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">inference-friendly-json — the research</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/plans/starmind_insight/research/inference-friendly-json.html">inference-friendly-json</a>
+				<span data-kcd-field="why"   data-kcd-type="text">The grounding for every schema choice — flat arrays, semantic typing, named relations, partitioned geometry, and why small/local models are shape-sensitive where frontier models are not.</span>
+			</div>
+			<div data-kcd-slot>
+				<span data-kcd-field="what"  data-kcd-type="text">studio-platform</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/references/renderer/studio-platform.html">studio-platform</a>
+				<span data-kcd-field="why"   data-kcd-type="text">The surface a <code>.sig</code> opens on — <code>defineStudio</code>, the broker, tabs and panes. Read when changing how the graph plug-in itself is mounted or wired, rather than what it paints.</span>
+			</div>
+		</div>
+	</section>
+
+</article>
+
+</body>
+</html>
