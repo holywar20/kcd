@@ -11,12 +11,12 @@
 
 	<dl data-kcd-frontmatter>
 		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">author-script</dd>
-		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Where dev scripts live and how to author one — the four homes (build · diagnostics · probes · fixtures), the dated won't-ship header, probes are disposable, and the promotion ladder junk → diagnostic → command-deck launcher → in-app surface. Fires when creating, placing, or sorting any script / tooling artifact. Inherited by all lenses via _lens_base.</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Where dev scripts live and how to author one — the four homes (build · diagnostics · probes · fixtures), the dated won't-ship header, probes are disposable, and the promotion ladder junk → diagnostic → dev-utility → widget. Fires when creating, placing, or sorting any script / tooling artifact. Inherited by all lenses via _lens_base.</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
-		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-14</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-11</dd>
 	</dl>
 
 	<h1>author-script — Habit</h1>
@@ -52,8 +52,8 @@
 
 	<section data-kcd-section="homes">
 		<h3>The homes — place by species, never flat-dump</h3>
-		<p>Real logic lives in a repo's own <code>scripts/</code>, split by species. Any one-click
-		<em>command-deck</em> tier the project maintains holds only thin launchers.</p>
+		<p>Real logic lives in a repo's own <code>scripts/</code>, split by species. The
+		dev-utilities tier holds only thin launchers.</p>
 		<ul>
 			<li><strong><code>scripts/build/</code></strong> — durable build/deploy plumbing wired to npm
 			(<code>build-deploy</code>, <code>flush-dist</code>, <code>stage-node</code>…). Long-lived; changes
@@ -66,10 +66,10 @@
 			<code>scripts/probes/out/</code> (gitignored) — never the repo root.</li>
 			<li><strong><code>scripts/fixtures/</code></strong> — test doubles and mock endpoints
 			(<code>mock-endpoint</code>) the suite or a probe leans on.</li>
-			<li><strong>Command-deck launcher tier</strong> — if the project has a one-click dev-command deck,
-			a <em>thin</em> launcher lives there: it only <code>execSync</code>s a <code>scripts/*.ts</code> from
-			the right cwd and registers a row in the deck. No logic in the launcher — it only points at the
-			source.</li>
+			<li><strong><code>_Claude/dev-utilities/*.js</code></strong> — the palette tier: a <em>thin</em>
+			launcher that <code>execSync</code>s a <code>scripts/*.ts</code> from the right cwd, registered as a
+			row in commands.json. No logic here — the launcher
+			only points at the source (see verify-pass.js).</li>
 		</ul>
 		<p>Another repo's tooling (SDK, MCP) lives in <em>that</em> repo's <code>scripts/</code>, same
 		species split. The folder encodes the species — don't restate it in a field.</p>
@@ -102,13 +102,13 @@
 			<code>probes/</code> to be swept later. Where most scripts end.</li>
 			<li><strong>Diagnostic</strong> — a script that proves useful more than once graduates to
 			<code>diagnostics/</code>: stable name, dated header, ready to re-run.</li>
-			<li><strong>Command-deck launcher</strong> — a diagnostic worth one-click access gets a thin
-			launcher and a row in the project's dev-command deck (if it has one). The logic never moves — only a
-			launcher is added.</li>
-			<li><strong>In-app surface / key functionality</strong> — the rare script whose value is
-			<em>ongoing and visual</em> (a model bench, a schema browser) is hoisted into an in-app surface, for
-			projects that have one. <strong>The endgame for the genuinely useful</strong> — each such hoist is
-			its own considered move, not an automatic step.</li>
+			<li><strong>Dev-utility</strong> — a diagnostic worth one-click access gets a thin
+			<code>dev-utilities/*.js</code> launcher and a <code>commands.json</code> row. The logic never
+			moves — only a launcher is added.</li>
+			<li><strong>Widget / key functionality</strong> — the rare script whose value is <em>ongoing and
+			visual</em> (a model bench, a schema browser) is hoisted into an in-app surface (widget / studio
+			tool). <strong>Not done yet</strong> — this is the endgame for the genuinely useful, and each such
+			hoist is its own considered move, not an automatic step.</li>
 		</ul>
 	</section>
 
@@ -116,13 +116,13 @@
 		<h3>Rules</h3>
 		<div data-kcd-table>
 			<div data-kcd-head><span>Rule</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Scripts are dev-only and never ship.</strong> Shipped <code>src/**</code> must never import from <code>scripts/</code>; the packaging step strips <code>scripts/</code> and tests. If a script's logic is needed at runtime, that logic belongs in <code>src/</code>, not imported out of the workshop.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Place by species; never flat-dump.</strong> A new file goes into <code>build/</code> · <code>diagnostics/</code> · <code>probes/</code> · <code>fixtures/</code> by lifecycle — not loose in <code>scripts/</code>.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Probes are disposable and write only to <code>probes/out/</code>.</strong> Never dirty the repo root with probe output. A probe is one question; when it's answered, delete it or leave it for the sweep.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Every new script carries the dated won't-ship header.</strong> Datelessness is not neutral — it marks a script as pre-convention and cullable. Do not backfill dates onto legacy scripts.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Command-deck launchers are thin.</strong> A launcher only <code>execSync</code>s the real <code>scripts/*.ts</code>; behaviour lives in the source, one place.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Cull on a sweep, not on sight.</strong> Deleting old scripts is the periodic cleanup pass (the plan-death cadence), never an inline action mid-task — nothing is deleted just because it looks stale today.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Promote on proven use.</strong> A script climbs the ladder only after a real, repeated consumer appears — not on a guess that it might be useful.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Scripts are dev-only and never ship.</strong> Shipped <code>src/**</code> must never import from <code>scripts/</code>; the packaging step strips <code>scripts/</code> and tests. If a script's logic is needed at runtime, that logic belongs in <code>src/</code>, not imported out of the workshop.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Place by species; never flat-dump.</strong> A new file goes into <code>build/</code> · <code>diagnostics/</code> · <code>probes/</code> · <code>fixtures/</code> by lifecycle — not loose in <code>scripts/</code>.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Probes are disposable and write only to <code>probes/out/</code>.</strong> Never dirty the repo root with probe output. A probe is one question; when it's answered, delete it or leave it for the sweep.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Every new script carries the dated won't-ship header.</strong> Datelessness is not neutral — it marks a script as pre-convention and cullable. Do not backfill dates onto legacy scripts.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>dev-utilities launchers are thin.</strong> A <code>dev-utilities/*.js</code> file only <code>execSync</code>s the real <code>scripts/*.ts</code>; behaviour lives in the source, one place.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Cull on a sweep, not on sight.</strong> Deleting old scripts is the periodic cleanup pass (the plan-death cadence), never an inline action mid-task — nothing is deleted just because it looks stale today.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Promote on proven use.</strong> A script climbs the ladder only after a real, repeated consumer appears — not on a guess that it might be useful.</span></div>
 		</div>
 	</section>
 
@@ -130,7 +130,7 @@
 		<h3>References</h3>
 		<div data-kcd-table>
 			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-			<div data-kcd-slot>
+			<div data-kcd-slot="reference">
 				<span data-kcd-field="what"  data-kcd-type="text">no-new-idioms</span>
 				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/no-new-idioms.html">no-new-idioms</a>
 				<span data-kcd-field="why"   data-kcd-type="text">Sibling authoring-discipline habit — reuse the established home/shape before minting a new one.</span>

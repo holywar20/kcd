@@ -13,7 +13,7 @@
 		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">index-format</dd>
 		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Defines the canonical What/Where/Why faux-table shape of any nav-index; fires when writing, modifying, or auditing a nav-index. Inherited by all lenses via _lens_base.</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
-		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
 	</dl>
@@ -24,8 +24,8 @@
 	navigational index (a <code>nav-index</code> artifact, or any What/Where/Why import block) in the
 	project.</em></p>
 
-	<section data-kcd-section="when">
-		<h3>When</h3>
+	<section data-kcd-section="why">
+		<h3>Why</h3>
 		<p>Writing, modifying, or auditing any navigational index.</p>
 		<p>A navigational index is any surface whose primary purpose is navigation — pointing readers
 		at other files. Examples: <code>plans/nav-index.html</code>, <code>kcd/habits/nav-index.html</code>,
@@ -38,10 +38,15 @@
 		<h3>Action</h3>
 		<p>Structure each navigable section as a <strong>What / Where / Why faux-table</strong> —
 		styled divs, never a real <code>&lt;table&gt;</code> (protocol §3). Each row is a
-		<code>data-kcd-slot</code>; each cell is an addressable <code>data-kcd-field</code>:</p>
+		<code>data-kcd-slot="&lt;kind&gt;"</code>; each cell is an addressable
+		<code>data-kcd-field</code>. The <strong>kind is mandatory and set by POSITION</strong> — the row
+		inherits the role of the block it sits in: <code>link</code> in a nav-index, <code>reference</code>
+		in a Know References/Domains block, <code>habit</code>/<code>contract</code>/<code>tool</code>/
+		<code>rule</code> in the matching Do block; <code>table-data</code> for a plain non-linking row.
+		A bare <code>data-kcd-slot</code> with no kind is invalid — the validator rejects it:</p>
 		<pre><code>&lt;div data-kcd-table&gt;
   &lt;div data-kcd-head&gt;&lt;span&gt;What&lt;/span&gt;&lt;span&gt;Where&lt;/span&gt;&lt;span&gt;Why&lt;/span&gt;&lt;/div&gt;
-  &lt;div data-kcd-slot&gt;
+  &lt;div data-kcd-slot="link"&gt;
     &lt;span data-kcd-field="what"  data-kcd-type="text"&gt;{label}&lt;/span&gt;
     &lt;a    data-kcd-field="where" data-kcd-type="path" href="{path}"&gt;{label}&lt;/a&gt;
     &lt;span data-kcd-field="why"   data-kcd-type="text"&gt;{use case}&lt;/span&gt;

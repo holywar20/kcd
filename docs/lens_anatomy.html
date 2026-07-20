@@ -149,6 +149,18 @@
 			<code>&lt;a href&gt;</code>, never a bare code span, so the cross-link is followable.</li>
 			<li><strong>Why</strong> — when to load this reference / what role it plays.</li>
 		</ul>
+		<p><strong>Every row is a <code>&lt;div data-kcd-slot="&lt;kind&gt;"&gt;</code> — the kind is
+		mandatory and set by POSITION.</strong> A slot inherits the role of the block it sits in, never the
+		type of what its <code>Where</code> points at: a row in a <code>References</code> or
+		<code>Domains</code> block is a <code>reference</code>, in a <code>Habits</code> block a
+		<code>habit</code>, in a <code>Contracts</code> block a <code>contract</code>, in a
+		<code>Tools</code> block a <code>tool</code>. So a habit-artifact linked from a References block is a
+		<code>reference</code> (a read-only input), not an accessible habit — "if it's not in the habit
+		block, it's not an accessible habit." The closed kind set is
+		<strong><code>reference · habit · contract · tool · rule</code></strong> (dredge roles) plus
+		<code>link · table-data</code> (non-dredge rows: a nav link, a plain tabular cell). Domains fold into
+		<code>reference</code> — a domain folder is a read-only reference input. A bare
+		<code>data-kcd-slot</code> with no kind is <strong>invalid</strong>; the validator rejects it.</p>
 		<pre><code>&lt;section data-kcd-region="know"&gt;
   &lt;h2&gt;Know&lt;/h2&gt;
   &lt;p&gt;&lt;em&gt;Read-only inputs. What this lens loads from the knowledge store.&lt;/em&gt;&lt;/p&gt;
@@ -158,12 +170,12 @@
     &lt;p&gt;&lt;em&gt;Specific named files. Load explicitly by path.&lt;/em&gt;&lt;/p&gt;
     &lt;div data-kcd-table&gt;
       &lt;div data-kcd-head&gt;&lt;span&gt;What&lt;/span&gt;&lt;span&gt;Where&lt;/span&gt;&lt;span&gt;Why&lt;/span&gt;&lt;/div&gt;
-      &lt;div data-kcd-slot data-kcd-mode="on"&gt;
+      &lt;div data-kcd-slot="reference" data-kcd-mode="on"&gt;
         &lt;span data-kcd-field="what"  data-kcd-type="text"&gt;Framework concepts&lt;/span&gt;
         &lt;a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/kcd_framework.html"&gt;kcd_framework&lt;/a&gt;
         &lt;span data-kcd-field="why"   data-kcd-type="text"&gt;When designing or reviewing the system&lt;/span&gt;
       &lt;/div&gt;
-      &lt;div data-kcd-slot&gt;
+      &lt;div data-kcd-slot="reference"&gt;
         &lt;span data-kcd-field="what"  data-kcd-type="text"&gt;Lens anatomy&lt;/span&gt;
         &lt;a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/docs/lens_anatomy.html"&gt;lens_anatomy&lt;/a&gt;
         &lt;span data-kcd-field="why"   data-kcd-type="text"&gt;When building or auditing a lens&lt;/span&gt;
@@ -176,7 +188,7 @@
     &lt;p&gt;&lt;em&gt;Topic-area folders. Read-only. Trawlable for inference.&lt;/em&gt;&lt;/p&gt;
     &lt;div data-kcd-table&gt;
       &lt;div data-kcd-head&gt;&lt;span&gt;What&lt;/span&gt;&lt;span&gt;Where&lt;/span&gt;&lt;span&gt;Why&lt;/span&gt;&lt;/div&gt;
-      &lt;div data-kcd-slot&gt;
+      &lt;div data-kcd-slot="reference"&gt;
         &lt;span data-kcd-field="what"  data-kcd-type="text"&gt;Thinkers&lt;/span&gt;
         &lt;a    data-kcd-field="where" data-kcd-type="path" href="_Claude/references/thinkers/"&gt;thinkers/&lt;/a&gt;
         &lt;span data-kcd-field="why"   data-kcd-type="text"&gt;When routing a philosophical or rhetorical question&lt;/span&gt;
@@ -200,7 +212,7 @@
     &lt;p&gt;&lt;em&gt;Atomic single-step behaviors. &lt;code&gt;_lens_base&lt;/code&gt; supplies the universal ones; list only additions.&lt;/em&gt;&lt;/p&gt;
     &lt;div data-kcd-table&gt;
       &lt;div data-kcd-head&gt;&lt;span&gt;What&lt;/span&gt;&lt;span&gt;Where&lt;/span&gt;&lt;span&gt;Why&lt;/span&gt;&lt;/div&gt;
-      &lt;div data-kcd-slot data-kcd-mode="on"&gt;
+      &lt;div data-kcd-slot="habit" data-kcd-mode="on"&gt;
         &lt;span data-kcd-field="what"  data-kcd-type="text"&gt;add-todo&lt;/span&gt;
         &lt;a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/todo-policy/add-todo.html"&gt;add-todo&lt;/a&gt;
         &lt;span data-kcd-field="why"   data-kcd-type="text"&gt;When a deferred item surfaces&lt;/span&gt;
@@ -213,7 +225,7 @@
     &lt;p&gt;&lt;em&gt;Behavioral agreements this lens follows.&lt;/em&gt;&lt;/p&gt;
     &lt;div data-kcd-table&gt;
       &lt;div data-kcd-head&gt;&lt;span&gt;What&lt;/span&gt;&lt;span&gt;Where&lt;/span&gt;&lt;span&gt;Why&lt;/span&gt;&lt;/div&gt;
-      &lt;div data-kcd-slot data-kcd-mode="on"&gt;
+      &lt;div data-kcd-slot="contract" data-kcd-mode="on"&gt;
         &lt;span data-kcd-field="what"  data-kcd-type="text"&gt;Deploy lens&lt;/span&gt;
         &lt;a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/contracts/deploy-lens.html"&gt;deploy-lens&lt;/a&gt;
         &lt;span data-kcd-field="why"   data-kcd-type="text"&gt;When deploying a lens from kcd to a project&lt;/span&gt;

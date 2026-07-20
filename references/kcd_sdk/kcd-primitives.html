@@ -11,7 +11,7 @@
 
 	<dl data-kcd-frontmatter>
 		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">kcd-primitives</dd>
-		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">The KCD SDK object model — the artifact type discriminators and their classes, the role model, the serialized wire shape, and the error types. The conceptual skeleton; the parse/serialize mechanics moved to HTML in the Phase-2 cutover (see the staleness note).</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">The KCD SDK object model — the artifact type discriminators and their classes, the role model, the serialized wire shape, and the error types. The conceptual skeleton; the parse/serialize mechanics moved to HTML in the Phase-2 cutover (see the staleness note). Shared by lens_crafter, render, and mcp.</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">reference</dd>
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
@@ -45,10 +45,11 @@
 		entry is <code>fromHtml</code> (validate-first via <code>KcdValidate</code> / <code>KcdParse</code>),
 		and writing awaits the Phase-3 emitter. The <strong>type/role/wire tables below remain the durable
 		object-model reference</strong>; for the current substrate see
-		<a href="_Claude/kcd/references/kcd_sdk/kcd-document-protocol.html">kcd-document-protocol</a>.
-		<code>pipeline</code> has been dropped from the type union and its class deleted — the table below
-		reflects the current union. The <code>index</code>→<code>nav-index</code> rename is still a deferred
-		follow-up. A full rewrite of this reference is pending.</p>
+		<a href="_Claude/kcd/references/kcd_sdk/kcd-document-protocol.html">kcd-document-protocol</a> and the
+		html-substrate migration plan. <code>pipeline</code> has been
+		dropped from the type union and its class deleted (2026-07-08) — the table below reflects the current
+		union. The <code>index</code>→<code>nav-index</code> rename is still a deferred follow-up. A
+		full rewrite of this reference is pending (parser lens).</p>
 	</section>
 
 	<section data-kcd-section="type-system">
@@ -80,7 +81,7 @@
 
 		<h3 data-kcd-heading>KCDRole</h3>
 
-		<p>Determines which context dock an artifact belongs to in a host UI:</p>
+		<p>Determines which context dock an artifact belongs to in the UI:</p>
 
 		<table>
 			<thead>
@@ -342,12 +343,12 @@
 		<h2>References</h2>
 		<div data-kcd-table>
 			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-			<div data-kcd-slot>
+			<div data-kcd-slot="reference">
 				<span data-kcd-field="what"  data-kcd-type="text">kcd-document-protocol</span>
 				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/references/kcd_sdk/kcd-document-protocol.html">kcd-document-protocol</a>
 				<span data-kcd-field="why"   data-kcd-type="text">The current HTML substrate the parser now targets (supersedes this doc's parse mechanics).</span>
 			</div>
-			<div data-kcd-slot>
+			<div data-kcd-slot="reference">
 				<span data-kcd-field="what"  data-kcd-type="text">SDK primitives</span>
 				<a    data-kcd-field="where" data-kcd-type="path" href="kcd_sdk/src/primitives/types.ts">primitives/types.ts</a>
 				<span data-kcd-field="why"   data-kcd-type="text">The type definitions this reference documents.</span>

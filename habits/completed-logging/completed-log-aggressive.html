@@ -13,10 +13,9 @@
 		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">completed-log-aggressive</dd>
 		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Prepend a detailed completed entry for substantial lens work. The "on" pole of the completed-logging mutual-exclusion class — the default, aggressive posture.</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">habit</dd>
-		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">disabled</dd>
+		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-14</dd>
 		<dt>habit-class</dt>   <dd data-kcd-field="habit-class"    data-kcd-type="slug">completed-logging</dd>
 	</dl>
 
@@ -30,7 +29,7 @@
 
 	<section data-kcd-section="action">
 		<h3>Action</h3>
-		<p>prepend one entry to the active lens's completed log at its <code>completed_path</code>
+		<p>prepend one entry to the active lens's completed log at its <code>completed</code> path
 		(<code>_Claude/logs/{lensname}/completed/</code>), format
 		<code>- [YYYY-MM-DD] {what, why, what it unlocks}</code>, for each lens the session advanced</p>
 	</section>

@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<!-- ============================================================================
-     NAV INDEX — kcd/habits. Migrated from index.md (renamed index → nav-index).
-     Full format law: _Claude/kcd/references/kcd_sdk/kcd-document-protocol.html §3.
-     ============================================================================ -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>kcd/habits — Nav index</title>
+	<title>habits — Nav index</title>
 	<link rel="stylesheet" href="../kcd.css">
 </head>
 <body>
@@ -14,125 +10,141 @@
 <article data-kcd="nav-index">
 
 	<dl data-kcd-frontmatter>
-		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">kcd-habits</dd>
-		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Atomic single-step reflexes, inherited by lenses through their Do block (or _lens_base).</dd>
-		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">nav-index</dd>
-		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
-		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
-		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-14</dd>
+		<dt>name</dt>        <dd data-kcd-field="name"        data-kcd-type="slug">habits</dd>
+		<dt>description</dt> <dd data-kcd-field="description" data-kcd-type="text">Atomic single-step reflexes deployed and active in this instance.</dd>
+		<dt>type</dt>        <dd data-kcd-field="type"        data-kcd-type="enum">nav-index</dd>
+		<dt>status</dt>      <dd data-kcd-field="status"      data-kcd-type="enum">active</dd>
+		<dt>updated</dt>     <dd data-kcd-field="updated"     data-kcd-type="date">2026-07-12</dd>
 	</dl>
 
-	<h1>kcd/habits — Nav index</h1>
+	<h1>habits — Nav index</h1>
 
-	<p>Atomic single-step reflexes, inherited by lenses through their Do block (or <code>_lens_base</code>).</p>
+	<p>Atomic single-step reflexes. Deployed and active in this instance. Folders reflect
+	<strong>control tier</strong>, not topic: a <code>habit-class</code> mutex group gets its own
+	folder named after the class, and every habit with no class lives under
+	<a href="_Claude/kcd/habits/unslotted/">unslotted/</a>. Folder placement is purely organizational —
+	a habit's class comes from its own <code>habit-class</code> frontmatter field, never from where
+	the file sits on disk.</p>
+
+	<h2>Tiered — habit-class mutual-exclusion slots</h2>
+
+	<p>Each row below is one pole of a class; a lens's Habits table wires in exactly one pole per
+	class via <code>data-kcd-habit-class</code> on the slot. <code>*</code> marks the pole every
+	lens gets today via <code>_lens_base</code> unless it swaps in another pole from the same row
+	group.</p>
 
 	<div data-kcd-table>
 		<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">add-todo</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/todo-policy/add-todo.html">add-todo</a>
-			<span data-kcd-field="why"   data-kcd-type="text">When a deferred item surfaces — capture it to the todo store. todo-policy class, default (on) pole</span>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">write-approval-always *</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval/write-approval-always.html">write-approval-always</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>write-approval</code> class. Every write, everywhere, requires explicit approval — no pre-approved zone</span>
 		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">add-todo-never</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/todo-policy/add-todo-never.html">add-todo-never</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Never capture a deferred item. todo-policy class, off pole — no lens wires this in by default</span>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">write-approval-docs — default *</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval/write-approval-docs.html">write-approval-docs</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>write-approval</code> class. Pre-approved inside <code>_Claude/</code>, approval required outside it. The slot's default occupant</span>
 		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">author-reference</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/author-reference.html">author-reference</a>
-			<span data-kcd-field="why"   data-kcd-type="text">When authoring, migrating, or auditing a reference — the canonical section vocabulary (overview · topical · rules · references) and the durability rules. Inherited by all lenses</span>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">write-approval-yolo *</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval/write-approval-yolo.html">write-approval-yolo</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>write-approval</code> class. No approval gate anywhere; only the hard <code>kcd/</code>/<code>CLAUDE.md</code> exceptions still refuse</span>
 		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">author-script</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/author-script.html">author-script</a>
-			<span data-kcd-field="why"   data-kcd-type="text">When creating, placing, or sorting any dev script — pick the species home (build/diagnostics/probes/fixtures), stamp the dated won't-ship header, keep probes disposable. Inherited by all lenses</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">completed-log-aggressive</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/completed-logging/completed-log-aggressive.html">completed-log-aggressive</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Substantial lens work — prepend a detailed completed entry. completed-logging class, default (on) pole</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">completed-log-never</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/completed-logging/completed-log-never.html">completed-log-never</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Write no completed entry — this session is exempt. completed-logging class, off pole; a more specific source wires it in</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">index-format</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/index-format.html">index-format</a>
-			<span data-kcd-field="why"   data-kcd-type="text">When writing or modifying any navigational index — enforce the What/Where/Why shape</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">inline-affordances</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/inline-affordances.html">inline-affordances</a>
-			<span data-kcd-field="why"   data-kcd-type="text">When a chat reply carries tabular data — emit plain GFM and the chat surface enriches it into a styled, interactive KCD table (widen / open-in-Studio). The first inline affordance; a tool call without the tool</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">no-new-idioms</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/no-new-idioms.html">no-new-idioms</a>
-			<span data-kcd-field="why"   data-kcd-type="text">When minting an unrequested named abstraction (class, service, store, connector) — announce it in the turn it's created. Non-blocking: visibility, not permission. Inherited by all lenses</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">no-subagents</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/subagent-policy/no-subagents.html">no-subagents</a>
-			<span data-kcd-field="why"   data-kcd-type="text">When tempted to delegate — process the task yourself; spawn a subagent only on explicit request, and draft its prompt for the user to run. subagent-policy class, default pole</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">run-report</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/run-report.html">run-report</a>
-			<span data-kcd-field="why"   data-kcd-type="text">After an analyzer&apos;s or generator&apos;s final phase — mandatory close step</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">session-log-aggressive</span>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">session-log-aggressive — default *</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/session-logging/session-log-aggressive.html">session-log-aggressive</a>
-			<span data-kcd-field="why"   data-kcd-type="text">On a "log" request or session close after work touched _Claude/ — prepend one terse breadcrumb to session.md. session-logging class, default (on) pole</span>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>session-logging</code> class. Record a terse breadcrumb to session.md. The slot's default occupant</span>
 		</div>
-		<div data-kcd-slot>
+		<div data-kcd-slot="link" data-kcd-mode="on">
 			<span data-kcd-field="what"  data-kcd-type="text">session-log-never</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/session-logging/session-log-never.html">session-log-never</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Write no breadcrumb — this session is not part of the project's real history. session-logging class, off pole; a more specific source wires it in</span>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>session-logging</code> class. Write no session breadcrumb, regardless of trigger</span>
 		</div>
-		<div data-kcd-slot>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">completed-log-aggressive — default *</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/completed-logging/completed-log-aggressive.html">completed-log-aggressive</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>completed-logging</code> class. Record a detailed completed entry for substantial lens work. The slot's default occupant</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">completed-log-never</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/completed-logging/completed-log-never.html">completed-log-never</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>completed-logging</code> class. Write no completed entry, regardless of trigger</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">no-subagents — default *</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/subagent-policy/no-subagents.html">no-subagents</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>subagent-policy</code> class. Do the task in-session; spawn a subagent only when the user asks. The slot's default occupant</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
 			<span data-kcd-field="what"  data-kcd-type="text">subagents-allowed</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/subagent-policy/subagents-allowed.html">subagents-allowed</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Spawn subagents freely for delegatable work. subagent-policy class, experimental pole — no lens wires this in by default</span>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>subagent-policy</code> class. Spawn subagents freely, no user ask required. Experimental — no lens currently wires this in</span>
 		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">work-routing</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/work-routing.html">work-routing</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Governs where work output is placed (inherited from _lens_base)</span>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">add-todo — default</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/todo-policy/add-todo.html">add-todo</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>todo-policy</code> class. When a deferred item surfaces — log it to the lens todo store. Wired per-lens, not via <code>_lens_base</code></span>
 		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">write-approval-always</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval/write-approval-always.html">write-approval-always</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Every write, everywhere, requires explicit approval. write-approval class, strictest pole</span>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">add-todo-never</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/todo-policy/add-todo-never.html">add-todo-never</a>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>todo-policy</code> class. Never log a deferred item — no lens currently wires this in</span>
 		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">write-approval-docs</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval/write-approval-docs.html">write-approval-docs</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Governs all write operations (inherited from _lens_base). write-approval class, default pole</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">write-approval-yolo</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-approval/write-approval-yolo.html">write-approval-yolo</a>
-			<span data-kcd-field="why"   data-kcd-type="text">No approval gate anywhere except the hard kcd/ and CLAUDE.md exceptions. write-approval class, loosest pole</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">write-memory-restricted</span>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">write-memory-restricted — default</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-memory/write-memory-restricted.html">write-memory-restricted</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Commit a durable lesson via learn only when high-value and recurring — when-in-doubt-don't. write-memory class, default pole; opt-in per lens</span>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>write-memory</code> class. Commit a durable lesson via learn only when high-value and recurring — when-in-doubt-don't. Opt-in per lens</span>
 		</div>
-		<div data-kcd-slot>
+		<div data-kcd-slot="link" data-kcd-mode="on">
 			<span data-kcd-field="what"  data-kcd-type="text">write-memory-aggressive</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-memory/write-memory-aggressive.html">write-memory-aggressive</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Commit lessons liberally — low bar to save, decay prunes. write-memory class, eager pole</span>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>write-memory</code> class. Commit lessons liberally — low bar, decay prunes</span>
 		</div>
-		<div data-kcd-slot>
+		<div data-kcd-slot="link" data-kcd-mode="on">
 			<span data-kcd-field="what"  data-kcd-type="text">write-memory-never</span>
 			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/write-memory/write-memory-never.html">write-memory-never</a>
-			<span data-kcd-field="why"   data-kcd-type="text">Write no memory, regardless of trigger; reading unaffected. write-memory class, off pole</span>
+			<span data-kcd-field="why"   data-kcd-type="text"><code>write-memory</code> class. Write no memory, regardless of trigger; reading unaffected</span>
+		</div>
+	</div>
+
+	<h2>Unslotted — single-behavior, no habit-class</h2>
+
+	<div data-kcd-table>
+		<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">work-routing</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/work-routing.html">work-routing</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Where output goes and how freely to use it — all work lands under <code>work/{lens}/</code> (AI/human/plans), used liberally as cheap, discardable scratch until promoted</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">index-format</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/index-format.html">index-format</a>
+			<span data-kcd-field="why"   data-kcd-type="text">When writing or auditing any navigational index — enforce What/Where/Why table shape</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">inline-affordances</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/inline-affordances.html">inline-affordances</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Chat reply with tabular data — emit plain GFM and the chat surface enriches it into a styled, interactive KCD table (widen / open-in-Studio). The first inline affordance; a tool call without the tool</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">author-reference</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/author-reference.html">author-reference</a>
+			<span data-kcd-field="why"   data-kcd-type="text">When authoring, migrating, or auditing a reference artifact — canonical section vocabulary</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">author-script</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/author-script.html">author-script</a>
+			<span data-kcd-field="why"   data-kcd-type="text">Creating, placing, or sorting any dev script — species home, dated won't-ship header, promotion ladder</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">run-report</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/run-report.html">run-report</a>
+			<span data-kcd-field="why"   data-kcd-type="text">After every generator or analyzer run — write a per-phase self-assessment chart</span>
+		</div>
+		<div data-kcd-slot="link" data-kcd-mode="on">
+			<span data-kcd-field="what"  data-kcd-type="text">no-new-idioms</span>
+			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/unslotted/no-new-idioms.html">no-new-idioms</a>
+			<span data-kcd-field="why"   data-kcd-type="text">No new patterns without explicit authorization — use established idioms only</span>
 		</div>
 	</div>
 

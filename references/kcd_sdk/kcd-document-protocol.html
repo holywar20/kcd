@@ -37,7 +37,7 @@
 
 	<p>
 		<strong>Substrate:</strong> standards-valid HTML — opens and navigates in any browser,
-		rendered dark via one shared <code>kcd.css</code>, read mechanically by the runtime. No
+		rendered dark via one shared <code>kcd.css</code>, read mechanically by Starmind. No
 		proprietary format. A small, closed set of <code>data-kcd-*</code> attributes carries all
 		machine meaning.
 	</p>
@@ -50,7 +50,7 @@
 			<li><strong>No brittle dependencies.</strong> The parser reads <strong>only</strong> explicit <code>data-kcd-*</code> attributes and <code>data-kcd-field</code> values. Never element order, never grid position, never class names, never scraped free text. Anything not addressed is human chrome the parser ignores.</li>
 			<li><strong>Greppable, then fast.</strong> <code>grep 'data-kcd-field="where"'</code> finds every reference target in the corpus today; the explicit format lets faster structured tools be built tomorrow.</li>
 			<li><strong>File-level, all-or-nothing validation.</strong> Every field declares a <code>data-kcd-type</code>; each type maps to a tiny validator function. If <strong>any</strong> required field is missing or fails its validator, the <strong>whole file is discarded and ignored</strong> — never partially parsed. A document is not <code>active</code> until it validates. This is what keeps malformed data out of the system.</li>
-			<li><strong>Validators are shared.</strong> The per-type validator functions are a small composable library — the same <code>data-kcd-type</code> vocabulary can drive both document validation and an inline editor's field controls.</li>
+			<li><strong>Validators are shared.</strong> The per-type validator functions are a small composable library reused by <strong>SettingField</strong> — the same <code>data-kcd-type</code> vocabulary drives both document validation and the inline editor's controls.</li>
 			<li><strong>Reference implementation.</strong> The binary validator is <code>kcd_sdk</code>'s <code>KcdValidate</code> (<code>kcd_sdk/src/core/html/KcdValidate.ts</code>), built on the Node-free <code>HtmlTree</code> reader and the <code>KcdAddress</code> grammar — pure JS/TS, no DOM dependency, file-level all-or-nothing exactly as above.</li>
 		</ol>
 	</section>
@@ -67,7 +67,7 @@
 				<tr><td><strong>region</strong></td><td><code>&lt;section data-kcd-region="know|care|do"&gt;</code></td><td>Know / Care / Do</td></tr>
 				<tr><td><strong>section</strong></td><td><code>&lt;section data-kcd-section="&lt;name&gt;"&gt;</code></td><td>the <strong>merge key</strong>; <code>data-kcd-merge="additive|declarative|union"</code> (default <code>additive</code>)</td></tr>
 				<tr><td><strong>heading</strong></td><td><code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>, optional <code>data-kcd-heading</code></td><td>a heading is human chrome by default — the context compiler <strong>strips every untagged <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code></strong> from compiled context (the prose still rides, just unlabeled). Add the valueless <code>data-kcd-heading</code> to mark one <strong>canonical</strong>: it survives the strip and rides the wire as <code>#</code>×N at its own tag level. Tag a heading only when it titles inline prose an agent should read (a Care <em>Purpose</em>/<em>Philosophy</em>, a reference's own body sub-headings). Do <strong>not</strong> tag the document <code>&lt;h1&gt;</code> title, the Know/Care/Do region labels, or routing-table section headings (References/Domains/Habits/Contracts/Files) — those are synthesized into the bottom Manifest already</td></tr>
-				<tr><td><strong>slot</strong></td><td>a row in a faux-table, <code>data-kcd-slot</code></td><td>fields <code>what</code> / <code>where</code> (a link) / <code>why</code>; <code>data-kcd-mode="off|on|suggested"</code> (default <code>on</code>) — one idiom for every routable artifact kind, off excludes entirely, on is routing-row-only, suggested rides full text; <code>data-kcd-habit-class="&lt;class&gt;"</code> = mutual-exclusion group</td></tr>
+				<tr><td><strong>slot</strong></td><td>a row in a faux-table, <code>data-kcd-slot="&lt;kind&gt;"</code></td><td><strong>kind is explicit and by POSITION</strong> — a slot inherits the role of the block it sits in, never the type of what its <code>where</code> points at (a habit linked from a References block is a <code>reference</code>, not an accessible habit). Closed set — <strong>dredge roles</strong> <code>reference</code> · <code>habit</code> · <code>contract</code> · <code>tool</code> · <code>rule</code> (domains fold into <code>reference</code>); <strong>non-dredge</strong> <code>link</code> (points somewhere, but not a routable KCD artifact — decoratable later) · <code>table-data</code> (a pure tabular row, extracted + dumped when its region rides, never dredged). Fields <code>what</code> / <code>where</code> (a link) / <code>why</code>; <code>data-kcd-mode="off|on|suggested"</code> (default <code>on</code>) governs a dredge role's inclusion — off excludes entirely, on is routing-row-only, suggested rides full text; <code>data-kcd-habit-class="&lt;class&gt;"</code> = mutual-exclusion group</td></tr>
 				<tr><td><strong>param</strong></td><td>a row, <code>data-kcd-param</code></td><td>fields <code>name</code> / <code>type</code> / <code>default</code> / <code>description</code>; lives in <strong>Know</strong>; any artifact, <strong>default zero</strong></td></tr>
 				<tr><td><strong>tag</strong></td><td><code>&lt;ul data-kcd-chips&gt;&lt;li data-kcd-tag&gt;</code></td><td>chip container for <code>list</code>-type fields</td></tr>
 				<tr><td><strong>chrome</strong></td><td>see §5</td><td>human-only furniture: demo / live / script</td></tr>
@@ -82,7 +82,7 @@
 		<p>What/Where/Why-shaped idioms (References, Domains, Habits, Contracts, Parameters) render as <strong>styled divs</strong>, not <code>&lt;table&gt;</code>:</p>
 <pre><code>&lt;div data-kcd-table&gt;
   &lt;div data-kcd-head&gt;&lt;span&gt;What&lt;/span&gt;&lt;span&gt;Where&lt;/span&gt;&lt;span&gt;Why&lt;/span&gt;&lt;/div&gt;
-  &lt;div data-kcd-slot data-kcd-mode="on"&gt;
+  &lt;div data-kcd-slot="reference" data-kcd-mode="on"&gt;
     &lt;span data-kcd-field="what"  data-kcd-type="text"&gt;Framework concepts&lt;/span&gt;
     &lt;a    data-kcd-field="where" data-kcd-type="path" href="…/kcd_framework.html"&gt;kcd_framework&lt;/a&gt;
     &lt;span data-kcd-field="why"   data-kcd-type="text"&gt;the primitives this lens enforces&lt;/span&gt;
@@ -94,6 +94,7 @@
 			<li>Columns via the <code>--kcd-cols</code> custom property. <strong>Canonical column order: What / Where / Why.</strong></li>
 			<li>Order is cosmetic — fields are read by name, so a reordered or renamed cell breaks neither parse nor render.</li>
 			<li><strong><code>data-kcd-slot</code> is canonical-only.</strong> A slot row's cells <strong>must</strong> be <code>data-kcd-field</code>s. Never put <code>data-kcd-slot</code> on a row you are not addressing — an unaddressed slot is invalid (the file fails).</li>
+			<li><strong><code>data-kcd-slot</code> carries its kind, by position.</strong> Every slot is <code>data-kcd-slot="&lt;kind&gt;"</code> from the closed set (§2); the parser reads it directly and <strong>never infers type from the <code>where</code> href</strong>. Kind follows the BLOCK: a References / Domains block yields <code>reference</code>s, Habits <code>habit</code>s, Contracts <code>contract</code>s, Tools <code>tool</code>s, Rules <code>rule</code>s; <strong>any other block</strong> yields <code>link</code> (a row carrying a link) or <code>table-data</code> (a row with no link). Only the five dredge roles are routed / dredged — <code>link</code> and <code>table-data</code> ride their region as plain content, never as affordances.</li>
 			<li><strong>Illustrative tables are chrome, not faux-tables.</strong> A descriptive table in prose (common in framework / reference docs) carries no canonical data — author it as a <strong>plain <code>&lt;table&gt;</code></strong>. The parser ignores any <code>&lt;table&gt;</code>, and a <code>&lt;table&gt;</code> may <strong>never</strong> carry <code>data-kcd-field</code> / <code>-slot</code> / <code>-param</code>. <strong>Bright line: <code>data-kcd-slot</code> ⇒ canonical; <code>&lt;table&gt;</code> ⇒ chrome.</strong></li>
 		</ul>
 	</section>
@@ -122,7 +123,7 @@
 				<tr><td><code>lens</code></td><td>type-specific (plan/analyzer)</td><td>slug</td><td>the lens this artifact associates with</td></tr>
 				<tr><td><code>scope</code></td><td>type-specific (contract)</td><td>enum</td><td><code>universal|lens:{name}</code></td></tr>
 				<tr><td><code>habit-class</code></td><td>type-specific (habit)</td><td>slug</td><td>mutual-exclusion group (see §6)</td></tr>
-				<tr><td><code>todo_path</code> / <code>completed_path</code></td><td>type-specific (lens)</td><td>path</td><td>log paths</td></tr>
+				<tr><td><code>todo</code> / <code>completed</code></td><td>type-specific (lens)</td><td>path</td><td>log paths</td></tr>
 			</tbody>
 		</table>
 		<blockquote>
@@ -142,16 +143,15 @@
 		<p><code>data-kcd-audience="human|agent|both"</code> (default <code>both</code>) on any element is the strip control; <code>human</code> nodes are kept for the visual read and dropped from the AI read.</p>
 		<p>Chrome components (all human-audience by nature):</p>
 		<ul>
-			<li><strong>Living demo</strong> — <code>data-kcd-chrome="demo"</code>: an interactive area (rendered live by a host runtime, placeholder in a plain browser).</li>
-			<li><strong>Live widget</strong> — <code>data-kcd-live="&lt;id&gt;"</code>: an embedded host-runtime widget; inert placeholder elsewhere.</li>
-			<li><strong>Bespoke vanilla JS</strong> — <code>&lt;script type="text/kcd-js" data-entry="&lt;fn&gt;"&gt;…&lt;/script&gt;</code>: the canonical insertion point for custom JS. The non-standard <code>type</code> means it <strong>does not execute in a browser</strong> (the script-exec gate stays closed in a plain browser; a host runtime extracts and sandboxes it). Source is shown to humans, stripped for the AI.</li>
+			<li><strong>Living demo</strong> — <code>data-kcd-chrome="demo"</code>: an interactive area (rendered in Starmind, placeholder in a plain browser).</li>
+			<li><strong>Live widget</strong> — <code>data-kcd-live="&lt;id&gt;"</code>: an embedded Starmind widget; inert placeholder elsewhere.</li>
+			<li><strong>Bespoke vanilla JS</strong> — <code>&lt;script type="text/kcd-js" data-entry="&lt;fn&gt;"&gt;…&lt;/script&gt;</code>: the canonical insertion point for custom JS. The non-standard <code>type</code> means it <strong>does not execute in a browser</strong> (the script-exec gate stays closed outside Starmind, which extracts and sandboxes it). Source is shown to humans, stripped for the AI.</li>
 		</ul>
 	</section>
 
 	<section data-kcd-section="composable-rules">
 		<h2 data-kcd-heading>6 · Composable rules — <code>habit-class</code> and the cascade</h2>
 		<p>A <code>habit-class</code> is a named <strong>mutual-exclusion group</strong> ("textual radio-buttons"): a set of behaviors where, by definition, only <strong>one</strong> may apply (e.g. <code>subagent-policy</code> = { <code>no-subagents</code>, <code>always-use-subagents</code> }). Classless habits are <strong>additive</strong> (all apply, union); classed habits are subject to the cascade below. Declared on a habit's own frontmatter (<code>habit-class</code>); <strong>mirrored</strong> on the including slot (<code>data-kcd-habit-class</code>), validated to agree.</p>
-		<p><strong>The class names the habit's folder — it is the habit's slot.</strong> A classed habit lives at <code>habits/{class}/{name}.html</code>; a classless habit at <code>habits/unslotted/{name}.html</code>. This holds identically in the canonical <code>kcd/habits/</code> and the deployed <code>habits/</code> — <strong>deployment preserves the class subfolder and never flattens a habit to <code>habits/{name}.html</code></strong>. The folder path is load-bearing: nav-indexes and lens Do-tables address habits by <code>{class}/{name}</code>, so a flattened habit is a broken reference.</p>
 		<p><strong>Carriers (the first composition rule).</strong> Habits may be applied to exactly three things — a <strong>Lens</strong>, an <strong>Agent</strong>, or <strong>injected in a Workflow</strong>. No other artifact type carries habits.</p>
 		<p><strong>Cascade priority — highest wins: <code>Workflow &gt; Agent &gt; Lens</code>.</strong> A lens-level habit is the <strong>base</strong> default; an Agent or a Workflow can override it. This is a <strong>one-dimensional override</strong> — like a primitive CSS cascade whose only specificity axis is the carrier level.</p>
 		<p><strong>Resolution:</strong></p>
@@ -169,7 +169,7 @@
 		<ul>
 			<li><code>name</code> + <code>description</code> adopt the <code>SKILL.md</code> field names and constraints (§4).</li>
 			<li><strong>Dredge = progressive disclosure.</strong> <code>data-kcd-mode="suggested"</code> ⇒ full text always-loaded (Skill Level 1–2); <code>on</code> (the default, no attribute needed) ⇒ available-on-request, a routing row only (Level 3 / bundled resource); <code>off</code> ⇒ excluded entirely, not even a routing row.</li>
-			<li><strong>No invocation command</strong> — KCD artifacts, like Skills, are description-triggered. This retires the whole command family: the lens <code>!{name}</code> command, the generator/analyzer <code>#{name}</code> task tag, and the session-log <code>!{lens}</code> token. <code>CLAUDE.md</code> may keep <code>!lens</code> / log shorthands as a project-level hook, but they are <strong>not KCD canonical</strong> and appear in no authored artifact.</li>
+			<li><strong>No invocation command</strong> — KCD artifacts, like Skills, are description-triggered. This retires the whole command family: the lens <code>!{name}</code> command, the generator/analyzer <code>#{name}</code> task tag, and the session-log <code>!{lens}</code> token. <code>CLAUDE.md</code> may keep <code>!lens</code> / log shorthands as a Claude-level hook, but they are <strong>not KCD canonical</strong> and appear in no authored artifact.</li>
 			<li><strong>Folder + bundled resources</strong> ↔ a lens folder + <code>context/</code> + its slots.</li>
 		</ul>
 	</section>
@@ -179,13 +179,13 @@
 		<ul>
 			<li><strong>Dark by default.</strong> Light is a future productization theme — it overrides only the <code>:root</code> variable block in <code>kcd.css</code>; every component reads the variables.</li>
 			<li>One shared <code>kcd.css</code> styles every component by keying off the <strong>same</strong> <code>data-kcd-*</code> addresses the parser reads — styling and parsing share one contract.</li>
-			<li>Links navigate natively in any browser; chrome is inert in a plain browser (outside a host runtime).</li>
+			<li>Links navigate natively in any browser; chrome is inert outside Starmind.</li>
 		</ul>
 
-		<h3 data-kcd-heading>8.1 · The stylesheet path</h3>
+		<h3 data-kcd-heading>8.1 · The stylesheet path (interim rule, 2026-07-01)</h3>
 		<p><strong>Canonical file:</strong> <a href="_Claude/kcd/kcd.css">kcd.css</a>. One copy, no duplicates. <code>kcd/</code> is the project's canonical framework library — the right home for a shared, framework-wide asset.</p>
-		<p><strong>Why this needs a rule at all.</strong> A KCD document is meant to open directly in a browser — <code>file://</code>, no server, no virtual root — so <code>&lt;link rel="stylesheet"&gt;</code> can only ever be a real filesystem-relative path. There is no <code>/absolute</code> that resolves the same way from every checkout, and a bare <code>href="kcd.css"</code> only works if a copy of the file sits in the <em>same directory</em> as the document — which is not true anywhere outside a document's own folder. This is the "dangling reference" class of bug the format is designed to avoid.</p>
-		<p><strong>The rule:</strong> compute the relative path from the document's own directory up to <code>_Claude/</code>, then down into <code>kcd/kcd.css</code> — one <code>../</code> per directory level under <code>_Claude/</code>.</p>
+		<p><strong>Why this needs a rule at all.</strong> A KCD document is meant to open directly in a browser — <code>file://</code>, no server, no virtual root — so <code>&lt;link rel="stylesheet"&gt;</code> can only ever be a real filesystem-relative path. There is no <code>/absolute</code> that resolves the same way from every checkout, and a bare <code>href="kcd.css"</code> (what most of the corpus currently has) only works if a copy of the file sits in the <em>same directory</em> as the document — which, outside the original html-proposal origin trial, is not true anywhere. This is exactly the "dangling reference" class of bug the 2026-07-01 corpus audit surfaced.</p>
+		<p><strong>The rule, for now:</strong> compute the relative path from the document's own directory up to <code>_Claude/</code>, then down into <code>kcd/kcd.css</code> — one <code>../</code> per directory level under <code>_Claude/</code>.</p>
 		<table>
 			<thead>
 				<tr><th>Document location (under <code>_Claude/</code>)</th><th>Levels under <code>_Claude/</code></th><th>Correct <code>href</code></th></tr>
@@ -195,11 +195,11 @@
 				<tr><td><code>habits/{name}.html</code></td><td>1</td><td><code>../kcd/kcd.css</code></td></tr>
 				<tr><td><code>contracts/{name}.html</code></td><td>1</td><td><code>../kcd/kcd.css</code></td></tr>
 				<tr><td><code>lenses/{name}/{name}.html</code></td><td>2</td><td><code>../../kcd/kcd.css</code></td></tr>
-				<tr><td><code>references/{cat}/{name}.html</code></td><td>2</td><td><code>../../kcd/kcd.css</code></td></tr>
-				<tr><td><code>references/{cat}/{sub}/{deep}/{name}.html</code></td><td>4</td><td><code>../../../../kcd/kcd.css</code></td></tr>
+				<tr><td><code>references/domain/{name}.html</code></td><td>2</td><td><code>../../kcd/kcd.css</code></td></tr>
+				<tr><td><code>references/domain/orchestration/research/{name}.html</code></td><td>4</td><td><code>../../../../kcd/kcd.css</code></td></tr>
 			</tbody>
 		</table>
-		<p>This is scut work a future authoring tool should absorb — a generator that stamps the correct relative path at deploy time, or a host runtime that rewrites the base href when it renders these documents itself (removing the need for the raw file to carry a working link at all). Until that tool exists, an agent authoring or fixing a KCD document computes this path by hand rather than copying a bare <code>href="kcd.css"</code>.</p>
+		<p><strong>This is explicitly a stopgap</strong>, called out as such by the person who ruled it (2026-07-01): it still relies on whoever authors a document counting directory levels correctly by hand, which is exactly the kind of scut work a future authoring tool should absorb (a generator that stamps the correct relative path at deploy time, or a Starmind-side base-href rewrite when it renders these documents itself, removing the need for the raw file to carry a working link at all). Until that tool exists, an agent authoring or fixing a KCD document computes this path correctly by hand rather than copying the bare <code>href="kcd.css"</code> seen elsewhere in the corpus. The back-sweep to correct every already-deployed document's <code>href</code> to this rule is a separate, tracked pass — not implied by this section.</p>
 	</section>
 
 	<section data-kcd-section="scope-non-html">
@@ -207,7 +207,7 @@
 		<p><strong>The rule:</strong> every KCD primitive — lens, contract, habit, generator, analyzer,
 		template, reference, plan, nav-index, note, how-to — and every document that describes or points at
 		one, is authored as <code>.html</code> per this protocol. No exceptions, and no new primitive type
-		is ever authored as <code>.md</code>. <code>work/</code> is the sole grandfather clause: legacy
+		is ever authored as <code>.md</code>. <code>work/</code> is the sole grandfather clause: pre-2026-07-01
 		drafts left there are not back-converted, but anything <em>new</em> written to <code>work/</code> is
 		HTML from the start (see the <a href="_Claude/kcd/contracts/plan.html">plan contract</a>'s "every plan
 		is HTML, at every stage" rule for the concrete case).</p>
@@ -229,8 +229,8 @@
 			<code>AGENTS.md</code>. Conventions owned outside KCD (Claude Code, the Agent Skills standard);
 			this protocol has no authority to reformat them.</li>
 			<li><strong>Docs a generator writes into a target codebase it is not itself part of</strong> —
-			e.g. a generated <code>docs/component-map.md</code> inside a target repo. That codebase's own
-			documentation conventions govern, not this one.</li>
+			e.g. <code>safe_work/docs/front-end-component-map.md</code>. That codebase's own documentation
+			conventions govern, not this one.</li>
 		</ul>
 		<p>Anything not on this list that is still <code>.md</code> outside <code>work/</code> is drift, not
 		a legitimate exception — flag it.</p>
@@ -238,7 +238,7 @@
 
 	<section data-kcd-section="resolved-and-open">
 		<h2 data-kcd-heading>Resolved &amp; still-open</h2>
-		<p><strong>Resolved (now stone):</strong> names are kebab-case (Skill standard; the leading <code>_</code> on framework scaffolds is a sort prefix, not part of the name); regions are optional (§2 no-empty rule); the frontmatter field set (§4) is locked; the habit composition cascade (§6) is locked; <code>author</code> is universal, block form; <code>domain</code> (a special tag, may overlap) retires <code>category</code>; the template <code>target</code> field is dropped (inferred from filename); <code>utility</code> is not a document type (it is declarative code — <code>UtilityObject</code>); tables (§3) — <code>data-kcd-slot</code> canonical-only, illustrative tables are plain <code>&lt;table&gt;</code> chrome; templates are exempt from validation; the reference validator is pure-JS + binary; <code>model</code> is a parameter (§4); <code>composed</code> is a legal status; the command family is retired (§7); the index scaffold is <code>_nav-index_template.html</code>. The artifact-type set now includes <code>note</code> (a forward-looking observation — keeps its open / candidate sections, unlike a reference) and <code>how-to</code> (a procedural recipe — keeps its own step shape); <code>observation</code> is a legal (note) status; the non-HTML scope (§9) is locked — logs/chat-transcripts/raw-generator-output/external-standards/target-codebase-docs are the only legitimate <code>.md</code>, everything else is drift.</p>
+		<p><strong>Resolved (now stone):</strong> names are kebab-case (Skill standard; the leading <code>_</code> on framework scaffolds is a sort prefix, not part of the name); regions are optional (§2 no-empty rule); the frontmatter field set (§4) is locked; the habit composition cascade (§6) is locked; <code>author</code> is universal, block form; <code>domain</code> (a special tag, may overlap) retires <code>category</code>; the template <code>target</code> field is dropped (inferred from filename); <code>utility</code> is not a document type (it is declarative code — <code>UtilityObject</code>); tables (§3) — <code>data-kcd-slot</code> canonical-only, illustrative tables are plain <code>&lt;table&gt;</code> chrome; a slot carries its kind explicitly and <strong>by block-position</strong> (dredge roles <code>reference</code>/<code>habit</code>/<code>contract</code>/<code>tool</code>/<code>rule</code>, domains folding into reference; non-dredge <code>link</code>/<code>table-data</code>), retiring href-inferred typing; templates are exempt from validation; the reference validator is pure-JS + binary; <code>model</code> is a parameter (§4); <code>composed</code> is a legal status; the command family is retired (§7); the index scaffold is <code>_nav-index_template.html</code>. The artifact-type set now includes <code>note</code> (a forward-looking observation — keeps its open / candidate sections, unlike a reference) and <code>how-to</code> (a procedural recipe — keeps its own step shape); <code>observation</code> is a legal (note) status; the non-HTML scope (§9) is locked — logs/chat-transcripts/raw-generator-output/external-standards/target-codebase-docs are the only legitimate <code>.md</code>, everything else is drift.</p>
 		<p><strong>Retired — must NOT appear in any authored document:</strong> <code>command</code> / invocation (incl. the <code>#{name}</code> task tag and <code>!{lens}</code> log token — only <code>CLAUDE.md</code> keeps the <code>!lens</code> shorthand) · <code>pipeline</code> (superseded by Workflows) · <code>index</code> as a type name (→ <code>nav-index</code>) · <code>category</code> (→ <code>domain</code>) · the template <code>target</code> field · <code>utility</code> documents.</p>
 		<p><strong>Still open (judgment for now):</strong> how much a single artifact may carry (atomicity vs. larding — no mechanical cap); UI surfacing of habit overrides (which won, which were dropped).</p>
 	</section>
@@ -247,17 +247,18 @@
 		<h2>References</h2>
 		<div data-kcd-table>
 			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-			<div data-kcd-slot>
+			<div data-kcd-slot="reference">
 				<span data-kcd-field="what"  data-kcd-type="text">kcd-primitives</span>
 				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/references/kcd_sdk/kcd-primitives.html">kcd-primitives</a>
-				<span data-kcd-field="why"   data-kcd-type="text">The SDK object model — artifact types, roles, and the wire shape.</span>
+				<span data-kcd-field="why"   data-kcd-type="text">The SDK object model (being brought to this substrate).</span>
 			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">kcd_framework</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/kcd_framework.html">kcd_framework</a>
-				<span data-kcd-field="why"   data-kcd-type="text">The conceptual foundations these encoding rules serve.</span>
+			<div data-kcd-slot="reference">
+				<span data-kcd-field="what"  data-kcd-type="text">Exemplar (lens.html)</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/exemplars/lens.html">lens.html</a>
+				<span data-kcd-field="why"   data-kcd-type="text">The reference-implementation exemplar this spec was validated against.</span>
 			</div>
 		</div>
+		<p><em>Related memory: project-kcd-html-migration · project-kcd-vocab-alignment · project-settingfield-universal-schema · project-contract-primitive · feedback-defer-security-name-the-gate.</em></p>
 	</section>
 
 </article>

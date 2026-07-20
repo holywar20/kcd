@@ -1,12 +1,8 @@
-﻿<!DOCTYPE html>
-<!-- ============================================================================
-     NAV INDEX — kcd/utilities. Migrated from index.md (renamed index → nav-index).
-     Full format law: _Claude/kcd/references/kcd_sdk/kcd-document-protocol.html §3.
-     ============================================================================ -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>kcd/utilities — Nav index</title>
+	<title>Utilities — Navigation Index</title>
 	<link rel="stylesheet" href="../kcd.css">
 </head>
 <body>
@@ -14,55 +10,45 @@
 <article data-kcd="nav-index">
 
 	<dl data-kcd-frontmatter>
-		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">kcd-utilities</dd>
-		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">The registered tool tier — executable code files (.js) the human runs from a terminal, an agent calls in-session, and (eventually) the interface triggers as a button. Same mental bucket as MCP tools.</dd>
+		<dt>name</dt>          <dd data-kcd-field="name"           data-kcd-type="slug">utilities-nav-index</dd>
+		<dt>description</dt>   <dd data-kcd-field="description"    data-kcd-type="text">Registered tool tier — executable code files the human runs and that the interface triggers as buttons; folder-gated between draft and deployed</dd>
 		<dt>type</dt>          <dd data-kcd-field="type"           data-kcd-type="enum">nav-index</dd>
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
-		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
 		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-01</dd>
 	</dl>
 
-	<h1>kcd/utilities — Nav index</h1>
+	<h1>Utilities — Index</h1>
 
-	<p>The registered <strong>tool tier</strong> — executable <strong>code files</strong> (<code>.js</code>) the human runs from a terminal, an agent calls in-session, and (eventually) the interface triggers as a button. Same mental bucket as MCP tools. Utilities have <strong>no base/template/instance pattern</strong> — the tier is one service that registers many tools, not a family with a shared base.</p>
+	<p>Registered tool tier — executable <strong>code files</strong> (<code>.js</code>) the human runs and (eventually) the interface triggers as a button. The tier is <strong>folder-gated</strong> (per <a href="kcd/docs/deployment_schema.canvas">deployment_schema</a>):</p>
 
-	<p>Tools are <strong>packaged with the framework</strong> — they ship in canonical so every project that deploys kcd inherits them. The tier is <strong>folder-gated</strong>, and the convention is identical in canonical and in a deployed instance (per <a href="_Claude/kcd/docs/deployment_schema.canvas">deployment_schema</a>):</p>
+	<ul>
+		<li><a href="utilities/draft/">draft/</a> — proposed tools, not yet approved to run.</li>
+		<li><a href="utilities/deployed/">deployed/</a> — human-approved, runnable tools.</li>
+		<li><a href="utilities/deployed/registry.html">registry.html</a> — the allowlist; a tool runs only if listed there.</li>
+	</ul>
 
-	<div data-kcd-table>
-		<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">draft</span>
-			<span data-kcd-field="where" data-kcd-type="text">_Claude/kcd/utilities/draft/</span>
-			<span data-kcd-field="why"   data-kcd-type="text">utilities still in development — not yet approved to run</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">deployed</span>
-			<span data-kcd-field="where" data-kcd-type="text">_Claude/kcd/utilities/deployed/</span>
-			<span data-kcd-field="why"   data-kcd-type="text">approved, runnable tools ({name}.js), shipped with the framework</span>
-		</div>
-		<div data-kcd-slot>
-			<span data-kcd-field="what"  data-kcd-type="text">registry</span>
-			<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/utilities/deployed/registry.html">_Claude/kcd/utilities/deployed/registry.html</a>
-			<span data-kcd-field="why"   data-kcd-type="text">the allowlist — a tool runs only if listed there</span>
-		</div>
-	</div>
+	<p>Each tool carries its metadata in <strong>comment-frontmatter</strong> — a <code>/*--- … ---*/</code> block parsed exactly like Markdown frontmatter. Framework utilities arrive in <code>deployed/</code> on deploy (packaged with kcd); you add your own by dropping a <code>.js</code> in <code>draft/</code> and promoting it once ready.</p>
 
-	<p>Each tool is a single <code>.js</code> file carrying its metadata in <strong>comment-frontmatter</strong>: a <code>/*--- … ---*/</code> block parsed exactly like Markdown frontmatter. On deploy, <code>deployed/</code> and its registry are copied to the instance, where a project adds its own utilities (drop a <code>.js</code> in <code>draft/</code>, promote when ready).</p>
+	<h2 data-kcd-heading>Deployed</h2>
 
-	<section data-kcd-section="shipped">
-		<h3>Shipped</h3>
-		<div data-kcd-table>
-			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">auto-repair</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/utilities/deployed/auto-repair.js">auto-repair</a>
-				<span data-kcd-field="why"   data-kcd-type="text">Tool #1 — runs the repair-docs cycle end-to-end. Sets the utility shape (code file + comment-frontmatter).</span>
-			</div>
-		</div>
-	</section>
-
-	<p><strong>Deferred:</strong> the <strong>signaling model</strong> (how a call is dispatched and its result returned) and the <strong>security model</strong> (content-address hash + invalidate-on-change + re-approval, per-utility capability scope) — tracked under <em>Still evolving → Utility tier</em> in <a href="_Claude/kcd/kcd_framework.html">kcd_framework</a>.</p>
+	<table>
+		<thead>
+			<tr><th>What</th><th>Where</th><th>Why</th></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>auto-repair</td>
+				<td><a href="utilities/deployed/auto-repair.js">auto-repair</a></td>
+				<td>Runs the repair-docs cycle end-to-end — detect structural drift, then apply the mechanical fixes. Currently a reporting stub.</td>
+			</tr>
+			<tr>
+				<td>boolean_tester</td>
+				<td><a href="utilities/deployed/boolean_tester.js">boolean_tester</a></td>
+				<td>A dumb test utility — fails ~60% of the time (or always, via <code>alwaysFails</code>). For wiring + input tests on the Constellation board.</td>
+			</tr>
+		</tbody>
+	</table>
 
 </article>
 

@@ -165,7 +165,7 @@
 			<li><strong>Save to a path ending <code>.sig</code></strong>, formatted as pretty JSON with tab
 			indentation — that is what the editor writes, so matching it keeps diffs clean. A hand-authored
 			example exercising every render property lives at
-			<a href="_Claude/plans/starmind_insight/examples/sample.sig">sample.sig</a>.</li>
+			<a href="_Claude/kcd/references/insight/examples/sample.sig">sample.sig</a>.</li>
 		</ol>
 		<p>To <strong>read</strong> a graph, invert it: skip <code>layout</code> entirely and read the nodes as
 		<code>id · type · title · body</code> and the edges as an edge list of <code>from → to (rel)</code>.
@@ -176,14 +176,14 @@
 		<h3>Rules</h3>
 		<div data-kcd-table>
 			<div data-kcd-head><span>Rule</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Meaning goes in <code>type</code> and <code>rel</code> — never in shape or color.</strong> A diamond does not mean "decision" and amber does not mean "warning". If a fact is only encoded in the look, the agent's read loses it, because the projection drops <code>layout</code> whole.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Name every relation.</strong> <code>rel</code> is required and is the highest-value token in the document. An arrow that only means "related somehow" wastes the edge.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Color is a ramp key, never a hex.</strong> <code>"amber"</code>, not <code>"#f59e0b"</code> — the renderer resolves the key onto the themed ramp. A raw hex resolves to nothing and paints neutral.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Be lavish in <code>layout</code>.</strong> Geometry is partitioned so it costs the agent nothing. Rich presentation is a feature, not indulgence — the human side should be excellent.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Ids are short, stable, and referenced.</strong> <code>n1</code> / <code>e1</code>, unique within the document. Edges address nodes by id; an edge naming a missing node silently does not render.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>The path is the registration.</strong> A file ending <code>.sig</code> is a graph — no registry entry, no API call. Do not invent a registration step.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Emit valid JSON.</strong> Parse is tolerant (blank → empty graph), but non-blank invalid JSON reads as malformed and the editor refuses to open it. Additive keys are safe; broken syntax is not.</span></div>
-			<div data-kcd-slot><span data-kcd-field="rule" data-kcd-type="text"><strong>Do not overlap nodes, and do not expect wire routing.</strong> A wire passes behind any node in its path. Leave gutters; reach for <code>elbow</code> in congested areas.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Meaning goes in <code>type</code> and <code>rel</code> — never in shape or color.</strong> A diamond does not mean "decision" and amber does not mean "warning". If a fact is only encoded in the look, the agent's read loses it, because the projection drops <code>layout</code> whole.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Name every relation.</strong> <code>rel</code> is required and is the highest-value token in the document. An arrow that only means "related somehow" wastes the edge.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Color is a ramp key, never a hex.</strong> <code>"amber"</code>, not <code>"#f59e0b"</code> — the renderer resolves the key onto the themed ramp. A raw hex resolves to nothing and paints neutral.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Be lavish in <code>layout</code>.</strong> Geometry is partitioned so it costs the agent nothing. Rich presentation is a feature, not indulgence — the human side should be excellent.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Ids are short, stable, and referenced.</strong> <code>n1</code> / <code>e1</code>, unique within the document. Edges address nodes by id; an edge naming a missing node silently does not render.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>The path is the registration.</strong> A file ending <code>.sig</code> is a graph — no registry entry, no API call. Do not invent a registration step.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Emit valid JSON.</strong> Parse is tolerant (blank → empty graph), but non-blank invalid JSON reads as malformed and the editor refuses to open it. Additive keys are safe; broken syntax is not.</span></div>
+			<div data-kcd-slot="rule"><span data-kcd-field="rule" data-kcd-type="text"><strong>Do not overlap nodes, and do not expect wire routing.</strong> A wire passes behind any node in its path. Leave gutters; reach for <code>elbow</code> in congested areas.</span></div>
 		</div>
 	</section>
 
@@ -191,40 +191,10 @@
 		<h3>References</h3>
 		<div data-kcd-table>
 			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">Sig.ts — the schema + codec</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="starmind/src/renderer/src/studio/Sig.ts">Sig.ts</a>
-				<span data-kcd-field="why"   data-kcd-type="text">The document model itself — <code>SigDoc</code> / <code>SigNode</code> / <code>SigEdge</code> / <code>SigLayout</code>, the <code>.sig</code> + <code>insight/1</code> constants, and the tolerant <code>parse</code> / <code>serialize</code> / <code>malformed</code> seam. The authority when this reference and the code disagree.</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">SigStudio.vue — the render surface</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="starmind/src/renderer/src/components/studio/plugins/SigStudio.vue">SigStudio.vue</a>
-				<span data-kcd-field="why"   data-kcd-type="text">Where every render vocabulary is actually enumerated — the shape bank, the ramp keys, the font bank, arrowheads, line styles, anchor geometry. Read when a value in this reference needs confirming or the banks have grown.</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">SigEngine.ts — the editing session</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="starmind/src/renderer/src/studio/SigEngine.ts">SigEngine.ts</a>
-				<span data-kcd-field="why"   data-kcd-type="text">The live working model behind the human's editor — reactive doc per id, structural dirty compare, id minting, add/remove node + edge. Relevant when reasoning about how a human's edits and an agent's file writes meet.</span>
-			</div>
-			<div data-kcd-slot>
+			<div data-kcd-slot="reference">
 				<span data-kcd-field="what"  data-kcd-type="text">sample.sig — a worked example</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/plans/starmind_insight/examples/sample.sig">sample.sig</a>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/references/insight/examples/sample.sig">sample.sig</a>
 				<span data-kcd-field="why"   data-kcd-type="text">A hand-authored graph exercising the render properties — the fastest way to see a real document's shape before writing one.</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">starmind_insight — the owning plan</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/plans/starmind_insight/starmind_insight.html">starmind_insight</a>
-				<span data-kcd-field="why"   data-kcd-type="text">Why the format is shaped this way — the dual-audience thesis, the rulings (generic shapes, DOM+SVG render), and what is still unbuilt (the lean projection helper, the MCP query tool, explicit group membership).</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">inference-friendly-json — the research</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/plans/starmind_insight/research/inference-friendly-json.html">inference-friendly-json</a>
-				<span data-kcd-field="why"   data-kcd-type="text">The grounding for every schema choice — flat arrays, semantic typing, named relations, partitioned geometry, and why small/local models are shape-sensitive where frontier models are not.</span>
-			</div>
-			<div data-kcd-slot>
-				<span data-kcd-field="what"  data-kcd-type="text">studio-platform</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/references/renderer/studio-platform.html">studio-platform</a>
-				<span data-kcd-field="why"   data-kcd-type="text">The surface a <code>.sig</code> opens on — <code>defineStudio</code>, the broker, tabs and panes. Read when changing how the graph plug-in itself is mounted or wired, rather than what it paints.</span>
 			</div>
 		</div>
 	</section>

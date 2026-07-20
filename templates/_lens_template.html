@@ -27,7 +27,7 @@
 		every placeholder and delete these scaffold notes. <code>_base</code> is inherited automatically
 		— declare only what this lens adds.</p>
 		<p>The authored lens replaces this template's identity fields with the lens type's own
-		frontmatter (per <a href="_Claude/work/lens_crafter/html-proposal/lens.html">lens.html</a>):
+		frontmatter (per the lens exemplar):
 		<code>name</code>, <code>description</code>, <code>type: lens</code>, a real
 		<code>status</code> (<code>active</code> | <code>disabled</code>), <code>base</code>,
 		<code>dredge-depth</code>, <code>audience</code>, <code>updated</code>, <code>tags</code>.</p>
@@ -44,7 +44,7 @@
 			<p><em>Specific named files. Load explicitly by path.</em></p>
 			<div data-kcd-table>
 				<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-				<div data-kcd-slot>
+				<div data-kcd-slot="reference">
 					<span data-kcd-field="what"  data-kcd-type="text">{label}</span>
 					<a    data-kcd-field="where" data-kcd-type="path" href="{path}">{label}</a>
 					<span data-kcd-field="why"   data-kcd-type="text">{when to load}</span>
@@ -57,7 +57,7 @@
 			<p><em>Topic-area folders. Read-only. Trawlable for inference.</em></p>
 			<div data-kcd-table>
 				<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-				<div data-kcd-slot>
+				<div data-kcd-slot="reference">
 					<span data-kcd-field="what"  data-kcd-type="text">{label}</span>
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/references/{domain}/">{label}</a>
 					<span data-kcd-field="why"   data-kcd-type="text">{when to trawl}</span>
@@ -99,7 +99,7 @@
 			work-routing, session/completed logging, no-subagents). List only the habits this lens adds.</em></p>
 			<div data-kcd-table>
 				<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-				<div data-kcd-slot>
+				<div data-kcd-slot="habit">
 					<span data-kcd-field="what"  data-kcd-type="text">{habit}</span>
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/habits/{habit}.html">{habit}</a>
 					<span data-kcd-field="why"   data-kcd-type="text">{when it fires}</span>
@@ -113,7 +113,7 @@
 			<code>plan</code> contract (inherited via <code>_lens_base</code>).</em></p>
 			<div data-kcd-table>
 				<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
-				<div data-kcd-slot>
+				<div data-kcd-slot="contract">
 					<span data-kcd-field="what"  data-kcd-type="text">{contract}</span>
 					<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/contracts/{contract}.html">{contract}</a>
 					<span data-kcd-field="why"   data-kcd-type="text">{when it applies}</span>

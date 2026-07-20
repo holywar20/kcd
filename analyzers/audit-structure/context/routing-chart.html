@@ -14,7 +14,7 @@
 		<dt>description</dt> <dd data-kcd-field="description" data-kcd-type="text">Structural classification policy — zones + finding-resolution — that audit-structure uses to split findings into the repair manifest vs the decisions report.</dd>
 		<dt>type</dt>        <dd data-kcd-field="type"        data-kcd-type="enum">reference</dd>
 		<dt>status</dt>      <dd data-kcd-field="status"      data-kcd-type="enum">active</dd>
-		<dt>updated</dt>     <dd data-kcd-field="updated"     data-kcd-type="date">2026-06-03</dd>
+		<dt>updated</dt>     <dd data-kcd-field="updated"     data-kcd-type="date">2026-06-11</dd>
 	</dl>
 
 	<h1>Routing Chart</h1>
@@ -24,12 +24,12 @@
 	whether a fix is obvious enough to apply. Aggressively auto-healing the deployed tree (especially
 	link-drift) is the whole point — that drift is the dominant pain during documentation composition.</p>
 
-	<h2>Zones (by location — first match wins)</h2>
+	<h2 data-kcd-heading>Zones (by location — first match wins)</h2>
 
 	<table>
 		<thead><tr><th>Zone</th><th>Pattern</th><th>Policy</th></tr></thead>
 		<tbody>
-			<tr><td><strong>Excluded</strong></td><td><code>{work-exclude}/**</code>, <code>reports/**</code>, <code>audits/**</code></td><td>Skip entirely — fluid workbench and generated output.</td></tr>
+			<tr><td><strong>Excluded</strong></td><td><code>_Claude/work/**</code>, <code>_Claude/reports/**</code>, <code>_Claude/audits/**</code></td><td>Skip entirely — fluid workbench and generated output.</td></tr>
 			<tr><td><strong>Canonical</strong></td><td><code>kcd/**</code></td><td><strong>Health-check only.</strong> Run every check, but <strong>every finding → decisions report</strong>; <em>nothing in <code>kcd/</code> is ever repaired.</em> (How canonical is defended is deferred; for now, look-don't-touch.)</td></tr>
 			<tr><td><strong>Deployed</strong></td><td>everything else</td><td><strong>Auto-heal.</strong> Apply the resolution below — fixes go to the repair manifest.</td></tr>
 		</tbody>
@@ -38,7 +38,7 @@
 	<p><code>kcd/</code> being canonical is the one location rule that matters. Identity is by location
 	(the CSS-cascade model) — a file does not declare its own classification.</p>
 
-	<h2>Resolution (per finding)</h2>
+	<h2 data-kcd-heading>Resolution (per finding)</h2>
 
 	<p>In the <strong>deployed</strong> zone, each finding resolves to <strong>manifest</strong>
 	(auto-repair) or <strong>decisions</strong> (flag) by whether the fix is unambiguous:</p>
@@ -63,7 +63,7 @@
 	anywhere else — the only gate is <em>is the target obvious</em>, not <em>what kind of file is
 	this</em>.</p>
 
-	<h2>Frontmatter cascade is checked against the schema, not a chart</h2>
+	<h2 data-kcd-heading>Frontmatter cascade is checked against the schema, not a chart</h2>
 
 	<p>The old heal-docs "Chains" fold into the frontmatter schema. Cascade conformance = <em>check an
 	instance's frontmatter against its type's template</em> per
