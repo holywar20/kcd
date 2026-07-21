@@ -71,6 +71,7 @@
 				<tr><td><strong>param</strong></td><td>a row, <code>data-kcd-param</code></td><td>fields <code>name</code> / <code>type</code> / <code>default</code> / <code>description</code>; lives in <strong>Know</strong>; any artifact, <strong>default zero</strong></td></tr>
 				<tr><td><strong>tag</strong></td><td><code>&lt;ul data-kcd-chips&gt;&lt;li data-kcd-tag&gt;</code></td><td>chip container for <code>list</code>-type fields</td></tr>
 				<tr><td><strong>chrome</strong></td><td>see §5</td><td>human-only furniture: demo / live / script</td></tr>
+				<tr><td><strong>seed</strong></td><td><code>&lt;script type="text/kcd-md" data-kcd-seed="&lt;host&gt;"&gt;</code></td><td>a literal payload extracted to a non-KCD file at deploy (§10). <code>data-kcd-target</code> (required) = the emitted filename, <strong>project-root</strong>-relative; <code>data-kcd-mode="prepend|create-only"</code> (default <code>prepend</code>). Never a slot, never routed, never compiled into context</td></tr>
 			</tbody>
 		</table>
 		<p>A field value's source by type: <strong>link fields</strong> (<code>where</code>, paths, urls) → <code>href</code>; <strong>all others</strong> → text content.</p>
@@ -236,9 +237,62 @@
 		a legitimate exception — flag it.</p>
 	</section>
 
+	<section data-kcd-section="seeds">
+		<h2 data-kcd-heading>10 · Seeds — payload carried, not compiled</h2>
+		<p>§9 puts a small set of files outside this protocol, <code>CLAUDE.md</code> and its siblings
+		most of all. A <strong>seed</strong> is how a governed HTML artifact authors one of them: a
+		literal payload block carried inside the document, extracted at deploy and written to a file
+		this protocol does not govern. The artifact is the <strong>source and is never copied</strong>;
+		the emitted file is a product. This is the sanctioned bridge across the §9 boundary — it lets
+		an external-standard file be authored, versioned, and reviewed as a KCD document without
+		claiming authority over its format.</p>
+
+		<p><strong>Container.</strong> A seed is the §5 non-executing script idiom with a markdown
+		type:</p>
+<pre><code>&lt;script type="text/kcd-md"
+        data-kcd-seed="claude"
+        data-kcd-target="CLAUDE.md"
+        data-kcd-mode="prepend"&gt;
+# Heading
+
+Markdown, verbatim.
+&lt;/script&gt;</code></pre>
+		<p>The non-standard <code>type</code> means no browser executes or renders it, and script
+		content is raw text — so the payload needs <strong>no HTML escaping</strong>. The single
+		exception is a literal <code>&lt;/script</code>, which must be escaped.</p>
+		<ul>
+			<li><code>data-kcd-seed="&lt;host&gt;"</code> — <strong>required</strong>, a slug naming the
+			agent host this payload is for (<code>claude</code>, <code>codex</code>,
+			<code>gemini</code>). One document carries one block per host; the extractor selects by this
+			key. Host keys are open, not a closed set — a new host is a new block, not a schema
+			change.</li>
+			<li><code>data-kcd-target="&lt;filename&gt;"</code> — <strong>required</strong>, the file
+			written, resolved from the <strong>project root</strong> rather than the vault. A seed
+			missing its target fails the file, per §1.5.</li>
+			<li><code>data-kcd-mode</code> — <code>prepend</code> (default) or
+			<code>create-only</code>.</li>
+		</ul>
+		<p><strong>Modes.</strong> <code>create-only</code> writes the whole file and never touches one
+		that already exists. <code>prepend</code> maintains a <strong>managed block</strong> at the top
+		of the target, delimited by <code>&lt;!-- kcd:begin --&gt;</code> and
+		<code>&lt;!-- kcd:end --&gt;</code>; re-extraction replaces only what lies between the markers
+		and leaves everything below them alone. That is what lets a vault deploy over a project whose
+		<code>CLAUDE.md</code> already says things of its own, and re-deploy later without clobbering
+		them.</p>
+		<p><strong>A seed is not a slot.</strong> It carries no <code>data-kcd-field</code> cells, is
+		never routed or dredged, and belongs to no faux-table. The two are unrelated primitives that
+		happen to share an English word: <code>data-kcd-slot</code> is a routing row (§3),
+		<code>data-kcd-seed</code> is a payload block.</p>
+		<p><strong>Seeds never compile.</strong> The context compiler <strong>strips every seed
+		block</strong>, exactly as it strips chrome (§5). A seed is deploy input, not agent context. A
+		document carrying three host payloads would otherwise triple itself on the wire — and each
+		payload is prose written <em>for</em> an agent that has not read the vault yet, which is
+		precisely the wrong thing to hand one that has.</p>
+	</section>
+
 	<section data-kcd-section="resolved-and-open">
 		<h2 data-kcd-heading>Resolved &amp; still-open</h2>
-		<p><strong>Resolved (now stone):</strong> names are kebab-case (Skill standard; the leading <code>_</code> on framework scaffolds is a sort prefix, not part of the name); regions are optional (§2 no-empty rule); the frontmatter field set (§4) is locked; the habit composition cascade (§6) is locked; <code>author</code> is universal, block form; <code>domain</code> (a special tag, may overlap) retires <code>category</code>; the template <code>target</code> field is dropped (inferred from filename); <code>utility</code> is not a document type (it is declarative code — <code>UtilityObject</code>); tables (§3) — <code>data-kcd-slot</code> canonical-only, illustrative tables are plain <code>&lt;table&gt;</code> chrome; a slot carries its kind explicitly and <strong>by block-position</strong> (dredge roles <code>reference</code>/<code>habit</code>/<code>contract</code>/<code>tool</code>/<code>rule</code>, domains folding into reference; non-dredge <code>link</code>/<code>table-data</code>), retiring href-inferred typing; templates are exempt from validation; the reference validator is pure-JS + binary; <code>model</code> is a parameter (§4); <code>composed</code> is a legal status; the command family is retired (§7); the index scaffold is <code>_nav-index_template.html</code>. The artifact-type set now includes <code>note</code> (a forward-looking observation — keeps its open / candidate sections, unlike a reference) and <code>how-to</code> (a procedural recipe — keeps its own step shape); <code>observation</code> is a legal (note) status; the non-HTML scope (§9) is locked — logs/chat-transcripts/raw-generator-output/external-standards/target-codebase-docs are the only legitimate <code>.md</code>, everything else is drift.</p>
+		<p><strong>Resolved (now stone):</strong> names are kebab-case (Skill standard; the leading <code>_</code> on framework scaffolds is a sort prefix, not part of the name); regions are optional (§2 no-empty rule); the frontmatter field set (§4) is locked; the habit composition cascade (§6) is locked; <code>author</code> is universal, block form; <code>domain</code> (a special tag, may overlap) retires <code>category</code>; the template <code>target</code> field is dropped (inferred from filename); <code>utility</code> is not a document type (it is declarative code — <code>UtilityObject</code>); tables (§3) — <code>data-kcd-slot</code> canonical-only, illustrative tables are plain <code>&lt;table&gt;</code> chrome; a slot carries its kind explicitly and <strong>by block-position</strong> (dredge roles <code>reference</code>/<code>habit</code>/<code>contract</code>/<code>tool</code>/<code>rule</code>, domains folding into reference; non-dredge <code>link</code>/<code>table-data</code>), retiring href-inferred typing; templates are exempt from validation; the reference validator is pure-JS + binary; <code>model</code> is a parameter (§4); <code>composed</code> is a legal status; the command family is retired (§7); the index scaffold is <code>_nav-index_template.html</code>. The artifact-type set now includes <code>note</code> (a forward-looking observation — keeps its open / candidate sections, unlike a reference) and <code>how-to</code> (a procedural recipe — keeps its own step shape); <code>observation</code> is a legal (note) status; the non-HTML scope (§9) is locked — logs/chat-transcripts/raw-generator-output/external-standards/target-codebase-docs are the only legitimate <code>.md</code>, everything else is drift. The <code>seed</code> component (§10) is the sanctioned bridge to those exempt files — payload carried in HTML, extracted at deploy, stripped from compiled context; it is a distinct primitive from <code>data-kcd-slot</code> and shares nothing with it but the English word.</p>
 		<p><strong>Retired — must NOT appear in any authored document:</strong> <code>command</code> / invocation (incl. the <code>#{name}</code> task tag and <code>!{lens}</code> log token — only <code>CLAUDE.md</code> keeps the <code>!lens</code> shorthand) · <code>pipeline</code> (superseded by Workflows) · <code>index</code> as a type name (→ <code>nav-index</code>) · <code>category</code> (→ <code>domain</code>) · the template <code>target</code> field · <code>utility</code> documents.</p>
 		<p><strong>Still open (judgment for now):</strong> how much a single artifact may carry (atomicity vs. larding — no mechanical cap); UI surfacing of habit overrides (which won, which were dropped).</p>
 	</section>
