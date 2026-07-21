@@ -148,9 +148,10 @@ completed_path: _Claude/logs/{name}/completed/completed.md
 			deployed lens <em>operates against</em> lives in the parallel deployed tree, is
 			<code>status: active</code>, and drifts as the user edits it. If a deployed agent follows a
 			link into <code>kcd/</code>, it reads the frozen, disabled template instead of the live copy
-			it actually runs on. The canonical path authority every rewrite conforms to is
-			<a href="_Claude/kcd/docs/deployment_schema.canvas">deployment_schema.canvas</a>; future test
-			scripts validate against it.</p>
+			it actually runs on. The canonical path authority every rewrite conforms to is the
+			<code>VaultLayout</code> table in the SDK — readable form:
+			<a href="_Claude/references/kcd_sdk/vault-layout.html">vault-layout</a>. Because it is code,
+			the deploy scaffold reads it directly rather than a test script validating against a drawing.</p>
 			<p><strong>The twin map — rewrite each <code>kcd/</code> source path to its deployed
 			destination:</strong></p>
 

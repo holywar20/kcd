@@ -58,13 +58,14 @@
 		<p>The framework used to be a thesis with a loose folder convention attached. It is now the
 		other way around: <strong>the deployed file structure is the canonical definition</strong>,
 		and this doc explains why it is shaped the way it is. The authoritative enumeration is the
-		canvas (<a href="_Claude/kcd/docs/deployment_schema.canvas">deployment_schema.canvas</a>) —
-		drawn by hand, readable from JSON without Obsidian, machine-checkable. Paths are what drift
-		the most, so the paths are what we lock.</p>
+		<code>VaultLayout</code> table in the SDK — one table in code that classification, the library
+		index whitelist, and the deploy scaffold all read, so the structure cannot drift between them.
+		Its published, human-readable face is
+		<a href="_Claude/references/kcd_sdk/vault-layout.html">vault-layout</a>. Paths are what drift
+		the most, so the paths are what we lock — in code, where the lock is executable.</p>
 		<p>A deployed project lives under <code>_Claude/</code> at the project root (with
-		<code>CLAUDE.md</code> at the root as the entry map). In the canvas, a <strong>rectangle is a
-		folder</strong> and a <strong>parallelogram is a file</strong> (typically generated or
-		output). The tree falls into <strong>three layers</strong>:</p>
+		<code>CLAUDE.md</code> at the root as the entry map). Every directory carries a
+		<strong>layer</strong> in the table, and the tree falls into <strong>three</strong> of them:</p>
 
 		<h4>1. Agent layer — the things that compose</h4>
 		<p><code>lenses/</code> · <code>analyzers/</code> · <code>generators/</code> ·
