@@ -23,9 +23,9 @@
 	<p>Registered tool tier — executable <strong>code files</strong> (<code>.js</code>) the human runs and (eventually) the interface triggers as a button. The tier is <strong>folder-gated</strong> (per <a href="_Claude/references/kcd_sdk/vault-layout.html">vault-layout</a>):</p>
 
 	<ul>
-		<li><a href="utilities/draft/">draft/</a> — proposed tools, not yet approved to run.</li>
-		<li><a href="utilities/deployed/">deployed/</a> — human-approved, runnable tools.</li>
-		<li><a href="utilities/deployed/registry.html">registry.html</a> — the allowlist; a tool runs only if listed there.</li>
+		<li><a href="_Claude/kcd/utilities/draft/">draft/</a> — proposed tools, not yet approved to run.</li>
+		<li><a href="_Claude/kcd/utilities/deployed/">deployed/</a> — human-approved, runnable tools.</li>
+		<li><a href="_Claude/kcd/utilities/deployed/registry.html">registry.html</a> — the allowlist; a tool runs only if listed there.</li>
 	</ul>
 
 	<p>Each tool carries its metadata in <strong>comment-frontmatter</strong> — a <code>/*--- … ---*/</code> block parsed exactly like Markdown frontmatter. Framework utilities arrive in <code>deployed/</code> on deploy (packaged with kcd); you add your own by dropping a <code>.js</code> in <code>draft/</code> and promoting it once ready.</p>
@@ -39,12 +39,12 @@
 		<tbody>
 			<tr>
 				<td>auto-repair</td>
-				<td><a href="utilities/deployed/auto-repair.js">auto-repair</a></td>
+				<td><a href="_Claude/kcd/utilities/deployed/auto-repair.js">auto-repair</a></td>
 				<td>Runs the repair-docs cycle end-to-end — detect structural drift, then apply the mechanical fixes. Currently a reporting stub.</td>
 			</tr>
 			<tr>
 				<td>boolean_tester</td>
-				<td><a href="utilities/deployed/boolean_tester.js">boolean_tester</a></td>
+				<td><a href="_Claude/utilities/deployed/boolean_tester.js">boolean_tester</a></td>
 				<td>A dumb test utility — fails ~60% of the time (or always, via <code>alwaysFails</code>). For wiring + input tests on the Constellation board.</td>
 			</tr>
 		</tbody>

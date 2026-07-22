@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>KCD Document Protocol — Canonical Reference</title>
-	<link rel="stylesheet" href="../../kcd.css">
+	<link rel="stylesheet" href="../../kcd/kcd.css">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
 		<dt>status</dt>        <dd data-kcd-field="status"         data-kcd-type="enum">active</dd>
 		<dt>schema-version</dt><dd data-kcd-field="schema-version" data-kcd-type="text">0.1</dd>
 		<dt>author</dt>        <dd data-kcd-field="author"         data-kcd-type="text">Bryan C. Winter &lt;bryancwinter@gmail.com&gt;</dd>
-		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-08</dd>
+		<dt>updated</dt>       <dd data-kcd-field="updated"        data-kcd-type="date">2026-07-22</dd>
 	</dl>
 
 	<h1>KCD Document Protocol — Canonical Reference</h1>
@@ -31,7 +31,11 @@
 			<strong>This is stone.</strong> The locked specification for how a KCD artifact is encoded
 			as an HTML document. Drift here is costly — it ripples through the parser, the validator,
 			the renderer, the editor, and every authored and crystallized artifact. Change this only
-			with an explicit ruling, never incidentally.
+			with an explicit ruling, never incidentally. Reference implementation:
+			<code data-kcd-address>_Claude/work/lens_crafter/html-proposal/lens.html</code> +
+			<code data-kcd-address>_Claude/kcd/kcd.css</code>. Origin trial:
+			<code data-kcd-address>_Claude/work/lens_crafter/html-proposal/</code>. Migration plan:
+			<a href="_Claude/plans/nav-index.html">html-substrate</a>.
 		</p>
 	</blockquote>
 
@@ -55,6 +59,59 @@
 		</ol>
 	</section>
 
+	<section data-kcd-section="links-and-addresses">
+		<h2 data-kcd-heading>1.1 &middot; Links and addresses (2026-07-22)</h2>
+
+		<p><strong>A link asserts occupancy. An address does not.</strong></p>
+
+		<p><code>&lt;a href="&hellip;"&gt;</code> means <em>there is a document there, go read it</em>. The
+		validator probes every one, and a miss is a warning &mdash; correctly, because the sentence containing
+		it is false when the target is absent.</p>
+
+		<p><code>&lt;code data-kcd-address&gt;</code> means <em>this is the location</em>. Something may occupy
+		it now, may occupy it later, or may never arrive. <strong>Vacancy is a legitimate state and is never
+		reported as an issue.</strong> This is the encoding for:</p>
+		<ul>
+			<li><strong>output declarations</strong> &mdash; a path an artifact writes to when it runs; absent
+			until then, and absent in every freshly installed vault</li>
+			<li><strong>forward references</strong> &mdash; a document that is planned but not yet authored</li>
+			<li><strong>ephemeral space</strong> &mdash; <code>work/</code>, <code>logs/</code>,
+			<code>scratch/</code>, <code>reports/</code>, <code>audits/</code>, <code>dev-utilities/</code>,
+			which are <code>indexed: false</code> by registry and are not installed into a user&rsquo;s vault at
+			all</li>
+			<li><strong>non-artifacts</strong> &mdash; source files, directories</li>
+		</ul>
+
+		<p><strong>Form.</strong> The visible text <em>is</em> the address; the attribute is a bare marker, so
+		&sect;1&rsquo;s one-element-two-duties rule holds with no machine copy:</p>
+<pre><code>&lt;code data-kcd-address&gt;_Claude/reports/audit-consistency.html&lt;/code&gt;</code></pre>
+		<p>When the prose must read differently, the attribute carries the value, exactly as
+		<code>href</code> does:</p>
+<pre><code>&lt;code data-kcd-address="_Claude/reports/audit-consistency.html"&gt;the consistency report&lt;/code&gt;</code></pre>
+		<p>As a <strong>typed field</strong> &mdash; frontmatter, or a faux-table cell &mdash; the type is
+		<code>data-kcd-type="address"</code>, and the value comes from text content like every other non-link
+		type. <code>todo</code> and <code>completed</code> are addresses for exactly this reason: a lens
+		declares where its log lives, it does not assert that one has been written.</p>
+
+		<p><strong>Two value shapes.</strong> An <strong>artifact name</strong> (a slug) resolves through the
+		same name index <code>base</code> and <code>lens</code> already use, and therefore <strong>survives any
+		move</strong>. A <strong>path</strong> is project-root-relative, for targets that have no name. Prefer
+		the name whenever the target is, or will be, a KCD artifact &mdash; it is the only form that does not
+		rot when a file is relocated.</p>
+
+		<p><strong>Validation.</strong> An address is checked for <strong>well-formedness only</strong> &mdash;
+		a valid slug, or a valid project-root-relative path with no <code>../</code> chain and no absolute
+		root. A malformed address is an error. A well-formed address pointing at nothing is
+		<strong>silent</strong>. Vacancy may be inventoried on request (<code>Vault.vacantAddresses</code>),
+		never in the health stream &mdash; otherwise the primitive merely relocates the noise it exists to
+		remove.</p>
+
+		<p><strong>The one prohibition.</strong> An artifact must never <code>&lt;a href&gt;</code> into
+		<code>indexed: false</code> space. Occupancy there can never be asserted, so the link is false by
+		construction &mdash; whether or not the target happens to exist on the authoring machine. The banned
+		set is derived from <code>VaultLayout</code>, never hand-maintained.</p>
+	</section>
+
 	<section data-kcd-section="component-vocabulary">
 		<h2 data-kcd-heading>2 · Component vocabulary (closed set)</h2>
 		<table>
@@ -71,6 +128,7 @@
 				<tr><td><strong>param</strong></td><td>a row, <code>data-kcd-param</code></td><td>fields <code>name</code> / <code>type</code> / <code>default</code> / <code>description</code>; lives in <strong>Know</strong>; any artifact, <strong>default zero</strong></td></tr>
 				<tr><td><strong>tag</strong></td><td><code>&lt;ul data-kcd-chips&gt;&lt;li data-kcd-tag&gt;</code></td><td>chip container for <code>list</code>-type fields</td></tr>
 				<tr><td><strong>chrome</strong></td><td>see §5</td><td>human-only furniture: demo / live / script</td></tr>
+				<tr><td><strong>address</strong></td><td><code>&lt;code data-kcd-address&gt;</code></td><td>a LOCATION that may or may not be occupied (§1.1); value = text content, or the attribute when the prose must read differently</td></tr>
 				<tr><td><strong>seed</strong></td><td><code>&lt;script type="text/kcd-md" data-kcd-seed="&lt;host&gt;"&gt;</code></td><td>a literal payload extracted to a non-KCD file at deploy (§10). <code>data-kcd-target</code> (required) = the emitted filename, <strong>project-root</strong>-relative; <code>data-kcd-mode="prepend|create-only"</code> (default <code>prepend</code>). Never a slot, never routed, never compiled into context</td></tr>
 			</tbody>
 		</table>
@@ -124,7 +182,7 @@
 				<tr><td><code>lens</code></td><td>type-specific (plan/analyzer)</td><td>slug</td><td>the lens this artifact associates with</td></tr>
 				<tr><td><code>scope</code></td><td>type-specific (contract)</td><td>enum</td><td><code>universal|lens:{name}</code></td></tr>
 				<tr><td><code>habit-class</code></td><td>type-specific (habit)</td><td>slug</td><td>mutual-exclusion group (see §6)</td></tr>
-				<tr><td><code>todo</code> / <code>completed</code></td><td>type-specific (lens)</td><td>path</td><td>log paths</td></tr>
+				<tr><td><code>todo</code> / <code>completed</code></td><td>type-specific (lens)</td><td>address</td><td>where the log lives — not an assertion that one exists (§1.1)</td></tr>
 			</tbody>
 		</table>
 		<blockquote>
@@ -185,7 +243,7 @@
 
 		<h3 data-kcd-heading>8.1 · The stylesheet path (interim rule, 2026-07-01)</h3>
 		<p><strong>Canonical file:</strong> <a href="_Claude/kcd/kcd.css">kcd.css</a>. One copy, no duplicates. <code>kcd/</code> is the project's canonical framework library — the right home for a shared, framework-wide asset.</p>
-		<p><strong>Why this needs a rule at all.</strong> A KCD document is meant to open directly in a browser — <code>file://</code>, no server, no virtual root — so <code>&lt;link rel="stylesheet"&gt;</code> can only ever be a real filesystem-relative path. There is no <code>/absolute</code> that resolves the same way from every checkout, and a bare <code>href="kcd.css"</code> (what most of the corpus currently has) only works if a copy of the file sits in the <em>same directory</em> as the document — which, outside the original html-proposal origin trial, is not true anywhere. This is exactly the "dangling reference" class of bug the 2026-07-01 corpus audit surfaced.</p>
+		<p><strong>Why this needs a rule at all.</strong> A KCD document is meant to open directly in a browser — <code>file://</code>, no server, no virtual root — so <code>&lt;link rel="stylesheet"&gt;</code> can only ever be a real filesystem-relative path. There is no <code>/absolute</code> that resolves the same way from every checkout, and a bare <code>href="kcd.css"</code> (what most of the corpus currently has) only works if a copy of the file sits in the <em>same directory</em> as the document — which, outside the original <code data-kcd-address="_Claude/work/lens_crafter/html-proposal/">html-proposal</code> origin trial, is not true anywhere. This is exactly the "dangling reference" class of bug the 2026-07-01 corpus audit surfaced.</p>
 		<p><strong>The rule, for now:</strong> compute the relative path from the document's own directory up to <code>_Claude/</code>, then down into <code>kcd/kcd.css</code> — one <code>../</code> per directory level under <code>_Claude/</code>.</p>
 		<table>
 			<thead>
@@ -210,14 +268,14 @@
 		one, is authored as <code>.html</code> per this protocol. No exceptions, and no new primitive type
 		is ever authored as <code>.md</code>. <code>work/</code> is the sole grandfather clause: pre-2026-07-01
 		drafts left there are not back-converted, but anything <em>new</em> written to <code>work/</code> is
-		HTML from the start (see the <a href="_Claude/kcd/contracts/plan.html">plan contract</a>'s "every plan
+		HTML from the start (see the <a href="_Claude/contracts/plan.html">plan contract</a>'s "every plan
 		is HTML, at every stage" rule for the concrete case).</p>
 		<p><strong>What is exempt</strong> — not KCD documents, so this protocol does not govern them:</p>
 		<ul>
 			<li><strong>Session, todo, and completed logs</strong> — <code>_Claude/logs/session.md</code>,
 			<code>_Claude/logs/{lens}/todo/todo.md</code>, <code>_Claude/logs/{lens}/completed/completed.md</code>.
 			Append-only breadcrumb lines, not dual-audience artifacts — see the
-			<a href="_Claude/kcd/habits/session-logging/session-log-aggressive.html">session-log-aggressive</a> habit (one of two poles of the
+			<a href="_Claude/habits/session-logging/session-log-aggressive.html">session-log-aggressive</a> habit (one of two poles of the
 			session-logging mutual-exclusion slot — see §6).</li>
 			<li><strong>Chat transcripts</strong> — <code>_Claude/logs/chats/*.md</code>. Raw session
 			capture, not an authored document.</li>
@@ -302,13 +360,18 @@ Markdown, verbatim.
 		<div data-kcd-table>
 			<div data-kcd-head><span>What</span><span>Where</span><span>Why</span></div>
 			<div data-kcd-slot="reference">
+				<span data-kcd-field="what"  data-kcd-type="text">html-substrate plan</span>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/plans/nav-index.html">html-substrate</a>
+				<span data-kcd-field="why"   data-kcd-type="text">The migration this protocol governs.</span>
+			</div>
+			<div data-kcd-slot="reference">
 				<span data-kcd-field="what"  data-kcd-type="text">kcd-primitives</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/references/kcd_sdk/kcd-primitives.html">kcd-primitives</a>
+				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/references/kcd_sdk/kcd-primitives.html">kcd-primitives</a>
 				<span data-kcd-field="why"   data-kcd-type="text">The SDK object model (being brought to this substrate).</span>
 			</div>
 			<div data-kcd-slot="reference">
 				<span data-kcd-field="what"  data-kcd-type="text">Exemplar (lens.html)</span>
-				<a    data-kcd-field="where" data-kcd-type="path" href="_Claude/kcd/templates/exemplars/lens.html">lens.html</a>
+				<span data-kcd-field="where" data-kcd-type="address">_Claude/work/lens_crafter/html-proposal/lens.html</span>
 				<span data-kcd-field="why"   data-kcd-type="text">The reference-implementation exemplar this spec was validated against.</span>
 			</div>
 		</div>
